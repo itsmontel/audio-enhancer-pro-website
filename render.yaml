@@ -1,9 +1,16 @@
 services:
   - type: web
     name: audio-enhancer-pro
-    env: static
+    env: node
     buildCommand: npm install
-    staticPublishPath: .
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
     routes:
       - type: rewrite
         source: /*

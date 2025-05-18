@@ -473,7 +473,7 @@
                             <div id="card-element" class="card-element">
                                 <!-- Stripe Elements will be inserted here -->
                             </div>
-                            <div class="error-message" id="card-error"></div>
+                            <div class="error-message" id="card-errors"></div>
                             <div class="card-icon">
                                 <img src="/api/placeholder/24/16" alt="Visa">
                                 <img src="/api/placeholder/24/16" alt="Mastercard">
@@ -550,119 +550,135 @@
 
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        // Initialize Stripe with your publishable key
-        const stripe = Stripe('pk_test_51XXXXXXXXXXXXXXXXXXXXXXXX');
-        const elements = stripe.elements();
+        let stripe;
+        let elements;
+        let card;
 
-        // Create card Element and mount it
-        const cardElement = elements.create('card', {
-            style: {
-                base: {
-                    fontFamily: '"Inter", sans-serif',
-                    fontSize: '16px',
-                    color: '#333333',
-                    '::placeholder': {
-                        color: '#aaaaaa',
-                    },
-                },
-                invalid: {
-                    color: '#D32F2F',
-                    iconColor: '#D32F2F',
-                },
-            },
-        });
-        cardElement.mount('#card-element');
-
-        // Handle validation errors
-        cardElement.on('change', function(event) {
-            const cardError = document.getElementById('card-error');
-            if (event.error) {
-                cardError.textContent = event.error.message;
-                cardError.classList.add('visible');
-            } else {
-                cardError.textContent = '';
-                cardError.classList.remove('visible');
-            }
-        });
-
-        // Handle form submission
-        const form = document.getElementById('payment-form');
-        const submitButton = document.getElementById('submit-button');
-        const processingOverlay = document.getElementById('processing-overlay');
-
-        form.addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            // Disable form and show processing overlay
-            submitButton.disabled = true;
-            processingOverlay.classList.add('show');
-
-            // Basic form validation
-            const nameInput = document.getElementById('name');
-            const emailInput = document.getElementById('email');
-            const nameError = document.getElementById('name-error');
-            const emailError = document.getElementById('email-error');
-            
-            let isValid = true;
-
-            if (!nameInput.value.trim()) {
-                nameError.classList.add('visible');
-                isValid = false;
-            } else {
-                nameError.classList.remove('visible');
-            }
-
-            if (!emailInput.value.trim() || !emailInput.value.includes('@')) {
-                emailError.classList.add('visible');
-                isValid = false;
-            } else {
-                emailError.classList.remove('visible');
-            }
-
-            if (!isValid) {
-                submitButton.disabled = false;
-                processingOverlay.classList.remove('show');
-                return;
-            }
-
+        // Fetch the publishable key and initialize Stripe
+        async function initializeStripe() {
             try {
-                // Create payment method
-                const result = await stripe.createPaymentMethod({
-                    type: 'card',
-                    card: cardElement,
-                    billing_details: {
-                        name: nameInput.value,
-                        email: emailInput.value,
+                const response = await fetch('/config');
+                const { publishableKey } = await response.json();
+                
+                // Initialize Stripe with the publishable key from the server
+                stripe = Stripe(publishableKey);
+                elements = stripe.elements();
+                
+                // Create card Element and mount it
+                const style = {
+                    base: {
+                        color: '#32325d',
+                        fontFamily: '"Inter", Helvetica, sans-serif',
+                        fontSmoothing: 'antialiased',
+                        fontSize: '16px',
+                        '::placeholder': {
+                            color: '#aab7c4'
+                        }
                     },
+                    invalid: {
+                        color: '#fa755a',
+                        iconColor: '#fa755a'
+                    }
+                };
+
+                card = elements.create('card', {style: style});
+                card.mount('#card-element');
+
+                // Handle real-time validation errors from the card Element
+                card.addEventListener('change', function(event) {
+                    const displayError = document.getElementById('card-errors');
+                    if (event.error) {
+                        displayError.textContent = event.error.message;
+                        displayError.classList.add('visible');
+                    } else {
+                        displayError.textContent = '';
+                        displayError.classList.remove('visible');
+                    }
                 });
 
-                if (result.error) {
-                    // Show error
-                    const cardError = document.getElementById('card-error');
-                    cardError.textContent = result.error.message;
-                    cardError.classList.add('visible');
-                    submitButton.disabled = false;
-                    processingOverlay.classList.remove('show');
-                } else {
-                    // Payment method created successfully, send to server
-                    // In a real implementation, you would send the payment method ID to your server
-                    // Server would create subscription with trial and return result
-                    
-                    // Simulate API call with timeout
-                    setTimeout(() => {
-                        // Redirect to success page
-                        window.location.href = 'payment-success.html';
-                    }, 2000);
-                }
+                // Set up the form submission handler
+                setupFormHandler();
             } catch (error) {
-                console.error('Error:', error);
-                const cardError = document.getElementById('card-error');
-                cardError.textContent = 'An unexpected error occurred. Please try again.';
-                cardError.classList.add('visible');
-                submitButton.disabled = false;
-                processingOverlay.classList.remove('show');
+                console.error('Error initializing Stripe:', error);
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = 'Could not initialize payment system. Please try again later.';
+                errorElement.classList.add('visible');
             }
-        });
+        }
+
+        // Handle form submission
+        function setupFormHandler() {
+            const form = document.getElementById('payment-form');
+            form.addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                // Show loading state
+                document.getElementById('submit-button').disabled = true;
+                document.getElementById('processing-overlay').classList.add('show');
+
+                try {
+                    // Create payment intent on the server
+                    const response = await fetch('/create-payment-intent', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            amount: 999, // $9.99 in cents
+                            currency: 'usd',
+                            description: 'Audio Enhancer Pro - Premium License'
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const data = await response.json();
+                    
+                    // Confirm the payment with the card element
+                    const result = await stripe.confirmCardPayment(data.clientSecret, {
+                        payment_method: {
+                            card: card,
+                            billing_details: {
+                                name: document.getElementById('name').value,
+                                email: document.getElementById('email').value
+                            }
+                        }
+                    });
+
+                    if (result.error) {
+                        // Show error message
+                        const errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                        errorElement.classList.add('visible');
+                        
+                        // Hide loading state
+                        document.getElementById('submit-button').disabled = false;
+                        document.getElementById('processing-overlay').classList.remove('show');
+                    } else {
+                        if (result.paymentIntent.status === 'succeeded') {
+                            // Payment successful, redirect to success page
+                            window.location.href = '/success';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    
+                    // Show error message
+                    const errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = 'There was an error processing your payment. Please try again.';
+                    errorElement.classList.add('visible');
+                    
+                    // Hide loading state
+                    document.getElementById('submit-button').disabled = false;
+                    document.getElementById('processing-overlay').classList.remove('show');
+                }
+            });
+        }
+
+        // Initialize Stripe when the page loads
+        document.addEventListener('DOMContentLoaded', initializeStripe);
     </script>
 </body>
 </html>
