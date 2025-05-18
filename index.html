@@ -1197,7 +1197,7 @@
                 </div>
             </div>
             <div class="hero-image">
-                <img src="/api/placeholder/600/400" alt="Audio Enhancer Pro Interface">
+                <img src="https://via.placeholder.com/600x400" alt="Audio Enhancer Pro Interface">
                 <div class="decorative-circle circle-1"></div>
                 <div class="decorative-circle circle-2"></div>
             </div>
@@ -1688,7 +1688,7 @@
                     document.getElementById('payment-form').style.display = 'block';
                 } else {
                     // Alert user that extension is still not detected
-                    alert('We still cannot detect the Audio Enhancer Pro extension. Please make sure you've installed it from the Chrome Web Store and refresh this page.');
+                    alert("We still cannot detect the Audio Enhancer Pro extension. Please make sure you've installed it from the Chrome Web Store and refresh this page.");
                 }
             });
         });
@@ -2140,6 +2140,36 @@
                     document.body.style.overflow = 'auto';
                 };
             }
+        });
+
+        // Debug: Print what buttons we're looking for
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, looking for payment buttons');
+            
+            // Log all buttons with CTA classes for debugging
+            document.querySelectorAll('.btn').forEach(button => {
+                console.log('Found button:', button.id || 'unnamed button', button);
+            });
+            
+            // Check if payment modal exists
+            const modal = document.getElementById('payment-modal');
+            console.log('Payment modal found:', !!modal);
+            
+            // Force show modal after 5 seconds for testing
+            setTimeout(function() {
+                try {
+                    const modal = document.getElementById('payment-modal');
+                    if (modal) {
+                        console.log('Attempting to force show modal');
+                        modal.style.display = 'flex';
+                        modal.classList.add('show');
+                    } else {
+                        console.error('Modal not found for force show');
+                    }
+                } catch (e) {
+                    console.error('Error forcing modal:', e);
+                }
+            }, 5000);
         });
     </script>
 </body>
