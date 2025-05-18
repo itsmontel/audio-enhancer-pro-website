@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Purchase | Audio Enhancer Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #D32F2F;
+            --primary-light: #EF5350;
+            --primary-dark: #B71C1C;
+            --accent: #2979FF;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-light: #FFFFFF;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8F9FA;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-strong: 0 20px 50px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+        }
+
+        /* Dark mode variables */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-primary: #F0F0F0;
+                --text-secondary: #AAAAAA;
+                --bg-primary: #121212;
+                --bg-secondary: #1E1E1E;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--bg-primary);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 0.5rem;
+        }
+
+        main {
+            flex: 1;
+            padding: 3rem 0;
+        }
+
+        .checkout-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .checkout-form {
+            flex: 1;
+            background-color: var(--bg-primary);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            padding: 2rem;
+        }
+
+        .order-summary {
+            width: 320px;
+            background-color: var(--bg-primary);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            padding: 2rem;
+            align-self: flex-start;
+            position: sticky;
+            top: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: border-color var(--transition-fast);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .card-element {
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            background-color: var(--bg-secondary);
+        }
+
+        .error-message {
+            color: var(--primary);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .error-message.visible {
+            display: block;
+        }
+
+        .card-icon {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .card-icon img {
+            height: 24px;
+            opacity: 0.6;
+        }
+
+        .product-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .free-trial-badge {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            margin-left: 0.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(211, 47, 47, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(211, 47, 47, 0.2);
+        }
+
+        .payment-note {
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .trust-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .trust-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100px;
+            text-align: center;
+        }
+
+        .trust-icon i {
+            font-size: 1.75rem;
+            color: var(--primary);
+        }
+
+        .trust-icon span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .processing-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+        }
+
+        .processing-overlay.show {
+            display: flex;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .processing-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        footer {
+            background-color: var(--bg-primary);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Success page styles */
+        .success-container {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            background-color: var(--bg-primary);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 2rem;
+        }
+
+        .success-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-message {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .success-details {
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .success-details h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .detail-label {
+            font-weight: 500;
+        }
+
+        .back-to-extension {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .checkout-container {
+                flex-direction: column;
+            }
+
+            .order-summary {
+                width: 100%;
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="/api/placeholder/40/40" alt="Logo">
+                Audio Enhancer Pro
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="checkout-container">
+                <div class="checkout-form">
+                    <h1>Complete Your Purchase</h1>
+                    <form id="payment-form">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" placeholder="Enter your full name" required>
+                            <div class="error-message" id="name-error">Please enter your full name</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="Enter your email address" required>
+                            <div class="error-message" id="email-error">Please enter a valid email address</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="card-element">Card Information</label>
+                            <div id="card-element" class="card-element">
+                                <!-- Stripe Elements will be inserted here -->
+                            </div>
+                            <div class="error-message" id="card-error"></div>
+                            <div class="card-icon">
+                                <img src="/api/placeholder/24/16" alt="Visa">
+                                <img src="/api/placeholder/24/16" alt="Mastercard">
+                                <img src="/api/placeholder/24/16" alt="Amex">
+                                <img src="/api/placeholder/24/16" alt="Discover">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn" id="submit-button">Start 7-Day Free Trial</button>
+                        <p class="payment-note">Your card will not be charged until after your free trial ends. You can cancel anytime during your trial.</p>
+                        <div class="secure-badge">
+                            <i class="fas fa-lock"></i>
+                            Secure Checkout - Powered by Stripe
+                        </div>
+                        <div class="trust-icons">
+                            <div class="trust-icon">
+                                <i class="fas fa-clock"></i>
+                                <span>7-Day Free Trial</span>
+                            </div>
+                            <div class="trust-icon">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>SSL Encryption</span>
+                            </div>
+                            <div class="trust-icon">
+                                <i class="fas fa-undo"></i>
+                                <span>Cancel Anytime</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="order-summary">
+                    <h2>Order Summary</h2>
+                    <div class="product-details">
+                        <div class="product-name">
+                            Audio Enhancer Pro <span class="free-trial-badge">7-DAY TRIAL</span>
+                        </div>
+                        <div class="product-description">
+                            Unlock premium audio features and transform your browser listening experience.
+                        </div>
+                    </div>
+                    <div class="price-row">
+                        <span>Monthly Subscription</span>
+                        <span>$4.99</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Free Trial</span>
+                        <span>-$4.99</span>
+                    </div>
+                    <div class="price-total">
+                        <span>Due Today</span>
+                        <span>$0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="processing-overlay" id="processing-overlay">
+        <div class="spinner"></div>
+        <div class="processing-text">Processing your payment...</div>
+    </div>
+
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-copyright">
+                © 2025 Audio Enhancer Pro. All rights reserved.
+            </div>
+            <div class="footer-links">
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Initialize Stripe with your publishable key
+        const stripe = Stripe('pk_test_51XXXXXXXXXXXXXXXXXXXXXXXX');
+        const elements = stripe.elements();
+
+        // Create card Element and mount it
+        const cardElement = elements.create('card', {
+            style: {
+                base: {
+                    fontFamily: '"Inter", sans-serif',
+                    fontSize: '16px',
+                    color: '#333333',
+                    '::placeholder': {
+                        color: '#aaaaaa',
+                    },
+                },
+                invalid: {
+                    color: '#D32F2F',
+                    iconColor: '#D32F2F',
+                },
+            },
+        });
+        cardElement.mount('#card-element');
+
+        // Handle validation errors
+        cardElement.on('change', function(event) {
+            const cardError = document.getElementById('card-error');
+            if (event.error) {
+                cardError.textContent = event.error.message;
+                cardError.classList.add('visible');
+            } else {
+                cardError.textContent = '';
+                cardError.classList.remove('visible');
+            }
+        });
+
+        // Handle form submission
+        const form = document.getElementById('payment-form');
+        const submitButton = document.getElementById('submit-button');
+        const processingOverlay = document.getElementById('processing-overlay');
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            // Disable form and show processing overlay
+            submitButton.disabled = true;
+            processingOverlay.classList.add('show');
+
+            // Basic form validation
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const nameError = document.getElementById('name-error');
+            const emailError = document.getElementById('email-error');
+            
+            let isValid = true;
+
+            if (!nameInput.value.trim()) {
+                nameError.classList.add('visible');
+                isValid = false;
+            } else {
+                nameError.classList.remove('visible');
+            }
+
+            if (!emailInput.value.trim() || !emailInput.value.includes('@')) {
+                emailError.classList.add('visible');
+                isValid = false;
+            } else {
+                emailError.classList.remove('visible');
+            }
+
+            if (!isValid) {
+                submitButton.disabled = false;
+                processingOverlay.classList.remove('show');
+                return;
+            }
+
+            try {
+                // Create payment method
+                const result = await stripe.createPaymentMethod({
+                    type: 'card',
+                    card: cardElement,
+                    billing_details: {
+                        name: nameInput.value,
+                        email: emailInput.value,
+                    },
+                });
+
+                if (result.error) {
+                    // Show error
+                    const cardError = document.getElementById('card-error');
+                    cardError.textContent = result.error.message;
+                    cardError.classList.add('visible');
+                    submitButton.disabled = false;
+                    processingOverlay.classList.remove('show');
+                } else {
+                    // Payment method created successfully, send to server
+                    // In a real implementation, you would send the payment method ID to your server
+                    // Server would create subscription with trial and return result
+                    
+                    // Simulate API call with timeout
+                    setTimeout(() => {
+                        // Redirect to success page
+                        window.location.href = 'payment-success.html';
+                    }, 2000);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                const cardError = document.getElementById('card-error');
+                cardError.textContent = 'An unexpected error occurred. Please try again.';
+                cardError.classList.add('visible');
+                submitButton.disabled = false;
+                processingOverlay.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
