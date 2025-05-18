@@ -830,7 +830,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             z-index: 2000;
@@ -842,6 +842,7 @@
         .modal.show {
             opacity: 1;
             visibility: visible;
+            display: flex;
         }
 
         .modal-content {
@@ -1165,7 +1166,7 @@
         <div class="container">
             <div class="header-container">
                 <a href="#" class="logo">
-                    <img src="logo.png" alt="Audio Enhancer Pro Logo">
+                    <img src="logo.png" alt="Audio Enhancer Pro Logo" style="height: 80px; margin-right: 15px;">
                     Audio Enhancer Pro
                 </a>
                 <nav>
@@ -1191,7 +1192,7 @@
                 <h1 class="hero-title">Transform Your Browser Audio with <span>Studio-Grade</span> Enhancement</h1>
                 <p class="hero-subtitle">Experience premium sound quality with advanced AI enhancement, immersive 3D spatial audio, and personalized hearing profiles.</p>
                 <div class="hero-cta">
-                    <a href="#pricing" class="btn btn-lg">Start Free Trial</a>
+                    <a href="#pricing" class="btn btn-lg" id="hero-cta-button">Start Free Trial</a>
                     <a href="#features" class="btn btn-outline btn-lg">Explore Features</a>
                 </div>
             </div>
@@ -1441,7 +1442,7 @@
             <p class="cta-description">Join thousands of users and discover the difference that professional-grade audio enhancement can make.</p>
             <div class="cta-buttons">
                 <a href="#" class="btn btn-lg btn-white" id="cta-subscribe-button">Start Free Trial</a>
-                <a href="#" class="btn btn-lg btn-transparent">Install Extension</a>
+                <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn btn-lg btn-transparent" target="_blank">Install Extension</a>
             </div>
         </div>
     </section>
@@ -1513,7 +1514,7 @@
                     <div class="install-steps">
                         <p><strong>Please follow these steps:</strong></p>
                         <ol>
-                            <li>Install the extension from the <a href="https://chrome.google.com/webstore/detail/YOUR_EXTENSION_ID" target="_blank">Chrome Web Store</a></li>
+                            <li>Install the extension from the <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" target="_blank">Chrome Web Store</a></li>
                             <li>Refresh this page after installation</li>
                             <li>Click the button below to continue with your purchase</li>
                         </ol>
@@ -1625,7 +1626,7 @@
         function checkExtensionInstalled() {
             return new Promise((resolve) => {
                 // Extension ID - replace with your actual extension ID
-                const extensionId = 'YOUR_EXTENSION_ID';
+                const extensionId = 'gligbihjcmlhoeidminbplfikfkjjneg';
                 
                 // Try to communicate with the extension
                 try {
@@ -1657,26 +1658,24 @@
 
         // When payment buttons are clicked
         subscribeButtons.forEach(button => {
-            button.addEventListener('click', async (e) => {
+            console.log('Setting up click handler for:', button.id);
+            button.onclick = function(e) {
                 e.preventDefault();
-                
-                // Check if extension is installed
-                await checkExtensionInstalled();
-                
-                if (extensionInstalled) {
-                    // Show normal payment flow
-                    paymentModal.classList.add('show');
-                    document.getElementById('extension-warning').style.display = 'none';
-                    document.getElementById('payment-form').style.display = 'block';
-                } else {
-                    // Show extension installation prompt
-                    paymentModal.classList.add('show');
-                    document.getElementById('extension-warning').style.display = 'block';
-                    document.getElementById('payment-form').style.display = 'none';
-                }
-                
+                console.log('Button clicked');
+                paymentModal.classList.add('show');
                 document.body.style.overflow = 'hidden';
-            });
+                
+                // Initialize Stripe when the modal is shown
+                setTimeout(function() {
+                    try {
+                        initializeStripe();
+                    } catch (error) {
+                        console.error('Error initializing Stripe:', error);
+                    }
+                }, 100);
+                
+                return false;
+            };
         });
 
         // Continue to payment after installing extension
@@ -1976,7 +1975,7 @@
                     <h4>For Google Chrome:</h4>
                     <ol>
                         <li>Visit the <a href="https://chrome.google.com/webstore" target="_blank">Chrome Web Store</a></li>
-                        <li>Search for "Audio Enhancer Pro" or use our direct link: <a href="#">Audio Enhancer Pro</a></li>
+                        <li>Search for "Audio Enhancer Pro" or use our direct link: <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" target="_blank">Audio Enhancer Pro</a></li>
                         <li>Click the "Add to Chrome" button</li>
                         <li>Confirm the installation by clicking "Add extension" in the popup</li>
                         <li>After installation, you'll see our icon in your browser toolbar</li>
@@ -2094,6 +2093,52 @@
             if (e.target === infoModal) {
                 infoModal.classList.remove('show');
                 document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Add direct onclick handlers to buttons since the event listeners might not be working
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the buttons by ID
+            const subscribeButton = document.getElementById('subscribe-button');
+            const ctaSubscribeButton = document.getElementById('cta-subscribe-button');
+            const getStartedButton = document.querySelector('.btn.cta-button');
+            const heroCTAButton = document.getElementById('hero-cta-button');
+            const paymentModal = document.getElementById('payment-modal');
+            
+            // Direct onclick function
+            function showPaymentModal(e) {
+                e.preventDefault();
+                console.log('Button clicked, showing modal');
+                paymentModal.style.display = 'flex';
+                paymentModal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+                return false;
+            }
+            
+            // Assign direct onclick handlers
+            if (subscribeButton) {
+                subscribeButton.onclick = showPaymentModal;
+            }
+            
+            if (ctaSubscribeButton) {
+                ctaSubscribeButton.onclick = showPaymentModal;
+            }
+            
+            if (getStartedButton) {
+                getStartedButton.onclick = showPaymentModal;
+            }
+            
+            if (heroCTAButton) {
+                heroCTAButton.onclick = showPaymentModal;
+            }
+            
+            // Modal close button
+            const modalClose = document.getElementById('modal-close');
+            if (modalClose) {
+                modalClose.onclick = function() {
+                    paymentModal.classList.remove('show');
+                    document.body.style.overflow = 'auto';
+                };
             }
         });
     </script>
