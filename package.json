@@ -1,0 +1,15 @@
+{
+  "name": "audio-enhancer-pro-website",
+  "version": "1.0.0",
+  "description": "Official website for Audio Enhancer Pro browser extension",
+  "main": "index.js",
+  "scripts": {
+    "start": "serve -s ."
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "serve": "^14.0.0"
+  }
+} 
