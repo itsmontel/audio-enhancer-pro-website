@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Successful | Audio Enhancer Pro</title>
+    <title>Payment Successful - Audio Enhancer Pro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,21 +21,20 @@
             --text-light: #FFFFFF;
             --bg-primary: #FFFFFF;
             --bg-secondary: #F8F9FA;
+            --bg-dark: #1A1A1A;
             --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
             --shadow-strong: 0 20px 50px rgba(0, 0, 0, 0.1);
             --border-radius: 12px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 5rem;
+            --container-width: 800px;
             --transition-fast: 0.2s ease;
             --transition-normal: 0.3s ease;
-        }
-
-        /* Dark mode variables */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --text-primary: #F0F0F0;
-                --text-secondary: #AAAAAA;
-                --bg-primary: #121212;
-                --bg-secondary: #1E1E1E;
-            }
+            --transition-slow: 0.5s ease;
         }
 
         * {
@@ -49,418 +48,343 @@
             color: var(--text-primary);
             background-color: var(--bg-secondary);
             line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            background-color: var(--bg-primary);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 1rem 0;
         }
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: var(--container-width);
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 var(--spacing-md);
         }
 
-        .header-container {
+        .success-page {
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--text-primary);
-            text-decoration: none;
-        }
-
-        .logo img {
-            height: 40px;
-            margin-right: 0.5rem;
-        }
-
-        main {
-            flex: 1;
-            padding: 3rem 0;
-            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-        }
-
-        /* Success page styles */
-        .success-container {
             text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            background-color: var(--bg-primary);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-soft);
-            animation: scaleIn 0.5s ease;
+            padding: var(--spacing-xl) 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
         }
 
-        @keyframes scaleIn {
-            0% { transform: scale(0.9); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        .success-card {
+            background-color: var(--bg-primary);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-strong);
+            padding: var(--spacing-lg);
+            width: 100%;
+            max-width: 550px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(to right, var(--success), var(--success-light));
         }
 
         .success-icon {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             background-color: var(--success);
-            color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0 auto var(--spacing-md);
+            color: white;
             font-size: 2.5rem;
-            margin: 0 auto 2rem;
-            animation: bounceIn 0.6s cubic-bezier(0.23, 1, 0.32, 1.2);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+            animation: scale-in 0.5s ease, pulse 2s infinite ease-in-out;
         }
 
-        @keyframes bounceIn {
+        @keyframes scale-in {
             0% { transform: scale(0); opacity: 0; }
-            60% { transform: scale(1.2); }
+            70% { transform: scale(1.1); }
             100% { transform: scale(1); opacity: 1; }
         }
 
-        .success-title {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--success);
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(76, 175, 80, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
         }
 
-        .success-message {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-
-        .success-details {
-            background-color: var(--bg-secondary);
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-            margin-bottom: 2rem;
-            text-align: left;
-        }
-
-        .success-details h3 {
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.75rem;
-        }
-
-        .detail-label {
-            font-weight: 500;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background-color: var(--success);
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.2);
-            text-decoration: none;
-        }
-
-        .btn:hover {
-            background-color: var(--success-light);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.3);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(76, 175, 80, 0.2);
-        }
-
-        .back-to-extension {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .auto-redirect {
-            margin-top: 1.5rem;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .redirect-spinner {
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top-color: var(--success);
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .countdown {
-            display: inline-block;
-            width: 20px;
-            text-align: center;
-        }
-
-        footer {
-            background-color: var(--bg-primary);
-            padding: 2rem 0;
-            margin-top: 3rem;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-
-        .footer-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color var(--transition-fast);
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        /* Confetti animation */
-        .confetti-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 1000;
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            25% { transform: translateY(-50px) rotate(45deg); opacity: 0.7; }
+            50% { transform: translateY(-100px) rotate(90deg); opacity: 0.5; }
+            75% { transform: translateY(-150px) rotate(135deg); opacity: 0.3; }
+            100% { transform: translateY(-200px) rotate(180deg); opacity: 0; }
         }
 
         .confetti {
             position: absolute;
             width: 10px;
             height: 10px;
-            background-color: var(--primary);
-            opacity: 0.8;
-            animation: confetti-fall 4s ease-in infinite;
+            background-color: #f0f;
+            border-radius: 50%;
+            animation: confetti 5s ease-in-out infinite;
         }
 
-        @keyframes confetti-fall {
-            0% {
-                transform: translateY(-100%) rotate(0deg);
-                opacity: 1;
+        .success-title {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-primary);
+            font-weight: 800;
+        }
+
+        .success-message {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .subscription-details {
+            background-color: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            text-align: left;
+            width: 100%;
+        }
+
+        .subscription-id-container {
+            display: flex;
+            align-items: center;
+            margin-top: var(--spacing-sm);
+            background-color: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: var(--border-radius);
+            padding: 0.75rem;
+        }
+
+        .subscription-id {
+            flex: 1;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 10px;
+        }
+
+        .copy-button {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-button:hover {
+            background-color: var(--success-light);
+            transform: translateY(-2px);
+        }
+
+        .detail-section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-section-title i {
+            color: var(--success);
+        }
+
+        .activation-steps {
+            list-style-position: inside;
+            margin: var(--spacing-sm) 0;
+            text-align: left;
+        }
+
+        .activation-steps li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .step-number {
+            background-color: var(--success);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .note {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: var(--spacing-sm);
+            padding-left: 34px;
+        }
+
+        .return-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            margin-top: var(--spacing-md);
+            transition: all var(--transition-fast);
+            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2);
+        }
+
+        .return-button:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(211, 47, 47, 0.3);
+        }
+
+        .footer-note {
+            margin-top: var(--spacing-lg);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 600px) {
+            .success-card {
+                padding: var(--spacing-md);
             }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
+
+            .success-title {
+                font-size: 2rem;
+            }
+
+            .success-message {
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="confetti-container" id="confetti-container"></div>
-
-    <header>
-        <div class="container header-container">
-            <a href="index.html" class="logo">
-                <img src="/api/placeholder/40/40" alt="Logo">
-                Audio Enhancer Pro
+    <div class="success-page">
+        <div class="success-card">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h1 class="success-title">Payment Successful!</h1>
+            <p class="success-message">Thank you for subscribing to Audio Enhancer Pro. Your premium access is ready to be activated.</p>
+            
+            <div class="subscription-details">
+                <div class="detail-section-title">
+                    <i class="fas fa-key"></i> Your Subscription ID
+                </div>
+                <p>Keep this ID safe - you'll need it to activate premium features in the extension.</p>
+                <div class="subscription-id-container">
+                    <span id="subscription-id" class="subscription-id">Loading...</span>
+                    <button id="copy-button" class="copy-button" onclick="copySubscriptionId()">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                
+                <div class="detail-section-title" style="margin-top: 20px;">
+                    <i class="fas fa-rocket"></i> Activation Steps
+                </div>
+                <ul class="activation-steps">
+                    <li>
+                        <div class="step-number">1</div>
+                        <div>Copy your Subscription ID above</div>
+                    </li>
+                    <li>
+                        <div class="step-number">2</div>
+                        <div>Open the Audio Enhancer Pro extension</div>
+                    </li>
+                    <li>
+                        <div class="step-number">3</div>
+                        <div>Click on "Enter Subscription ID" in the extension menu</div>
+                    </li>
+                    <li>
+                        <div class="step-number">4</div>
+                        <div>Paste your ID and click "Verify" to activate premium features</div>
+                    </li>
+                </ul>
+                <p class="note">Your Subscription ID has also been sent to your email for safekeeping.</p>
+            </div>
+            
+            <a href="chrome-extension://gligbihjcmlhoeidminbplfikfkjjneg/popup.html" class="return-button">
+                <i class="fas fa-external-link-alt"></i> Go to Extension
             </a>
         </div>
-    </header>
-
-    <main>
-        <div class="container">
-            <div class="success-container">
-                <div class="success-icon">
-                    <i class="fas fa-check"></i>
-                </div>
-                <h1 class="success-title">Payment Successful!</h1>
-                <p class="success-message">Your 7-day free trial of Audio Enhancer Pro has been activated. You're now ready to experience premium audio quality!</p>
-                
-                <div class="success-details">
-                    <h3>Order Details</h3>
-                    <div class="detail-row">
-                        <span class="detail-label">Plan:</span>
-                        <span>Audio Enhancer Pro (Monthly)</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Price:</span>
-                        <span>$4.99/month after trial</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Trial Period:</span>
-                        <span>7 days</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">First Billing Date:</span>
-                        <span id="billing-date">May 25, 2025</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Transaction ID:</span>
-                        <span>AEP-25051801</span>
-                    </div>
-                </div>
-                
-                <a href="chrome-extension://abcdefghijklmnopqrstuvwxyz/popup.html" class="btn back-to-extension" id="return-button">
-                    <i class="fas fa-arrow-left"></i> Return to Extension
-                </a>
-                
-                <div class="auto-redirect">
-                    <div class="redirect-spinner"></div>
-                    Redirecting back to extension in <span class="countdown" id="countdown">5</span> seconds
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <div class="container footer-container">
-            <div class="footer-copyright">
-                © 2025 Audio Enhancer Pro. All rights reserved.
-            </div>
-            <div class="footer-links">
-                <a href="#">Terms of Service</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Support</a>
-            </div>
-        </div>
-    </footer>
+    </div>
 
     <script>
-        // Set the billing date to 7 days from now
-        const billingDate = new Date();
-        billingDate.setDate(billingDate.getDate() + 7);
-        document.getElementById('billing-date').textContent = billingDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-
-        // Countdown timer
-        let countdown = 5;
-        const countdownElement = document.getElementById('countdown');
-        const interval = setInterval(() => {
-            countdown--;
-            countdownElement.textContent = countdown;
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get subscription ID from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const subscriptionId = urlParams.get('subscriptionId');
             
-            if (countdown <= 0) {
-                clearInterval(interval);
-                // Redirect to the extension
-                window.location.href = 'chrome-extension://abcdefghijklmnopqrstuvwxyz/popup.html';
+            if (subscriptionId) {
+                document.getElementById('subscription-id').textContent = subscriptionId;
+            } else {
+                document.getElementById('subscription-id').textContent = 'Not available';
             }
-        }, 1000);
-
-        // Create confetti animation
-        const confettiContainer = document.getElementById('confetti-container');
-        const colors = ['#D32F2F', '#4CAF50', '#2979FF', '#FFC107', '#9C27B0'];
-        
-        for (let i = 0; i < 100; i++) {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
             
-            // Random position
-            confetti.style.left = Math.random() * 100 + 'vw';
-            
-            // Random size
-            const size = Math.random() * 10 + 5;
-            confetti.style.width = size + 'px';
-            confetti.style.height = size + 'px';
-            
-            // Random color
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            
-            // Random shape
-            const shapes = ['', 'border-radius: 50%', 'transform: rotate(45deg)'];
-            confetti.style.cssText += shapes[Math.floor(Math.random() * shapes.length)];
-            
-            // Random animation duration and delay
-            const duration = Math.random() * 2 + 3;
-            const delay = Math.random() * 3;
-            confetti.style.animationDuration = duration + 's';
-            confetti.style.animationDelay = delay + 's';
-            
-            confettiContainer.appendChild(confetti);
-        }
-
-        // Handle return button click
-        document.getElementById('return-button').addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // This is where you'd include your extension-specific code
-            // For example, send a message to the extension background script
-            
-            // For the demo, just redirect to the simulated extension URL
-            window.location.href = 'chrome-extension://abcdefghijklmnopqrstuvwxyz/popup.html';
+            // Create confetti effect
+            createConfetti();
         });
-
-        // In a real implementation, you would receive a token or payment ID in the URL
-        // and use it to communicate with your backend to verify the subscription status
-        // Then send a message to the extension to update its license status
-
-        // Simulated example:
-        function sendMessageToExtension(subscriptionInfo) {
-            // In a real implementation, this would be the actual messaging to the extension
-            console.log('Sending subscription info to extension:', subscriptionInfo);
-            
-            // Example of how you might send a message to the extension:
-            /*
-            chrome.runtime.sendMessage(
-                'extension-id-here',
-                {
-                    type: 'PAYMENT_COMPLETE',
-                    subscriptionId: subscriptionInfo.id,
-                    status: subscriptionInfo.status,
-                    trialEndDate: subscriptionInfo.trialEndDate
-                },
-                response => {
-                    console.log('Extension response:', response);
-                }
-            );
-            */
+        
+        function copySubscriptionId() {
+            const subscriptionId = document.getElementById('subscription-id').textContent;
+            if (subscriptionId && subscriptionId !== 'Not available') {
+                navigator.clipboard.writeText(subscriptionId).then(function() {
+                    const copyButton = document.getElementById('copy-button');
+                    copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(function() {
+                        copyButton.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                    }, 2000);
+                });
+            }
         }
-
-        // Simulate receiving subscription info from the server
-        const mockSubscriptionInfo = {
-            id: 'sub_' + Math.random().toString(36).substring(2, 15),
-            status: 'trialing',
-            trialEndDate: billingDate.toISOString()
-        };
-
-        // Simulate sending the message after a short delay
-        setTimeout(() => {
-            sendMessageToExtension(mockSubscriptionInfo);
-        }, 1000);
+        
+        function createConfetti() {
+            const colors = ['#FFC107', '#2196F3', '#4CAF50', '#E91E63', '#FF5722'];
+            const container = document.querySelector('.success-card');
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = Math.random() * 100 + '%';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                container.appendChild(confetti);
+            }
+        }
     </script>
 </body>
 </html>

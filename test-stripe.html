@@ -1,87 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Stripe Test</title>
-  <script src="https://js.stripe.com/v3/"></script>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 500px; margin: 50px auto; }
-    #card-element { border: 1px solid #ccc; padding: 10px; border-radius: 4px; margin: 20px 0; }
-    button { background: #4CAF50; border: none; color: white; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
-    #card-errors { color: red; margin-top: 10px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Stripe Integration</title>
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-  <h1>Stripe Test Form</h1>
-  <form id="payment-form">
-    <div id="card-element">
-      <!-- Stripe Elements will be inserted here -->
-    </div>
-    <div id="card-errors" role="alert"></div>
-    <button type="submit">Submit Payment</button>
-  </form>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', async function() {
-      try {
-        console.log('Fetching publishable key...');
-        const response = await fetch('/config');
-        const { publishableKey } = await response.json();
-        
-        console.log('Initializing Stripe with key:', publishableKey.substring(0, 8) + '...');
-        const stripe = Stripe(publishableKey);
-        const elements = stripe.elements();
-        
-        // Create card Element
-        const card = elements.create('card');
-        card.mount('#card-element');
-        
-        // Handle validation errors
-        card.addEventListener('change', function(event) {
-          const displayError = document.getElementById('card-errors');
-          if (event.error) {
-            displayError.textContent = event.error.message;
-          } else {
-            displayError.textContent = '';
-          }
-        });
-        
-        // Handle form submission
-        const form = document.getElementById('payment-form');
-        form.addEventListener('submit', async function(event) {
-          event.preventDefault();
-          console.log('Form submitted, creating payment...');
-          
-          try {
-            // Create payment intent on the server
-            const paymentResponse = await fetch('/create-payment-intent', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                amount: 1000, // $10.00
-                currency: 'usd',
-                description: 'Test payment'
-              })
-            });
+    <h1>Stripe Test</h1>
+    <div id="status">Checking Stripe configuration...</div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const statusDiv = document.getElementById('status');
             
-            const paymentData = await paymentResponse.json();
-            console.log('Payment intent created:', paymentData);
-            
-            if (paymentData.clientSecret) {
-              alert('Payment intent created successfully! See console for details.');
-            } else {
-              document.getElementById('card-errors').textContent = 
-                'Error creating payment intent: ' + (paymentData.error || 'Unknown error');
+            try {
+                // Fetch publishable key from server
+                const response = await fetch('/config');
+                
+                if (!response.ok) {
+                    throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (!data.publishableKey) {
+                    throw new Error('Invalid or missing publishable key');
+                }
+                
+                statusDiv.innerHTML = `Successfully received publishable key: ${data.publishableKey.substring(0, 8)}...`;
+                statusDiv.style.color = 'green';
+                
+                // Try to initialize Stripe
+                const stripe = Stripe(data.publishableKey);
+                
+                statusDiv.innerHTML += '<br><br>Stripe initialized successfully!';
+            } catch (error) {
+                console.error('Error:', error);
+                statusDiv.innerHTML = `Error: ${error.message}`;
+                statusDiv.style.color = 'red';
             }
-          } catch (error) {
-            console.error('Payment error:', error);
-            document.getElementById('card-errors').textContent = 'Error: ' + error.message;
-          }
         });
-      } catch (error) {
-        console.error('Initialization error:', error);
-        document.body.innerHTML += '<p style="color:red">Error: ' + error.message + '</p>';
-      }
-    });
-  </script>
+    </script>
 </body>
 </html> 

@@ -851,7 +851,9 @@
             box-shadow: var(--shadow-strong);
             width: 100%;
             max-width: 500px;
-            padding: var(--spacing-lg);
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: var(--spacing-md);
             position: relative;
             transform: translateY(20px);
             transition: transform var(--transition-normal);
@@ -1192,7 +1194,7 @@
                 <h1 class="hero-title">Transform Your Browser Audio with <span>Studio-Grade</span> Enhancement</h1>
                 <p class="hero-subtitle">Experience premium sound quality with advanced AI enhancement, immersive 3D spatial audio, and personalized hearing profiles.</p>
                 <div class="hero-cta">
-                    <a href="#pricing" class="btn btn-lg" id="hero-cta-button">Start Free Trial</a>
+                    <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn btn-lg" id="hero-cta-button" target="_blank">Download Extension</a>
                     <a href="#features" class="btn btn-outline btn-lg">Explore Features</a>
                 </div>
             </div>
@@ -1313,7 +1315,7 @@
                     <li><i class="fas fa-check-circle"></i> Custom Preset Management</li>
                     <li><i class="fas fa-check-circle"></i> Premium Support</li>
                 </ul>
-                <a href="#" class="btn btn-lg" id="subscribe-button">Start 7-Day Free Trial</a>
+                <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn btn-lg" id="subscribe-button" target="_blank">Download Extension</a>
             </div>
         </div>
     </section>
@@ -1441,7 +1443,7 @@
             <h2 class="cta-title">Transform Your Audio Experience Today</h2>
             <p class="cta-description">Join thousands of users and discover the difference that professional-grade audio enhancement can make.</p>
             <div class="cta-buttons">
-                <a href="#" class="btn btn-lg btn-white" id="cta-subscribe-button">Start Free Trial</a>
+                <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn btn-lg btn-white" id="cta-subscribe-button" target="_blank">Get Extension</a>
                 <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn btn-lg btn-transparent" target="_blank">Install Extension</a>
             </div>
         </div>
@@ -1503,59 +1505,21 @@
             <div class="modal-close" id="modal-close">
                 <i class="fas fa-times"></i>
             </div>
-            <h3 class="modal-title">Subscribe to Audio Enhancer Pro</h3>
+            <h3 class="modal-title">Get Audio Enhancer Pro</h3>
             
-            <!-- Extension Not Installed Warning -->
-            <div id="extension-warning" style="display: none;">
-                <div class="extension-warning-box">
-                    <i class="fas fa-exclamation-triangle warning-icon"></i>
-                    <h4>Extension Not Detected</h4>
-                    <p>We couldn't detect the Audio Enhancer Pro extension in your browser. The subscription only works with the extension installed.</p>
-                    <div class="install-steps">
-                        <p><strong>Please follow these steps:</strong></p>
-                        <ol>
-                            <li>Install the extension from the <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" target="_blank">Chrome Web Store</a></li>
-                            <li>Refresh this page after installation</li>
-                            <li>Click the button below to continue with your purchase</li>
-                        </ol>
-                    </div>
-                    <button class="btn btn-lg" id="continue-to-payment">I've Installed the Extension - Continue to Payment</button>
+            <div class="extension-warning-box" style="display: block;">
+                <i class="fas fa-arrow-right warning-icon"></i>
+                <h4>Download From Chrome Web Store</h4>
+                <p>Audio Enhancer Pro is a browser extension available on the Chrome Web Store. To get started:</p>
+                <div class="install-steps">
+                    <ol>
+                        <li>Click the button below to go to the Chrome Web Store</li>
+                        <li>Click "Add to Chrome" to install the extension</li>
+                        <li>After installation, click the extension icon to start your free trial</li>
+                    </ol>
                 </div>
+                <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn btn-lg" target="_blank">Go to Chrome Web Store</a>
             </div>
-            
-            <div class="payment-summary">
-                <div class="payment-details">
-                    <span>Audio Enhancer Pro (Monthly)</span>
-                    <span>$4.99</span>
-                </div>
-                <div class="payment-details">
-                    <span>7-Day Free Trial</span>
-                    <span>$0.00</span>
-                </div>
-                <div class="payment-total">
-                    <span>Total Due Today</span>
-                    <span>$0.00</span>
-                </div>
-            </div>
-            <form class="payment-form" id="payment-form">
-                <div class="form-group">
-                    <label class="form-label" for="name">Full Name</label>
-                    <input type="text" id="name" class="form-input" placeholder="Enter your full name" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="email">Email Address</label>
-                    <input type="email" id="email" class="form-input" placeholder="Enter your email address" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Card Information</label>
-                    <div id="card-element" class="card-element">
-                        <!-- Stripe Card Element will be inserted here -->
-                    </div>
-                    <div id="card-errors" role="alert"></div>
-                </div>
-                <button type="submit" class="btn btn-lg">Start Free Trial</button>
-                <p class="payment-note">Your free trial will begin immediately. You won't be charged until your trial ends in 7 days. You can cancel anytime before then.</p>
-            </form>
         </div>
     </div>
 
@@ -1614,229 +1578,19 @@
             });
         });
 
-        // Payment Modal
-        const subscribeButtons = document.querySelectorAll('#subscribe-button, #cta-subscribe-button');
-        const paymentModal = document.getElementById('payment-modal');
-        const modalClose = document.getElementById('modal-close');
-
-        // Extension detection
-        let extensionInstalled = false;
-
-        // Try to detect if our extension is installed
-        function checkExtensionInstalled() {
-            return new Promise((resolve) => {
-                // Extension ID - replace with your actual extension ID
-                const extensionId = 'gligbihjcmlhoeidminbplfikfkjjneg';
-                
-                // Try to communicate with the extension
-                try {
-                    // Using chrome.runtime.sendMessage to detect the extension
-                    // This will only work if the extension is installed
-                    chrome.runtime.sendMessage(extensionId, { action: 'checkInstalled' },
-                        function(response) {
-                            if (response && response.installed) {
-                                extensionInstalled = true;
-                                resolve(true);
-                            } else {
-                                extensionInstalled = false;
-                                resolve(false);
-                            }
-                        }
-                    );
-                    
-                    // If there's no response after 500ms, extension is not installed
-                    setTimeout(() => {
-                        resolve(false);
-                    }, 500);
-                } catch (e) {
-                    // If there's an error, extension is not installed
-                    extensionInstalled = false;
-                    resolve(false);
-                }
-            });
-        }
-
-        // When payment buttons are clicked
-        subscribeButtons.forEach(button => {
-            console.log('Setting up click handler for:', button.id);
-            button.onclick = function(e) {
-                e.preventDefault();
-                console.log('Button clicked');
-                paymentModal.classList.add('show');
-                document.body.style.overflow = 'hidden';
-                
-                // Initialize Stripe when the modal is shown
-                setTimeout(function() {
-                    try {
-                        initializeStripe();
-                    } catch (error) {
-                        console.error('Error initializing Stripe:', error);
-                    }
-                }, 100);
-                
-                return false;
-            };
-        });
-
-        // Continue to payment after installing extension
-        document.getElementById('continue-to-payment').addEventListener('click', function() {
-            // Re-check if extension is installed
-            checkExtensionInstalled().then(installed => {
-                if (installed) {
-                    // Show payment form
-                    document.getElementById('extension-warning').style.display = 'none';
-                    document.getElementById('payment-form').style.display = 'block';
-                } else {
-                    // Alert user that extension is still not detected
-                    alert("We still cannot detect the Audio Enhancer Pro extension. Please make sure you've installed it from the Chrome Web Store and refresh this page.");
-                }
+        // Store buttons
+        const storeButtons = document.querySelectorAll('.cta-button, #hero-cta-button, #subscribe-button, #cta-subscribe-button');
+        const chromeWebStoreUrl = 'https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg';
+        
+        // Chrome Web Store Button Tracking
+        storeButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Optional: Add analytics tracking here
+                console.log('Chrome Web Store button clicked');
             });
         });
 
-        modalClose.addEventListener('click', () => {
-            paymentModal.classList.remove('show');
-            document.body.style.overflow = 'auto';
-        });
-
-        paymentModal.addEventListener('click', (e) => {
-            if (e.target === paymentModal) {
-                paymentModal.classList.remove('show');
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        // Stripe Integration
-        document.addEventListener('DOMContentLoaded', function() {
-            let stripe;
-            let elements;
-            let card;
-
-            // Initialize Stripe
-            async function initializeStripe() {
-                try {
-                    const response = await fetch('/config');
-                    const { publishableKey } = await response.json();
-                    
-                    // Initialize Stripe with the publishable key from the server
-                    stripe = Stripe(publishableKey);
-                    elements = stripe.elements();
-
-                    // Custom styling can be passed to options when creating an Element
-                    const style = {
-                        base: {
-                            color: '#32325d',
-                            fontFamily: '"Inter", sans-serif',
-                            fontSmoothing: 'antialiased',
-                            fontSize: '16px',
-                            '::placeholder': {
-                                color: '#aab7c4'
-                            }
-                        },
-                        invalid: {
-                            color: '#fa755a',
-                            iconColor: '#fa755a'
-                        }
-                    };
-
-                    // Create an instance of the card Element
-                    card = elements.create('card', {style: style});
-
-                    // Add an instance of the card Element into the `card-element` div
-                    card.mount('#card-element');
-
-                    // Handle real-time validation errors from the card Element
-                    card.addEventListener('change', function(event) {
-                        let displayError = document.getElementById('card-errors');
-                        if (event.error) {
-                            displayError.textContent = event.error.message;
-                        } else {
-                            displayError.textContent = '';
-                        }
-                    });
-
-                    // Handle form submission
-                    setupFormHandler();
-                } catch (error) {
-                    console.error('Error initializing Stripe:', error);
-                    const errorElement = document.getElementById('card-errors');
-                    if (errorElement) {
-                        errorElement.textContent = 'Could not initialize payment system. Please try again later.';
-                    }
-                }
-            }
-
-            // Set up form submission handler
-            function setupFormHandler() {
-                let form = document.getElementById('payment-form');
-                if (form) {
-                    form.addEventListener('submit', function(event) {
-                        event.preventDefault();
-
-                        stripe.createToken(card).then(function(result) {
-                            if (result.error) {
-                                // Inform the user if there was an error
-                                let errorElement = document.getElementById('card-errors');
-                                errorElement.textContent = result.error.message;
-                            } else {
-                                // Send the token to your server
-                                stripeTokenHandler(result.token);
-                            }
-                        });
-                    });
-                }
-            }
-
-            // Submit the form with the token ID
-            function stripeTokenHandler(token) {
-                // Insert the token ID into the form so it gets submitted to the server
-                let form = document.getElementById('payment-form');
-                let hiddenInput = document.createElement('input');
-                hiddenInput.setAttribute('type', 'hidden');
-                hiddenInput.setAttribute('name', 'stripeToken');
-                hiddenInput.setAttribute('value', token.id);
-                form.appendChild(hiddenInput);
-
-                // Submit the form - Now use the API endpoint
-                fetch('/create-payment-intent', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        token: token.id,
-                        email: document.getElementById('email').value,
-                        name: document.getElementById('name').value,
-                        amount: 499, // $4.99 in cents
-                        currency: 'usd',
-                        description: 'Audio Enhancer Pro Monthly Subscription'
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.clientSecret) {
-                        window.location.href = '/success';
-                    } else {
-                        let errorElement = document.getElementById('card-errors');
-                        errorElement.textContent = data.error || 'An error occurred. Please try again.';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    let errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = 'Network error. Please try again.';
-                });
-            }
-
-            // Initialize Stripe when modal is shown
-            subscribeButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Initialize Stripe when the payment modal is displayed
-                    setTimeout(initializeStripe, 100);
-                });
-            });
-        });
-
-        // Feature and Info Modals
+        // Modal functionality (for feature and info modals)
         const featureLinks = document.querySelectorAll('.feature-link');
         const infoLinks = document.querySelectorAll('.info-link');
         const featureModal = document.getElementById('feature-modal');
@@ -2096,80 +1850,40 @@
             }
         });
 
-        // Add direct onclick handlers to buttons since the event listeners might not be working
+        // Optional: Show modal for visitors coming from the extension
         document.addEventListener('DOMContentLoaded', function() {
-            // Get the buttons by ID
-            const subscribeButton = document.getElementById('subscribe-button');
-            const ctaSubscribeButton = document.getElementById('cta-subscribe-button');
-            const getStartedButton = document.querySelector('.btn.cta-button');
-            const heroCTAButton = document.getElementById('hero-cta-button');
-            const paymentModal = document.getElementById('payment-modal');
+            // Check if this page was accessed from the extension after payment
+            const params = new URLSearchParams(window.location.search);
+            const fromPayment = params.get('from_payment');
             
-            // Direct onclick function
-            function showPaymentModal(e) {
-                e.preventDefault();
-                console.log('Button clicked, showing modal');
-                paymentModal.style.display = 'flex';
-                paymentModal.classList.add('show');
-                document.body.style.overflow = 'hidden';
-                return false;
+            if (fromPayment === 'success') {
+                // Show a thank you message or redirect to a thank you page
+                const container = document.createElement('div');
+                container.className = 'payment-success-notification';
+                container.innerHTML = `
+                    <div style="position: fixed; bottom: 20px; right: 20px; background-color: #4CAF50; color: white; padding: 15px 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; animation: slide-in-right 0.5s ease;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-check-circle" style="font-size: 24px;"></i>
+                            <div>
+                                <p style="margin: 0; font-weight: bold;">Thank You for Your Purchase!</p>
+                                <p style="margin: 5px 0 0 0; font-size: 14px;">Your premium features are now active.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <style>
+                        @keyframes slide-in-right {
+                            from { transform: translateX(100%); opacity: 0; }
+                            to { transform: translateX(0); opacity: 1; }
+                        }
+                    </style>
+                `;
+                document.body.appendChild(container);
+                
+                // Remove after 5 seconds
+                setTimeout(() => {
+                    container.remove();
+                }, 5000);
             }
-            
-            // Assign direct onclick handlers
-            if (subscribeButton) {
-                subscribeButton.onclick = showPaymentModal;
-            }
-            
-            if (ctaSubscribeButton) {
-                ctaSubscribeButton.onclick = showPaymentModal;
-            }
-            
-            if (getStartedButton) {
-                getStartedButton.onclick = showPaymentModal;
-            }
-            
-            if (heroCTAButton) {
-                heroCTAButton.onclick = showPaymentModal;
-            }
-            
-            // Modal close button
-            const modalClose = document.getElementById('modal-close');
-            if (modalClose) {
-                modalClose.onclick = function() {
-                    paymentModal.classList.remove('show');
-                    document.body.style.overflow = 'auto';
-                };
-            }
-        });
-
-        // Debug: Print what buttons we're looking for
-        window.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, looking for payment buttons');
-            
-            // Log all buttons with CTA classes for debugging
-            document.querySelectorAll('.btn').forEach(button => {
-                console.log('Found button:', button.id || 'unnamed button', button);
-            });
-            
-            // Check if payment modal exists
-            const modal = document.getElementById('payment-modal');
-            console.log('Payment modal found:', !!modal);
-            
-            // Force show modal after 5 seconds for testing
-            setTimeout(function() {
-                try {
-                    const modal = document.getElementById('payment-modal');
-                    if (modal) {
-                        console.log('Attempting to force show modal');
-                        modal.style.display = 'flex';
-                        modal.classList.add('show');
-                    } else {
-                        console.error('Modal not found for force show');
-                    }
-                } catch (e) {
-                    console.error('Error forcing modal:', e);
-                }
-            }, 5000);
         });
     </script>
 </body>

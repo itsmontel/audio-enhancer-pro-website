@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade to Premium - Audio Enhancer Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        :root {
+            --primary: #D32F2F;
+            --primary-light: #EF5350;
+            --primary-dark: #B71C1C;
+            --accent: #2979FF;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-light: #FFFFFF;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8F9FA;
+            --bg-dark: #1A1A1A;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-strong: 0 20px 50px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 5rem;
+            --container-width: 500px;
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: var(--spacing-md);
+            background-color: var(--bg-primary);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .page-content {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: var(--spacing-xl) 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+            justify-content: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: var(--spacing-xs);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .payment-summary {
+            background-color: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .payment-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .payment-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            padding-top: var(--spacing-xs);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: var(--spacing-xs);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .form-input {
+            padding: 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: border-color var(--transition-fast);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .card-element {
+            padding: 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            background-color: var(--bg-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 1rem 2rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(211, 47, 47, 0.3);
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .payment-note {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-top: var(--spacing-md);
+        }
+
+        .error-message {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .extension-warning {
+            background-color: #FFF4E5;
+            border: 1px solid #FFB74D;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+            display: none;
+        }
+
+        .warning-icon {
+            color: #FF9800;
+            font-size: 2rem;
+            margin-bottom: var(--spacing-xs);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-content">
+        <div class="container">
+            <div class="logo">
+                <img src="logo.png" alt="Audio Enhancer Pro Logo">
+                Audio Enhancer Pro
+            </div>
+            
+            <!-- Extension Warning -->
+            <div id="extension-warning" class="extension-warning">
+                <i class="fas fa-exclamation-triangle warning-icon"></i>
+                <p>This page should be accessed from the Audio Enhancer Pro extension.</p>
+                <p>Please install our extension from the <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" target="_blank">Chrome Web Store</a> and subscribe through the extension interface.</p>
+            </div>
+            
+            <h1>Upgrade to Premium</h1>
+            
+            <div class="payment-summary">
+                <div class="payment-details">
+                    <span>Audio Enhancer Pro (Monthly)</span>
+                    <span>$4.99</span>
+                </div>
+                <div class="payment-total">
+                    <span>Total Due Today</span>
+                    <span>$4.99</span>
+                </div>
+            </div>
+            
+            <form id="payment-form">
+                <div class="form-group">
+                    <label class="form-label" for="name">Full Name</label>
+                    <input type="text" id="name" class="form-input" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input type="email" id="email" class="form-input" placeholder="Enter your email address" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Card Information</label>
+                    <div id="card-element" class="card-element">
+                        <!-- Stripe Card Element will be inserted here -->
+                    </div>
+                    <div id="card-errors" class="error-message" role="alert"></div>
+                </div>
+                
+                <button type="submit" id="submit-button" class="btn">Upgrade Now</button>
+                
+                <p class="payment-note">
+                    Your subscription will begin immediately. You can cancel your subscription at any time from the extension settings.
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let stripe;
+            let elements;
+            let cardElement;
+            let extensionReferrer = false;
+            
+            // Check if this page was opened from the extension
+            function checkExtensionReferrer() {
+                const params = new URLSearchParams(window.location.search);
+                const source = params.get('source');
+                const token = params.get('token');
+                
+                // Simple validation - in a real implementation you would use a better validation method
+                if (source === 'extension' && token) {
+                    extensionReferrer = true;
+                    return true;
+                }
+                
+                // If not from extension, show warning
+                document.getElementById('extension-warning').style.display = 'block';
+                document.getElementById('payment-form').style.display = 'none';
+                return false;
+            }
+            
+            // Initialize Stripe payment elements
+            async function initializeStripe() {
+                try {
+                    const response = await fetch('/config');
+                    
+                    if (!response.ok) {
+                        throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const data = await response.json();
+                    const publishableKey = data.publishableKey;
+                    
+                    if (!publishableKey) {
+                        throw new Error('Invalid or missing publishable key');
+                    }
+                    
+                    stripe = Stripe(publishableKey);
+                    elements = stripe.elements();
+                    
+                    // Style for the card element
+                    const style = {
+                        base: {
+                            color: '#32325d',
+                            fontFamily: '"Inter", sans-serif',
+                            fontSmoothing: 'antialiased',
+                            fontSize: '16px',
+                            '::placeholder': {
+                                color: '#aab7c4'
+                            }
+                        },
+                        invalid: {
+                            color: '#fa755a',
+                            iconColor: '#fa755a'
+                        }
+                    };
+                    
+                    // Create and mount the card element
+                    cardElement = elements.create('card', {style: style});
+                    cardElement.mount('#card-element');
+                    
+                    // Handle validation errors
+                    cardElement.addEventListener('change', function(event) {
+                        const displayError = document.getElementById('card-errors');
+                        if (event.error) {
+                            displayError.textContent = event.error.message;
+                            displayError.style.display = 'block';
+                        } else {
+                            displayError.textContent = '';
+                            displayError.style.display = 'none';
+                        }
+                    });
+                    
+                    // Set up form submission handler
+                    setupFormHandler();
+                    
+                } catch (error) {
+                    console.error('Error initializing Stripe:', error);
+                    const errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = 'Could not initialize payment system: ' + error.message;
+                    errorElement.style.display = 'block';
+                }
+            }
+            
+            // Handle form submission
+            function setupFormHandler() {
+                const form = document.getElementById('payment-form');
+                
+                form.addEventListener('submit', async function(event) {
+                    event.preventDefault();
+                    
+                    const nameInput = document.getElementById('name');
+                    const emailInput = document.getElementById('email');
+                    
+                    if (!nameInput.value || !emailInput.value) {
+                        const errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = 'Please enter your name and email';
+                        errorElement.style.display = 'block';
+                        return;
+                    }
+                    
+                    const submitButton = document.getElementById('submit-button');
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'Processing...';
+                    
+                    try {
+                        // Create token
+                        const result = await stripe.createToken(cardElement);
+                        
+                        if (result.error) {
+                            // Show error in the form
+                            const errorElement = document.getElementById('card-errors');
+                            errorElement.textContent = result.error.message;
+                            errorElement.style.display = 'block';
+                            
+                            submitButton.disabled = false;
+                            submitButton.textContent = 'Upgrade Now';
+                        } else {
+                            // Token created successfully, process payment
+                            await processPayment(result.token);
+                        }
+                    } catch (error) {
+                        console.error('Error during payment submission:', error);
+                        
+                        const errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = 'An error occurred. Please try again.';
+                        errorElement.style.display = 'block';
+                        
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Upgrade Now';
+                    }
+                });
+            }
+            
+            // Process the payment
+            async function processPayment(token) {
+                try {
+                    const response = await fetch('/create-payment-intent', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            token: token.id,
+                            email: document.getElementById('email').value,
+                            name: document.getElementById('name').value,
+                            amount: 499, // $4.99 in cents
+                            currency: 'usd',
+                            description: 'Audio Enhancer Pro Monthly Subscription',
+                            extensionReferrer: extensionReferrer
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Redirect to success page
+                        window.location.href = '/success?subscriptionId=' + result.subscriptionId;
+                    } else {
+                        console.error('Payment processing failed:', result.error);
+                        
+                        const errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error || 'Payment processing failed. Please try again.';
+                        errorElement.style.display = 'block';
+                        
+                        const submitButton = document.getElementById('submit-button');
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Upgrade Now';
+                    }
+                } catch (error) {
+                    console.error('Error communicating with server:', error);
+                    
+                    const errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = 'Network error. Please try again.';
+                    errorElement.style.display = 'block';
+                    
+                    const submitButton = document.getElementById('submit-button');
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Upgrade Now';
+                }
+            }
+            
+            // Only initialize if referred from extension
+            if (checkExtensionReferrer()) {
+                // Populate email if provided in URL
+                const params = new URLSearchParams(window.location.search);
+                const email = params.get('email');
+                if (email) {
+                    document.getElementById('email').value = email;
+                }
+                
+                // Initialize Stripe
+                initializeStripe();
+            }
+        });
+    </script>
+</body>
+</html> 

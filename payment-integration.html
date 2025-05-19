@@ -215,14 +215,7 @@
         }
 
         .free-trial-badge {
-            display: inline-block;
-            background-color: var(--primary);
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.25rem 0.5rem;
-            border-radius: 1rem;
-            margin-left: 0.5rem;
+            display: none;
         }
 
         .btn {
@@ -481,16 +474,16 @@
                                 <img src="https://via.placeholder.com/24x16" alt="Discover">
                             </div>
                         </div>
-                        <button type="submit" class="btn" id="submit-button">Start 7-Day Free Trial</button>
-                        <p class="payment-note">Your card will not be charged until after your free trial ends. You can cancel anytime during your trial.</p>
+                        <button type="submit" class="btn" id="submit-button">Upgrade Now</button>
+                        <p class="payment-note">Your card will be charged $4.99 for your monthly subscription. You can cancel anytime.</p>
                         <div class="secure-badge">
                             <i class="fas fa-lock"></i>
                             Secure Checkout - Powered by Stripe
                         </div>
                         <div class="trust-icons">
                             <div class="trust-icon">
-                                <i class="fas fa-clock"></i>
-                                <span>7-Day Free Trial</span>
+                                <i class="fas fa-credit-card"></i>
+                                <span>Immediate Access</span>
                             </div>
                             <div class="trust-icon">
                                 <i class="fas fa-shield-alt"></i>
@@ -507,7 +500,7 @@
                     <h2>Order Summary</h2>
                     <div class="product-details">
                         <div class="product-name">
-                            Audio Enhancer Pro <span class="free-trial-badge">7-DAY TRIAL</span>
+                            Audio Enhancer Pro
                         </div>
                         <div class="product-description">
                             Unlock premium audio features and transform your browser listening experience.
@@ -517,13 +510,9 @@
                         <span>Monthly Subscription</span>
                         <span>$4.99</span>
                     </div>
-                    <div class="price-row">
-                        <span>Free Trial</span>
-                        <span>-$4.99</span>
-                    </div>
                     <div class="price-total">
                         <span>Due Today</span>
-                        <span>$0.00</span>
+                        <span>$4.99</span>
                     </div>
                 </div>
             </div>
@@ -624,7 +613,7 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            amount: 999, // $9.99 in cents
+                            amount: 499, // $4.99 in cents
                             currency: 'usd',
                             description: 'Audio Enhancer Pro - Premium License'
                         })
