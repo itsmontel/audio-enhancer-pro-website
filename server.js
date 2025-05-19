@@ -9,10 +9,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-// Fallback to test keys if environment variables aren't set
-// IMPORTANT: Replace these with your actual keys in production
-const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || 'sk_test_51QzAYmDfCjeex4FCyrzlRgLJ1qZJoxbAavzvMQ2gpeSZHHfdb8zQCZCZzBtQawdYUwcOagZKZFO2sADdsgHyY84f009Eff5syI';
-const STRIPE_PUBLISHABLE_KEY = process.env.STRIPE_PUBLISHABLE_KEY || 'pk_test_51QzAYmDfCjeex4FCvH1UVJS5LtOL1GNoUVDdbLZUqq3d0SoKCXJCt21DqzUmdMRCXZCWmGz0SqQJAuybLFWu4k5y00DHvH1qLy';
+// Use environment variables for API keys
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+const STRIPE_PUBLISHABLE_KEY = process.env.STRIPE_PUBLISHABLE_KEY;
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 
 // Initialize Stripe with the secret key
