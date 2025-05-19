@@ -8,6 +8,7 @@ try {
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 
 // Use environment variables for API keys
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
@@ -19,6 +20,26 @@ const stripe = require('stripe')(STRIPE_SECRET_KEY);
 
 const app = express();
 const port = process.env.PORT || 3000;
+const isProduction = process.env.NODE_ENV === 'production';
+const allowedDomains = ['https://audioenhancerpro.com', 'https://www.audioenhancerpro.com'];
+
+// CORS configuration
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Check if the origin is allowed
+    if (allowedDomains.indexOf(origin) !== -1 || !isProduction) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 
 // Serve static files from the root directory
 app.use(express.static(__dirname));
@@ -356,7 +377,9 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (req, res
 });
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server running on ${isProduction ? 'production' : 'development'} mode`);
+  console.log(`Server listening on port ${port}`);
+  console.log(`Access URL: ${isProduction ? 'https://audioenhancerpro.com' : 'http://localhost:' + port}`);
   console.log(`Stripe API key configured: ${STRIPE_SECRET_KEY ? 'Yes' : 'No'}`);
 }); 

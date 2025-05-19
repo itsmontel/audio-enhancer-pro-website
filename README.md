@@ -1,67 +1,98 @@
 # Audio Enhancer Pro Website
 
-This repository contains the website and payment system for the Audio Enhancer Pro Chrome extension. The website allows users to subscribe to premium features of the extension.
+This is the official website and payment API for the Audio Enhancer Pro Chrome extension.
 
 ## Features
 
-- Landing page showcasing Audio Enhancer Pro features
-- Secure payment processing using Stripe
-- Subscription management system
-- Automatic extension activation using subscription IDs
+- Stripe payment integration
+- Subscription management
+- Subscription verification system
 
-## Technology Stack
+## Local Development
 
-- Frontend: HTML, CSS, JavaScript
-- Backend: Node.js, Express
-- Payment Processing: Stripe API
-- Authentication: Custom token-based verification
-
-## Setup Instructions
-
-1. Clone the repository
-2. Install dependencies
+1. Install dependencies:
    ```
    npm install
    ```
-3. Create a `.env` file with your Stripe API keys
+
+2. Create a `.env` file in the root directory with your Stripe API keys:
    ```
-   STRIPE_PUBLISHABLE_KEY=your_publishable_key
-   STRIPE_SECRET_KEY=your_secret_key
+   STRIPE_SECRET_KEY=sk_test_your_test_key
+   STRIPE_PUBLISHABLE_KEY=pk_test_your_test_key
    ```
-4. Start the server
+
+3. Run the development server:
    ```
-   node server.js
+   npm run dev
    ```
-5. The server will run on http://localhost:3000
 
-## Extension Integration
+4. Access the site at http://localhost:3000
 
-The Chrome extension connects to this server to:
-- Process payments
-- Verify subscription status
-- Activate premium features
+## Production Deployment
 
-## Subscription Flow
+### Setting up on audioenhancerpro.com
 
-1. User clicks "Upgrade" in the extension
-2. User is directed to the payment page
-3. After successful payment, user receives a Subscription ID
-4. User enters the Subscription ID in the extension
-5. Extension verifies the ID with the server
-6. Premium features are activated upon verification
+1. Clone the repository on your server
+2. Install dependencies: `npm install --production`
+3. Set environment variables:
+   ```
+   export NODE_ENV=production
+   export STRIPE_SECRET_KEY=sk_live_your_live_key
+   export STRIPE_PUBLISHABLE_KEY=pk_live_your_live_key
+   export PORT=80  # or 443 if using HTTPS directly
+   ```
+4. Run the production server:
+   ```
+   npm run prod
+   ```
 
-## Directory Structure
+### Using a Process Manager (recommended)
 
-- `index.html` - Main landing page
-- `payment-page.html` - Payment form page
-- `payment-success.html` - Payment confirmation page
-- `server.js` - Node.js server code
-- `extension-example.js` - Example code for extension integration
+For production, it's recommended to use PM2:
 
-## Stripe Integration
+```
+npm install -g pm2
+pm2 start server.js --name "audio-enhancer-pro" --env production
+pm2 save
+pm2 startup
+```
 
-The website includes Stripe integration for processing subscription payments. To activate it:
+### Setting up with Nginx (recommended)
 
-1. Replace `YOUR_PUBLISHABLE_KEY` with your Stripe publishable key
-2. Deploy the backend server (`server.js`) and update `YOUR_BACKEND_ENDPOINT`
-3. Replace `YOUR_EXTENSION_ID` with your Chrome extension ID 
+1. Install and configure Nginx as a reverse proxy
+2. Use Let's Encrypt to set up SSL for audioenhancerpro.com
+3. Configure your Nginx server block to forward requests to your Node.js application
+
+Example Nginx configuration:
+```nginx
+server {
+    listen 80;
+    server_name audioenhancerpro.com www.audioenhancerpro.com;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name audioenhancerpro.com www.audioenhancerpro.com;
+
+    ssl_certificate /etc/letsencrypt/live/audioenhancerpro.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/audioenhancerpro.com/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+
+## API Endpoints
+
+- `/config` - Get Stripe publishable key
+- `/create-payment-intent` - Create a subscription
+- `/verify-subscription` - Verify subscription by email
+- `/verify-subscription-id` - Verify subscription by ID
+- `/recover-subscription` - Recover subscription ID via email 
