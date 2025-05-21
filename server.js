@@ -60,6 +60,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Comparison page route
+app.get('/comparison', (req, res) => {
+  res.sendFile(path.join(__dirname, 'comparison.html'));
+});
+
 // Success page
 app.get('/success', (req, res) => {
   res.sendFile(path.join(__dirname, 'payment-success.html'));

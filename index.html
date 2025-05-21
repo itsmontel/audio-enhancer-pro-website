@@ -471,6 +471,20 @@
             background-color: var(--bg-primary);
         }
 
+        .pricing-cards {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
         .price-card {
             background-color: var(--bg-secondary);
             border-radius: var(--border-radius);
@@ -478,10 +492,17 @@
             box-shadow: var(--shadow-soft);
             text-align: center;
             max-width: 400px;
+            min-height: 680px;
             margin: 0 auto;
             position: relative;
             overflow: hidden;
             transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .price-card .btn {
+            margin-top: auto;
         }
 
         .price-card:hover {
@@ -544,6 +565,16 @@
 
         .price-features i {
             color: var(--primary);
+        }
+
+        .price-features .x-mark {
+            color: #F44336;
+        }
+        
+        .strikethrough {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+            opacity: 0.7;
         }
 
         .premium-badge {
@@ -952,14 +983,16 @@
 
         /* Modal Content Styling */
         .feature-modal-content,
-        .info-modal-content {
+        .info-modal-content,
+        .privacy-modal-content {
             max-height: 60vh;
             overflow-y: auto;
             padding-right: var(--spacing-sm);
         }
 
         .feature-modal-content h4,
-        .info-modal-content h4 {
+        .info-modal-content h4,
+        .privacy-modal-content h4 {
             margin-top: var(--spacing-md);
             margin-bottom: var(--spacing-xs);
             font-size: 1.2rem;
@@ -968,13 +1001,16 @@
 
         .feature-modal-content ul,
         .info-modal-content ul,
-        .info-modal-content ol {
+        .info-modal-content ol,
+        .privacy-modal-content ul,
+        .privacy-modal-content ol {
             margin-left: var(--spacing-md);
             margin-bottom: var(--spacing-sm);
         }
 
         .feature-modal-content li,
-        .info-modal-content li {
+        .info-modal-content li,
+        .privacy-modal-content li {
             margin-bottom: var(--spacing-xs);
         }
 
@@ -1177,6 +1213,7 @@
                         <li><a href="#features">Features</a></li>
                         <li><a href="#how-it-works">How It Works</a></li>
                         <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="/comparison">Compare Features</a></li>
                         <li><a href="#faq">FAQ</a></li>
                     </ul>
                 </nav>
@@ -1196,7 +1233,7 @@
                 <p class="hero-subtitle">Experience premium sound quality with advanced AI enhancement, immersive 3D spatial audio, and personalized hearing profiles.</p>
                 <div class="hero-cta">
                     <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn btn-lg" id="hero-cta-button" target="_blank">Download Extension</a>
-                    <a href="#features" class="btn btn-outline btn-lg">Explore Features</a>
+                    <a href="/comparison" class="btn btn-outline btn-lg">Compare Features</a>
                 </div>
             </div>
             <div class="hero-image">
@@ -1300,23 +1337,42 @@
                 <h2>Simple, Transparent Pricing</h2>
             </div>
             <p class="section-subtitle">Start with a 7-day free trial. No credit card required to try.</p>
-            <div class="price-card premium">
-                <div class="premium-badge">PRO VERSION</div>
-                <h3 class="price-title">Audio Enhancer Pro</h3>
-                <p class="price-subtitle">Unlock the full potential of your browser audio</p>
-                <div class="price-amount">$4.99<span>/month</span></div>
-                <ul class="price-features">
-                    <li><i class="fas fa-check-circle"></i> Advanced Volume Boost (up to 500%)</li>
-                    <li><i class="fas fa-check-circle"></i> 10-Band Equalizer with Presets</li>
-                    <li><i class="fas fa-check-circle"></i> AI-Powered Noise Reduction</li>
-                    <li><i class="fas fa-check-circle"></i> Audio Clarity Enhancement</li>
-                    <li><i class="fas fa-check-circle"></i> Dynamic Range Optimization</li>
-                    <li><i class="fas fa-check-circle"></i> Immersive 3D Spatial Audio</li>
-                    <li><i class="fas fa-check-circle"></i> Personalized Hearing Test</li>
-                    <li><i class="fas fa-check-circle"></i> Custom Preset Management</li>
-                    <li><i class="fas fa-check-circle"></i> Premium Support</li>
-                </ul>
-                <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn btn-lg" id="subscribe-button" target="_blank">Download Extension</a>
+            
+            <div class="pricing-cards">
+                <div class="price-card">
+                    <h3 class="price-title">FREE VERSION</h3>
+                    <p class="price-subtitle">Basic audio enhancement for casual users</p>
+                    <div class="price-amount">Free<span></span></div>
+                    <ul class="price-features">
+                        <li><i class="fas fa-check-circle"></i> Volume Boost (up to 150%)</li>
+                        <li><i class="fas fa-check-circle"></i> 10-Band Equalizer with Presets</li>
+                        <li class="strikethrough">AI-Powered Noise Reduction</li>
+                        <li class="strikethrough">Audio Clarity Enhancement</li>
+                        <li class="strikethrough">Dynamic Range Optimization</li>
+                        <li class="strikethrough">Immersive 3D Spatial Audio</li>
+                        <li class="strikethrough">Personalized Hearing Test</li>
+                        <li class="strikethrough">Custom Preset Management</li>
+                    </ul>
+                    <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn btn-lg btn-outline" target="_blank">Download Free</a>
+                </div>
+                
+                <div class="price-card premium">
+                    <div class="premium-badge">Pro</div>
+                    <h3 class="price-title">Audio Enhancer Pro</h3>
+                    <p class="price-subtitle">Unlock the full potential of your browser audio</p>
+                    <div class="price-amount">$4.99<span>/month</span></div>
+                    <ul class="price-features">
+                        <li><i class="fas fa-check-circle"></i> Advanced Volume Boost (up to 500%)</li>
+                        <li><i class="fas fa-check-circle"></i> 10-Band Equalizer with Presets</li>
+                        <li><i class="fas fa-check-circle"></i> AI-Powered Noise Reduction</li>
+                        <li><i class="fas fa-check-circle"></i> Audio Clarity Enhancement</li>
+                        <li><i class="fas fa-check-circle"></i> Dynamic Range Optimization</li>
+                        <li><i class="fas fa-check-circle"></i> Immersive 3D Spatial Audio</li>
+                        <li><i class="fas fa-check-circle"></i> Personalized Hearing Test</li>
+                        <li><i class="fas fa-check-circle"></i> Custom Preset Management</li>
+                    </ul>
+                    <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn btn-lg" id="subscribe-button" target="_blank">Download Extension</a>
+                </div>
             </div>
         </div>
     </section>
@@ -1490,11 +1546,12 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <div class="footer-copyright">© 2025 Audio Enhancer Pro. All rights reserved.</div>
+                <div class="footer-copyright">
+                    © 2024 Audio Enhancer Pro. All rights reserved.
+                </div>
                 <div class="footer-terms">
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Cookie Policy</a>
+                    <a href="#" id="privacy-policy-link">Privacy Policy</a>
+                    <a href="#" data-info="terms">Terms of Service</a>
                 </div>
             </div>
         </div>
@@ -1543,6 +1600,68 @@
             </div>
             <h3 class="modal-title" id="info-modal-title"></h3>
             <div class="info-modal-content" id="info-modal-description"></div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div class="modal" id="privacy-modal">
+        <div class="modal-content">
+            <div class="modal-close privacy-modal-close">
+                <i class="fas fa-times"></i>
+            </div>
+            <h3 class="modal-title">Privacy Policy</h3>
+            <div class="privacy-modal-content">
+                <h4>Introduction</h4>
+                <p>At Audio Enhancer Pro, we respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you use our browser extension.</p>
+                
+                <h4>Information We Collect</h4>
+                <p>We collect the following types of information:</p>
+                <ul>
+                    <li><strong>Personal Information:</strong> Email address (for account creation and support)</li>
+                    <li><strong>Usage Data:</strong> Information about how you use our extension, including settings preferences and feature usage statistics</li>
+                    <li><strong>Technical Data:</strong> Browser type and version, installation timestamp, error reports</li>
+                </ul>
+                
+                <h4>How We Use Your Information</h4>
+                <p>We use the collected information to:</p>
+                <ul>
+                    <li>Provide, maintain, and improve our services</li>
+                    <li>Process transactions and manage your subscription</li>
+                    <li>Send you important updates about your account or our extension</li>
+                    <li>Address technical issues and improve user experience</li>
+                    <li>Analyze usage patterns to enhance functionality</li>
+                </ul>
+                
+                <h4>Data Storage and Security</h4>
+                <p>Your personal data is stored securely using industry-standard encryption and security measures. Most user preferences are stored locally on your device to minimize data transmission. We retain your information only for as long as necessary to fulfill the purposes outlined in this policy or as required by law.</p>
+                
+                <h4>Third-Party Services</h4>
+                <p>We use the following third-party services:</p>
+                <ul>
+                    <li><strong>Stripe:</strong> For payment processing (subject to Stripe's privacy policy)</li>
+                    <li><strong>Google Analytics:</strong> For anonymous usage statistics (with IP anonymization enabled)</li>
+                </ul>
+                
+                <h4>Your Privacy Rights</h4>
+                <p>You have the right to:</p>
+                <ul>
+                    <li>Access the personal data we hold about you</li>
+                    <li>Request correction of inaccurate data</li>
+                    <li>Request deletion of your data</li>
+                    <li>Object to processing of your data</li>
+                    <li>Request restriction of processing</li>
+                    <li>Request data portability</li>
+                </ul>
+                
+                <h4>Contact Us</h4>
+                <p>If you have questions about this Privacy Policy or wish to exercise your privacy rights, please contact us at:</p>
+                <p>Email: <a href="mailto:privacy@audioenhancerpro.com">privacy@audioenhancerpro.com</a></p>
+                
+                <h4>Policy Updates</h4>
+                <p>We may update this Privacy Policy from time to time. We will notify you of significant changes by email or through the extension.</p>
+                
+                <p><em>Last updated: May 2024</em></p>
+            </div>
         </div>
     </div>
 
@@ -1824,6 +1943,29 @@
             });
         });
 
+        // Privacy Policy modal
+        const privacyPolicyLink = document.getElementById('privacy-policy-link');
+        const privacyModal = document.getElementById('privacy-modal');
+        const privacyModalClose = document.querySelector('.privacy-modal-close');
+
+        privacyPolicyLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            privacyModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        });
+
+        privacyModalClose.addEventListener('click', () => {
+            privacyModal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        });
+
+        privacyModal.addEventListener('click', (e) => {
+            if (e.target === privacyModal) {
+                privacyModal.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
         // Close feature modal
         featureModalClose.addEventListener('click', () => {
             featureModal.classList.remove('show');
@@ -1886,6 +2028,81 @@
                 }, 5000);
             }
         });
+    </script>
+    
+    <!-- Schema.org structured data for better SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Audio Enhancer Pro",
+      "applicationCategory": "BrowserApplication",
+      "operatingSystem": "Windows, macOS, Linux",
+      "offers": {
+        "@type": "Offer",
+        "price": "39.99",
+        "priceCurrency": "USD",
+        "priceValidUntil": "2024-12-31",
+        "availability": "https://schema.org/InStock"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "2475",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "description": "Audio Enhancer Pro is a browser extension that transforms your listening experience with advanced audio enhancement features including bass boost, spatial audio, noise reduction, and personalized sound profiles.",
+      "softwareVersion": "2.5.1",
+      "fileSize": "4MB",
+      "author": {
+        "@type": "Organization",
+        "name": "Audio Enhancer Pro",
+        "url": "https://www.audioenhancerpro.com"
+      },
+      "potentialAction": {
+        "@type": "DownloadAction",
+        "target": "https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg"
+      }
+    }
+    </script>
+    
+    <!-- Organization schema markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Audio Enhancer Pro",
+      "url": "https://www.audioenhancerpro.com",
+      "logo": "https://www.audioenhancerpro.com/AudioEnhancerProPic.png",
+      "sameAs": [
+        "https://twitter.com/audioenhancerpro",
+        "https://facebook.com/audioenhancerpro",
+        "https://instagram.com/audioenhancerpro"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "",
+        "contactType": "customer service",
+        "email": "support@audioenhancerpro.com",
+        "availableLanguage": ["English"]
+      }
+    }
+    </script>
+    
+    <!-- WebSite schema markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Audio Enhancer Pro",
+      "url": "https://www.audioenhancerpro.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://www.audioenhancerpro.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
     </script>
 </body>
 </html>

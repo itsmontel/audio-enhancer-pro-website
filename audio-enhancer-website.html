@@ -1164,21 +1164,21 @@
     <header class="header">
         <div class="container">
             <div class="header-container">
-                <a href="#" class="logo">
+            <a href="#" class="logo">
                     <img src="logo.png" alt="Audio Enhancer Pro Logo">
-                    Audio Enhancer Pro
-                </a>
-                <nav>
-                    <ul class="nav-links">
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="#pricing">Pricing</a></li>
-                        <li><a href="#faq">FAQ</a></li>
-                    </ul>
-                </nav>
-                <a href="#pricing" class="btn cta-button">Get Started</a>
-                <div class="mobile-menu-toggle">
-                    <i class="fas fa-bars"></i>
+                Audio Enhancer Pro
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </nav>
+            <a href="#pricing" class="btn cta-button">Get Started</a>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
                 </div>
             </div>
         </div>
@@ -1665,7 +1665,7 @@
                 
                 if (extensionInstalled) {
                     // Show normal payment flow
-                    paymentModal.classList.add('show');
+                paymentModal.classList.add('show');
                     document.getElementById('extension-warning').style.display = 'none';
                     document.getElementById('payment-form').style.display = 'block';
                 } else {
@@ -2006,7 +2006,7 @@
         // Handle feature link clicks
         featureLinks.forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault();
+            e.preventDefault();
                 const featureType = link.getAttribute('data-feature');
                 const feature = featureInfo[featureType];
                 

@@ -22,7 +22,7 @@ function openPaymentPage() {
     storeToken(token);
     
     // Construct payment URL with parameters
-    const paymentUrl = `http://localhost:3000/payment-refresh?source=extension&token=${token}&email=${encodeURIComponent(userEmail)}`;
+    const paymentUrl = `https://audioenhancerpro.com/payment-refresh?source=extension&token=${token}&email=${encodeURIComponent(userEmail)}`;
     
     // Open the payment page in a new tab
     chrome.tabs.create({ url: paymentUrl });
