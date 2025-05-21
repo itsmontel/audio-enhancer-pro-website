@@ -1,0 +1,48 @@
+/* Image error handling and optimization styles */
+img {
+    object-fit: contain;
+    background: #f8f9fa; /* Light fallback background */
+    transition: opacity 0.3s ease;
+}
+
+/* Add dark mode support */
+@media (prefers-color-scheme: dark) {
+    img {
+        background: #222; /* Darker fallback background for dark mode */
+    }
+}
+
+/* Ensure proper logo sizing */
+.logo img {
+    height: 40px;
+    width: auto;
+    margin-right: 0.5rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Add a subtle loading effect */
+img:not([src]), img[src=""] {
+    opacity: 0;
+}
+
+img[src] {
+    opacity: 1;
+}
+
+/* Prevent layout shift with aspect ratio */
+.img-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    overflow: hidden;
+}
+
+.img-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+} 
