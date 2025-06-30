@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparison | Audio Enhancer Pro</title>
+    <link rel="icon" href="images/AudioEnhancerProPic.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="images/image-styles.css">
+    <style>
+        :root {
+            --primary: #D32F2F;
+            --primary-light: #EF5350;
+            --primary-dark: #B71C1C;
+            --accent: #2979FF;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-light: #FFFFFF;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8F9FA;
+            --bg-dark: #1A1A1A;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-strong: 0 20px 50px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 5rem;
+            --container-width: 1200px;
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-primary: #F0F0F0;
+                --text-secondary: #AAAAAA;
+                --bg-primary: #121212;
+                --bg-secondary: #1E1E1E;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--accent);
+            transition: color var(--transition-fast);
+        }
+
+        a:hover {
+            color: var(--primary);
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            letter-spacing: -0.3px;
+            margin-top: var(--spacing-lg);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-top: var(--spacing-md);
+        }
+
+        p {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            transition: all var(--transition-normal);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: var(--spacing-xs);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: var(--spacing-md);
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .content-section {
+            padding: 8rem 0 4rem;
+        }
+
+        .intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto var(--spacing-xl);
+        }
+
+        /* Comparison Table Styles */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-soft);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1.2rem;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .comparison-table th {
+            background-color: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .comparison-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .comparison-table th:first-child,
+        .comparison-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .highlight-col {
+            background-color: rgba(211, 47, 47, 0.05);
+        }
+
+        .highlight-col th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .check {
+            color: #4CAF50;
+            font-size: 1.2rem;
+        }
+
+        .x-mark {
+            color: #F44336;
+            font-size: 1.2rem;
+        }
+
+        .partial {
+            color: #FFC107;
+            font-size: 1.2rem;
+        }
+
+        .feature-category {
+            background-color: #f0f0f0;
+            font-weight: 600;
+        }
+
+        .feature-note {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: var(--spacing-xs);
+        }
+
+        .disclaimer {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: var(--spacing-lg);
+            text-align: center;
+        }
+
+        /* Responsive Table */
+        @media (max-width: 992px) {
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .header {
+                padding: 1rem 0;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="images/AudioEnhancerProPic.png" alt="Audio Enhancer Pro Logo">
+                Audio Enhancer Pro
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="intro">
+                <h1>Audio Enhancer Pro vs. Competitors</h1>
+                <p>See how Audio Enhancer Pro stacks up against other audio enhancement solutions on the market. We pride ourselves on offering the most comprehensive set of features with the best performance and value.</p>
+            </div>
+
+            <table class="comparison-table">
+                <colgroup>
+                    <col>
+                    <col class="highlight-col">
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Features</th>
+                        <th>Audio Enhancer Pro</th>
+                        <th>SoundBooster</th>
+                        <th>AudioMax</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Core Audio Features -->
+                    <tr class="feature-category">
+                        <td colspan="4">Core Audio Features</td>
+                    </tr>
+                    <tr>
+                        <td>Bass Enhancement</td>
+                        <td><i class="fas fa-check check"></i></td>
+                        <td><i class="fas fa-check check"></i></td>
+                        <td><i class="fas fa-check check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Treble Enhancement</td>
+                        <td><i class="fas fa-check check"></i></td>
+                        <td><i class="fas fa-check check"></i></td>
+                        <td><i class="fas fa-check check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Volume Boost</td>
+                        <td><i class="fas fa-check check"></i></td>
+                        <td><i class="fas fa-check check"></i></td>
+                        <td><i class="fas fa-check check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Spatial Audio</td>
+                        <td><i class="fas fa-check check"></i></td>
+                        <td><i class="fas fa-times x-mark"></i></td>
+                        <td><i class="fas fa-check check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>3D Surround Sound</td>
+                        <td><i class="fas fa-check check"></i></td>
+                        <td><i class="fas fa-times x-mark"></i></td>
+                        <td><i class="fas fa-check check"></i></td>
+                    </tr>
+                    
+                    <!-- Advanced Features -->
+                    <tr class="feature-category">
+                        <td colspan="4">Advanced Features</td>
+                    </tr>
+                    <tr>
+                        <td>10-Band Equalizer</td>
+                        <td><i class="fas fa-check check"></i></td>
+                        <td><i class="fas fa-adjust partial"></i> 5-band</td>
+                        <td><i class="fas fa-check check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Preset Profiles</td>
+                        <td><i class="fas fa-check check"></i> 10 presets + custom</td>
+                        <td><i class="fas fa-check check"></i> 8 presets</td>
+                        <td><i class="fas fa-check check"></i> 10 presets</td>
+                    </tr>
+                    <tr>
+                        <td>Dynamic Range Compression</td>
+                        <td><i class="fas fa-check check"></i></td>
+                        <td><i class="fas fa-times x-mark"></i></td>
+                        <td><i class="fas fa-adjust partial"></i> Basic only</td>
+                    </tr>
+                    <tr>
+                        <td>Voice Enhancement</td>
+                        <td><i class="fas fa-check check"></i></td>
+                        <td><i class="fas fa-times x-mark"></i></td>
+                        <td><i class="fas fa-check check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Noise Reduction</td>
+                        <td><i class="fas fa-check check"></i></td>
+                        <td><i class="fas fa-adjust partial"></i> Basic only</td>
+                        <td><i class="fas fa-check check"></i></td>
+                    </tr>
+                    
+                    <!-- User Experience -->
+                    <tr class="feature-category">
+                        <td colspan="4">User Experience</td>
+                    </tr>
+                    <tr>
+                        <td>Minimal CPU Usage</td>
+                        <td><i class="fas fa-check check"></i></td>
+                        <td><i class="fas fa-adjust partial"></i> Moderate</td>
+                        <td><i class="fas fa-adjust partial"></i> Moderate</td>
+                    </tr>
+                    
+                    <!-- Pricing -->
+                    <tr class="feature-category">
+                        <td colspan="4">Pricing</td>
+                    </tr>
+                    <tr>
+                        <td>Free Trial</td>
+                        <td>7 days</td>
+                        <td>7 days</td>
+                        <td>10 days</td>
+                    </tr>
+                    <tr>
+                        <td>Monthly Plan</td>
+                        <td>$4.99/month</td>
+                        <td>$5.99/month</td>
+                        <td>$6.99/month</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="disclaimer">* This comparison is based on publicly available information as of August 2023 and is subject to change as competitors update their products. Feature availability may vary by browser and platform version. Note: SoundBooster and AudioMax are used for demonstration purposes only and any similarity to actual products is coincidental.</p>
+        </div>
+    </section>
+
+    <!-- Schema.org structured data for Product comparison -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": "Audio Enhancer Pro",
+      "image": "images/AudioEnhancerProPic.png",
+      "description": "Browser extension that enhances audio quality with features like bass enhancement, 10-band equalizer, noise reduction, and more.",
+      "brand": {
+        "@type": "Brand",
+        "name": "Audio Enhancer Pro"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://www.audioenhancerpro.com/",
+        "priceCurrency": "USD",
+        "price": "39.99",
+        "priceValidUntil": "2024-12-31",
+        "availability": "https://schema.org/InStock"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "357"
+      }
+    }
+    </script>
+</body>
+</html> 

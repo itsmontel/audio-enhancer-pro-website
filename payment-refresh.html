@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Enhancer Pro - Redirecting</title>
+    <link rel="icon" href="images/AudioEnhancerProPic.png" type="image/png">
+    <meta http-equiv="refresh" content="0;url=/payment-page.html">
+    <script>
+        // Add a timestamp to force cache invalidation
+        const timestamp = new Date().getTime();
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email') || '';
+        const token = urlParams.get('token') || 'refresh-token';
+        
+        // Redirect to payment page with cache-busting parameter
+        window.location.href = `/payment?source=extension&token=${token}&email=${encodeURIComponent(email)}&t=${timestamp}`;
+    </script>
+</head>
+<body>
+    <h1>Redirecting you to the payment page...</h1>
+    <p>If you aren't redirected automatically, <a href="/payment?source=extension&token=refresh-token&t=1">click here</a>.</p>
+</body>
+</html> 

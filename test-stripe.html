@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Stripe Integration</title>
+    <link rel="icon" href="images/AudioEnhancerProPic.png" type="image/png">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <h1>Stripe Test</h1>
+    <div id="status">Checking Stripe configuration...</div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const statusDiv = document.getElementById('status');
+            
+            try {
+                // Fetch publishable key from server
+                const response = await fetch('/config');
+                
+                if (!response.ok) {
+                    throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (!data.publishableKey) {
+                    throw new Error('Invalid or missing publishable key');
+                }
+                
+                statusDiv.innerHTML = `Successfully received publishable key: ${data.publishableKey.substring(0, 8)}...`;
+                statusDiv.style.color = 'green';
+                
+                // Try to initialize Stripe
+                const stripe = Stripe(data.publishableKey);
+                
+                statusDiv.innerHTML += '<br><br>Stripe initialized successfully!';
+            } catch (error) {
+                console.error('Error:', error);
+                statusDiv.innerHTML = `Error: ${error.message}`;
+                statusDiv.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html> 

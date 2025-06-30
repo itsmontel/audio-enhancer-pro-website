@@ -1,8 +1,13 @@
 -- Audio Enhancer Pro - Supabase Database Setup
 -- Run this in your Supabase SQL Editor
 
+<<<<<<< HEAD
 -- Note: JWT tokens are automatically managed by Supabase
 -- Your anon key is already configured in the frontend files
+=======
+-- Enable Row Level Security
+ALTER DATABASE postgres SET "app.jwt_secret" TO 'your-jwt-secret';
+>>>>>>> 88f6ddd77b9c3c5252b3dbf188619992a731782d
 
 -- Create subscriptions table
 CREATE TABLE subscriptions (
