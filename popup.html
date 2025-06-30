@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="popup.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Status Badge & Theme Toggle -->
+        <div class="status-header">
+            <div class="status-badge" id="planBadge">
+                <i class="fas fa-user"></i>
+                <span>Free Plan</span>
+            </div>
+            <div class="theme-toggle">
+                <label class="theme-switch" title="Toggle dark mode">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="theme-slider">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Master Toggle -->
+        <div class="card">
+    <div class="card-header">
+        <i class="fas fa-power-off"></i>
+        <label>Extension Status</label>
+        <label class="switch">
+            <input type="checkbox" id="masterToggle" checked>
+            <span class="slider"></span>
+        </label>
+        <!-- Add this new reset button -->
+        <button id="masterResetBtn" class="master-reset-btn" title="Reset all settings to default">
+            <i class="fas fa-undo"></i>
+        </button>
+    </div>
+</div>
+
+        <!-- Volume Control -->
+        <div class="card volume-control">
+            <div class="card-header">
+                <i class="fas fa-volume-up"></i>
+                <label>Volume Boost</label>
+                <span class="pro-feature" id="volumeProBadge">PRO</span>
+            </div>
+            <div class="card-content">
+                <input type="range" id="volumeBoost" min="100" max="150" value="100">
+                <span id="volumeValue">100%</span>
+            </div>
+        </div>
+
+        <!-- Equalizer -->
+        <div class="card equalizer">
+            <div class="card-header">
+                <i class="fas fa-sliders-h"></i>
+                <h3>Equalizer</h3>
+            </div>
+            <div class="card-content">
+                <!-- A/B Testing Controls -->
+                <div class="ab-testing">
+                    <div class="ab-label">
+                        <span id="ab-status">Enhanced Audio</span>
+                    </div>
+                    <button id="abTestButton" class="ab-button" title="Hold to hear original audio">
+                        <i class="fas fa-exchange-alt"></i> Compare Original
+                    </button>
+                </div>
+                <div class="eq-sliders">
+                    <div class="eq-band">
+                        <input type="range" class="eq-slider" data-freq="32" min="-12" max="12" value="0" step="1">
+                        <label>32Hz</label>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="eq-slider" data-freq="64" min="-12" max="12" value="0" step="1">
+                        <label>64Hz</label>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="eq-slider" data-freq="125" min="-12" max="12" value="0" step="1">
+                        <label>125Hz</label>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="eq-slider" data-freq="250" min="-12" max="12" value="0" step="1">
+                        <label>250Hz</label>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="eq-slider" data-freq="500" min="-12" max="12" value="0" step="1">
+                        <label>500Hz</label>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="eq-slider" data-freq="1k" min="-12" max="12" value="0" step="1">
+                        <label>1kHz</label>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="eq-slider" data-freq="2k" min="-12" max="12" value="0" step="1">
+                        <label>2kHz</label>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="eq-slider" data-freq="4k" min="-12" max="12" value="0" step="1">
+                        <label>4kHz</label>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="eq-slider" data-freq="8k" min="-12" max="12" value="0" step="1">
+                        <label>8kHz</label>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="eq-slider" data-freq="16k" min="-12" max="12" value="0" step="1">
+                        <label>16kHz</label>
+                    </div>
+                </div>
+                <div class="eq-controls">
+                    <button id="resetEQ" class="btn">
+                        <i class="fas fa-undo-alt"></i> Reset EQ
+                    </button>
+                </div>
+                
+                <!-- Preset Management (Updated Section) -->
+                <div class="preset-manager">
+                    <div class="preset-selector">
+                        <label for="preset-select">Presets:</label>
+                        <select id="preset-select">
+                            <option value="flat">Flat</option>
+                            <option value="bass">Bass Boost</option>
+                            <option value="vocal">Vocal Boost</option>
+                            <option value="rock">Rock</option>
+                            <option value="classical">Classical</option>
+                            <option value="podcast">Podcast</option>
+                            <option value="electronic">Electronic</option>
+                            <option value="jazz">Jazz</option>
+                            <option value="acoustic">Acoustic</option>
+                            <option value="cinema">Cinema</option>
+                            <option value="gaming">Gaming</option>
+                            <!-- Custom presets will be added here dynamically -->
+                            <option disabled>──────────</option>
+                            <option value="custom" disabled>Custom Presets</option>
+                        </select>
+                    </div>
+                    <div class="preset-buttons">
+                        <button id="savePresetBtn" class="preset-btn" title="Save current settings as preset">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                        <button id="managePresetsBtn" class="preset-btn" title="Manage saved presets">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Enhancement -->
+        <div class="card ai-enhancement pro-only">
+            <div class="card-header">
+                <i class="fas fa-magic"></i>
+                <h3>AI Enhancement</h3>
+                <span class="pro-feature">PRO</span>
+            </div>
+            <div class="card-content">
+                <div class="ai-control">
+                    <label title="Automatically removes background noise and unwanted sounds">
+                        <i class="fas fa-wave-square"></i> Noise Reduction
+                    </label>
+                    <input type="range" class="ai-slider" id="noiseReduction" min="0" max="100" value="0">
+                    <span class="value">0%</span>
+                </div>
+                <div class="ai-control">
+                    <label title="Improves voice and instrument clarity">
+                        <i class="fas fa-microphone-alt"></i> Audio Clarity
+                    </label>
+                    <input type="range" class="ai-slider" id="audioClarity" min="0" max="100" value="0">
+                    <span class="value">0%</span>
+                </div>
+                <div class="ai-control">
+                    <label title="Balances quiet and loud parts automatically">
+                        <i class="fas fa-compress-arrows-alt"></i> Dynamic Range
+                    </label>
+                    <input type="range" class="ai-slider" id="dynamicRange" min="0" max="100" value="0">
+                    <span class="value">0%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3D Spatial Audio (Updated Name) -->
+        <div class="card spatial-audio pro-only">
+            <div class="card-header">
+                <i class="fas fa-cube"></i>
+                <h3>3D Spatial Audio</h3>
+                <span class="pro-feature">PRO</span>
+            </div>
+            <div class="card-content">
+                <div class="spatial-toggle">
+                    <label for="spatialToggle">Enable 3D Spatial Audio</label>
+                    <label class="switch">
+                        <input type="checkbox" id="spatialToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="spatial-controls">
+                    <div class="control-group">
+                        <label title="Adjust the size of the simulated acoustic space">
+                            <i class="fas fa-warehouse"></i> Room Size
+                        </label>
+                        <input type="range" class="spatial-slider" id="roomSize" min="0" max="100" value="40">
+                        <span class="value">Medium</span>
+                    </div>
+
+                    <div class="control-group">
+                        <label title="Adjust the width of the stereo field">
+                            <i class="fas fa-arrows-alt-h"></i> Spatial Width
+                        </label>
+                        <input type="range" class="spatial-slider" id="spatialWidth" min="0" max="100" value="50">
+                        <span class="value">Normal</span>
+                    </div>
+
+                    <div class="preset-selector">
+                        <label for="spatial-preset">Room Preset:</label>
+                        <select id="spatial-preset">
+                            <option value="tiny-room">Tiny Room</option>
+                            <option value="small-room" selected>Small Room</option>
+                            <option value="medium-room">Medium Room</option>
+                            <option value="large-room">Large Room</option>
+                            <option value="concert-hall">Concert Hall</option>
+                            <option value="cathedral">Cathedral</option>
+                        </select>
+                    </div>
+                    <div class="control-group mode-selector">
+                        <label title="Optimize spatial audio for different content types">
+                            <i class="fas fa-compact-disc"></i> Content Type
+                        </label>
+                        <select id="spatial-mode" class="spatial-select">
+                            <option value="music">Music</option>
+                            <option value="podcast">Podcast</option>
+                            <option value="movie">Movie</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Audio Fact Card - Modified for daily-only display -->
+        <div class="card daily-fact">
+            <div class="card-header">
+                <i class="fas fa-lightbulb"></i>
+                <h3>Audio Fact of the Day</h3>
+                <span id="fact-category" class="fact-category-badge">physics</span>
+            </div>
+            <div class="card-content">
+                <p id="daily-fact-text" class="fact-text">Sound travels about 4.3 times faster in water than in air.</p>
+            </div>
+        </div>
+
+        <!-- Pro Upgrade Section -->
+        <div id="proUpgrade" class="card upgrade-section">
+            <div class="card-content">
+                <h3 id="upgradeTitle">Upgrade to Pro</h3>
+                <p id="upgradeDesc">Unlock premium features with a 7-day free trial!</p>
+
+                <div class="pro-features">
+                    <div class="pro-feature-item">
+                        <i class="fas fa-volume-up"></i>
+                        <span>Volume boost up to 500%</span>
+                    </div>
+                    <div class="pro-feature-item">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>10 professional EQ presets</span>
+                    </div>
+                    <div class="pro-feature-item">
+                        <i class="fas fa-magic"></i>
+                        <span>AI audio enhancement</span>
+                    </div>
+                    <div class="pro-feature-item">
+                        <i class="fas fa-cube"></i>
+                        <span>Immersive 3D spatial audio</span>
+                    </div>
+                </div>
+
+                <!-- Trial Section - shown during trial -->
+                <div id="trialSection">
+                    <button id="upgradeBtn" class="btn btn-primary">
+                        <i class="fas fa-crown"></i> Start 7-Day Free Trial
+                    </button>
+                    <p class="trial-note">After free trial, choose your price</p>
+                </div>
+
+                <!-- Pay What You Want Section - shown after trial -->
+                <div id="paymentSection" style="display:none;">
+                    <h4>Choose Your Price</h4>
+                    <p class="payment-note">Pay what Audio Enhancer is worth to you (min $2/month)</p>
+
+                    <div class="price-selector">
+                        <button class="price-option" data-amount="2">$2/mo</button>
+                        <button class="price-option selected" data-amount="4.99">$4.99/mo</button>
+                        <button class="price-option" data-amount="9.99">$9.99/mo</button>
+                        <button class="price-option" data-amount="custom">Custom</button>
+                    </div>
+
+                    <div id="customPriceSection" style="display:none;">
+                        <label for="customPrice">Enter amount ($2-$20):</label>
+                        <div class="custom-price-input">
+                            <span>$</span>
+                            <input type="number" id="customPrice" min="2" max="20" step="0.01" value="4.99">
+                            <span>/month</span>
+                        </div>
+                    </div>
+
+                    <button id="confirmPaymentBtn" class="btn btn-primary">
+                        <i class="fas fa-check"></i> Confirm Subscription
+                    </button>
+
+                    <p class="subscription-note">Adjust your price anytime based on your situation.</p>
+                </div>
+
+                <!-- Current Subscription Section - shown when subscribed -->
+                <div id="subscriptionSection" style="display:none;">
+                    <h4>Your Current Subscription</h4>
+                    <p class="current-plan">You're currently paying <span id="currentAmount">$4.99</span>/month</p>
+
+                    <button id="changeSubscriptionBtn" class="btn btn-secondary">
+                        <i class="fas fa-edit"></i> Change Amount
+                    </button>
+
+                    <p class="subscription-note">Need to adjust? You can increase or decrease your payment anytime.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="status" class="status"></div>
+    </div>
+
+    <!-- Save Preset Modal -->
+    <div id="savePresetModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Save Custom Preset</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="presetName">Preset Name:</label>
+                    <input type="text" id="presetName" placeholder="e.g., My Netflix Sound" maxlength="30">
+                </div>
+                <div class="preset-details">
+                    <p>This preset will save:</p>
+                    <ul class="preset-contents">
+                        <li><i class="fas fa-sliders-h"></i> Equalizer settings</li>
+                        <li><i class="fas fa-volume-up"></i> Volume level</li>
+                        <li class="pro-setting"><i class="fas fa-magic"></i> AI enhancement settings</li>
+                        <li class="pro-setting"><i class="fas fa-cube"></i> 3D spatial audio settings</li>
+                    </ul>
+                </div>
+                <div class="overwrite-warning" style="display: none;">
+                    <p><i class="fas fa-exclamation-triangle"></i> A preset with this name already exists. Saving will overwrite it.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelSavePreset" class="btn btn-cancel">Cancel</button>
+                <button id="confirmSavePreset" class="btn btn-primary">Save Preset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage Presets Modal -->
+    <div id="managePresetsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Manage Custom Presets</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="noPresetsMessage" style="display: none;">
+                    <p>You haven't saved any custom presets yet.</p>
+                </div>
+                <ul id="presetsList" class="presets-list">
+                    <!-- Presets will be added here dynamically -->
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button id="closeManagePresets" class="btn btn-primary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load JavaScript files -->
+    <script src="presets.js"></script>
+    <script src="popup.js"></script>
+    <script src="audioFacts.js"></script>
+</body>
+</html>

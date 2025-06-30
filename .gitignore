@@ -1,0 +1,40 @@
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Node.js dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Supabase local development
+supabase/.branches
+supabase/.temp
+supabase/.env
+
+# Stripe and payment-related files
+.env
+*.pem
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build output (if applicable)
+dist/
+build/
+
+# Miscellaneous
+.cache/
+.next/
+.nuxt/ 

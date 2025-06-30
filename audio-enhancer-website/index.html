@@ -1,0 +1,2717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Enhancer Pro | Transform Your Browser Into a Studio-Quality Audio Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <style>
+        :root {
+            --primary: #DC2626;
+            --primary-light: #F87171;
+            --primary-dark: #B91C1C;
+            --accent: #06D6A0;
+            --accent-dark: #059669;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --success: #10B981;
+            
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-light: #FFFFFF;
+            --text-muted: #94A3B8;
+            
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8FAFC;
+            --bg-dark: #0F172A;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            
+            --border-light: #E2E8F0;
+            --border-medium: #CBD5E1;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-glow: 0 0 50px rgba(220, 38, 38, 0.3);
+            
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 32px;
+            
+            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            opacity: 0.03;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+            opacity: 0.1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.1; }
+            90% { opacity: 0.1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all var(--transition-normal);
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header.scrolled {
+            padding: 16px 0;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 12px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width var(--transition-fast);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--text-light);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl), var(--shadow-glow);
+        }
+
+        .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--text-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-lg {
+            padding: 16px 32px;
+            font-size: 18px;
+            border-radius: var(--radius-lg);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 140px 0 100px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="g" cx="50%" cy="50%"><stop offset="0%" stop-color="%238B5CF6" stop-opacity="0.1"/><stop offset="100%" stop-color="%238B5CF6" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="300" fill="url(%23g)"/><circle cx="800" cy="800" r="400" fill="url(%23g)"/></svg>');
+            background-size: 100% 100%;
+            opacity: 0.5;
+        }
+
+        .hero-container {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 120px;
+            align-items: center;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 64px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-carousel {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            position: relative;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .hero-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            transform: perspective(1000px) rotateY(-15deg) rotateX(10deg);
+            transition: all var(--transition-slow);
+        }
+
+        .hero-image:hover {
+            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding: 0 30px;
+        }
+
+        .carousel-btn {
+            background: var(--primary);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-md);
+        }
+
+        .carousel-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .carousel-indicators {
+            display: flex;
+            gap: 12px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(220, 38, 38, 0.3);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .indicator.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+
+        .indicator:hover {
+            background: var(--primary-light);
+        }
+
+        .floating-card {
+            position: absolute;
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            padding: 20px;
+            animation: floatUpDown 6s ease-in-out infinite;
+        }
+
+        @keyframes floatUpDown {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating-card-1 {
+            top: 20%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .floating-card-2 {
+            bottom: 20%;
+            right: -10%;
+            animation-delay: 3s;
+        }
+
+        /* Social Proof Section */
+        .social-proof {
+            padding: 60px 0;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .social-proof-content {
+            text-align: center;
+        }
+
+        .social-proof-title {
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .testimonial {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+        }
+
+        .testimonial:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .author-info h4 {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .author-info p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .rating {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+        }
+
+        .star {
+            color: var(--warning);
+        }
+
+        /* Demo Section */
+        .demo {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+
+        .demo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 60px;
+        }
+
+        .demo-video {
+            position: relative;
+        }
+
+        .video-thumbnail {
+            position: relative;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            transition: all var(--transition-normal);
+        }
+
+        .video-thumbnail:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-xl), var(--shadow-glow);
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(139, 92, 246, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            backdrop-filter: blur(10px);
+        }
+
+        .play-button:hover {
+            background: var(--primary);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .audio-visualizer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            height: 40px;
+        }
+
+        .bar {
+            width: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+            animation: audioBar 1.5s ease-in-out infinite;
+        }
+
+        @keyframes audioBar {
+            0%, 100% { height: 10px; }
+            50% { height: 30px; }
+        }
+
+        .demo-features {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .demo-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .demo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .demo-content h4 {
+            margin: 0 0 8px 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .demo-content p {
+            margin: 0;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Comparison Section */
+        .comparison {
+            padding: 80px 0;
+            background: var(--bg-primary);
+        }
+
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 60px;
+        }
+
+        .comparison-side {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+            transition: all var(--transition-normal);
+        }
+
+        .comparison-side:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .comparison-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .comparison-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .comparison-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 16px;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .comparison-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .comparison-list i {
+            font-size: 14px;
+        }
+
+        .comparison-divider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .vs-badge {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: var(--shadow-xl);
+            animation: pulse 2s infinite;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 60px auto 0;
+        }
+
+        .faq-item {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: all var(--transition-normal);
+        }
+
+        .faq-item:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .faq-question {
+            padding: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all var(--transition-fast);
+        }
+
+        .faq-question:hover {
+            background: var(--bg-secondary);
+        }
+
+        .faq-question h4 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .faq-question i {
+            color: var(--primary);
+            transition: transform var(--transition-fast);
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 24px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all var(--transition-normal);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 24px 24px;
+            max-height: 200px;
+        }
+
+        .faq-answer p {
+            margin: 0;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: var(--bg-primary);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+            border: 1px solid var(--border-light);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+
+        .pricing-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            padding: 48px;
+            box-shadow: var(--shadow-xl);
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+            border: 1px solid var(--border-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+        }
+
+        .pricing-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .pricing-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .pricing-description {
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .pricing-price {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .price-currency {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .price-amount {
+            font-size: 64px;
+            font-weight: 900;
+            color: var(--text-primary);
+        }
+
+        .price-period {
+            font-size: 18px;
+            color: var(--text-secondary);
+        }
+
+        .pricing-trial {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 32px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="200" cy="200" r="300" fill="rgba(255,255,255,0.1)"/><circle cx="800" cy="800" r="400" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: 100% 100%;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .cta-subtitle {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .cta-urgency {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            margin-bottom: 32px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            
+            .hero-title {
+                font-size: 40px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                text-align: center;
+            }
+            
+            .hero {
+                padding: 120px 0 80px;
+            }
+            
+            .demo-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .comparison-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .vs-badge {
+                transform: rotate(90deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 48px;
+                margin-bottom: 32px;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+            }
+            
+            .hero-stats {
+                justify-content: center;
+                gap: 32px;
+            }
+            
+            .chrome-extension-notice {
+                padding: 20px;
+                margin-bottom: 32px;
+                gap: 16px;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg-primary);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: var(--shadow-lg);
+                transition: all var(--transition-normal);
+                opacity: 0;
+                visibility: hidden;
+            }
+            
+            .nav-links.mobile-open {
+                top: 80px;
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .mobile-menu-toggle {
+                display: block !important;
+                background: none;
+                border: none;
+                font-size: 24px;
+                color: var(--text-primary);
+                cursor: pointer;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonials {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 80px 0 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: var(--text-light);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--primary-light);
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-links a {
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all var(--transition-fast);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .newsletter-form {
+            display: flex;
+            margin-top: 16px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-md) 0 0 var(--radius-md);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            outline: none;
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .newsletter-btn {
+            padding: 12px 16px;
+            background: var(--primary);
+            border: none;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            color: white;
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .newsletter-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.5);
+            margin: 0;
+        }
+
+        .footer-badges {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-badges .badge {
+            padding: 6px 12px;
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--primary-light);
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu-toggle {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .mobile-menu-toggle:hover {
+            color: var(--primary);
+        }
+
+        /* Chrome Extension Notice */
+        .chrome-extension-notice {
+            background: linear-gradient(135deg, #4285F4 0%, #1976D2 100%);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .notice-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .notice-content i {
+            font-size: 24px;
+        }
+
+        .btn-chrome {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-chrome:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+        }
+
+        /* Modal Popup Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-normal);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            transform: scale(0.9) translateY(50px);
+            transition: all var(--transition-normal);
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all var(--transition-fast);
+        }
+
+        .modal-close:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .modal-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .modal-content h3 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin: 24px 0 12px 0;
+        }
+
+        .modal-content p {
+            margin-bottom: 16px;
+        }
+
+        .modal-content ul {
+            margin: 16px 0;
+            padding-left: 20px;
+        }
+
+        .modal-content li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-container">
+                <a href="#" class="logo">
+                    <img src="logo.png" alt="Audio Enhancer Pro">
+                    Audio Enhancer Pro
+                </a>
+                <nav class="nav">
+                    <ul class="nav-links">
+                        <li><a href="#demo">Demo</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#testimonials">Reviews</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                    </ul>
+                    <button class="mobile-menu-toggle" style="display: none;">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a href="payment-integration.html" class="btn btn-primary">
+                        Start Free Trial
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <i class="fas fa-star"></i>
+                        <span>Trusted by users worldwide</span>
+                    </div>
+                    <h1 class="hero-title">Transform Your Browser Into a Studio</h1>
+                    <p class="hero-subtitle">
+                        Experience cinema-quality audio on any website. Our advanced AI enhancement 
+                        technology turns ordinary browser audio into an extraordinary listening experience.
+                    </p>
+                    <div class="chrome-extension-notice">
+                        <div class="notice-content">
+                            <i class="fab fa-chrome"></i>
+                            <span>First, install the Chrome Extension to get started</span>
+                        </div>
+                        <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro" target="_blank" class="btn btn-chrome">
+                            <i class="fab fa-chrome"></i>
+                            Add to Chrome
+                        </a>
+                    </div>
+                    <div class="hero-cta">
+                        <a href="payment-integration.html" class="btn btn-primary btn-lg">
+                            <i class="fas fa-play"></i>
+                            Start 7-Day Free Trial
+                        </a>
+                        <a href="#demo" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-eye"></i>
+                            Watch Demo
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">4.9★</span>
+                            <span class="stat-label">User Rating</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">99%</span>
+                            <span class="stat-label">Satisfaction</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-carousel">
+                        <div class="carousel-container">
+                            <div class="carousel-slide active">
+                                <img src="main page.png" alt="Audio Enhancer Pro Main Interface" class="hero-image">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="Main Page 1.png" alt="Audio Enhancer Pro Features" class="hero-image">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="Screenshot 2025-05-18 at 03.01.16.png" alt="Audio Enhancer Pro AI Enhancement" class="hero-image">
+                            </div>
+                        </div>
+                        <div class="carousel-controls">
+                            <button class="carousel-btn prev-btn">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <div class="carousel-indicators">
+                                <span class="indicator active" data-slide="0"></span>
+                                <span class="indicator" data-slide="1"></span>
+                                <span class="indicator" data-slide="2"></span>
+                            </div>
+                            <button class="carousel-btn next-btn">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="floating-card floating-card-1">
+                        <i class="fas fa-volume-up" style="color: var(--primary); font-size: 24px;"></i>
+                    </div>
+                    <div class="floating-card floating-card-2">
+                        <i class="fas fa-magic" style="color: var(--accent); font-size: 24px;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="social-proof" id="testimonials">
+        <div class="container">
+            <div class="social-proof-content">
+                <h3 class="social-proof-title">Loved by users worldwide</h3>
+                <div class="testimonials">
+                    <div class="testimonial">
+                        <p class="testimonial-content">
+                            "This extension completely transformed my Netflix experience. The audio clarity is incredible!"
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">M</div>
+                            <div class="author-info">
+                                <h4>Michael Chen</h4>
+                                <p>Content Creator</p>
+                                <div class="rating">
+                                    <i class="fas fa-star star"></i>
+                                    <i class="fas fa-star star"></i>
+                                    <i class="fas fa-star star"></i>
+                                    <i class="fas fa-star star"></i>
+                                    <i class="fas fa-star star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial">
+                        <p class="testimonial-content">
+                            "Finally, an audio enhancer that actually works. My music streaming sounds professional now."
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">S</div>
+                            <div class="author-info">
+                                <h4>Sarah Johnson</h4>
+                                <p>Music Producer</p>
+                                <div class="rating">
+                                    <i class="fas fa-star star"></i>
+                                    <i class="fas fa-star star"></i>
+                                    <i class="fas fa-star star"></i>
+                                    <i class="fas fa-star star"></i>
+                                    <i class="fas fa-star star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial">
+                        <p class="testimonial-content">
+                            "Game-changer for online meetings and calls. Crystal clear audio quality every time."
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">D</div>
+                            <div class="author-info">
+                                <h4>David Rodriguez</h4>
+                                <p>Remote Worker</p>
+                                <div class="rating">
+                                    <i class="fas fa-star star"></i>
+                                    <i class="fas fa-star star"></i>
+                                    <i class="fas fa-star star"></i>
+                                    <i class="fas fa-star star"></i>
+                                    <i class="fas fa-star star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="demo" id="demo">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Experience</span>
+                <h2 class="section-title">See Audio Enhancer Pro in Action</h2>
+                <p class="section-subtitle">
+                    Watch how our extension transforms ordinary audio into an extraordinary listening experience.
+                </p>
+            </div>
+            <div class="demo-container">
+                <div class="demo-video">
+                    <div class="video-thumbnail">
+                        <img src="Screenshot 2025-05-18 at 02.57.20.png" alt="Audio Enhancement Demo">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="video-overlay">
+                            <div class="audio-visualizer">
+                                <div class="bar" style="animation-delay: 0s;"></div>
+                                <div class="bar" style="animation-delay: 0.1s;"></div>
+                                <div class="bar" style="animation-delay: 0.2s;"></div>
+                                <div class="bar" style="animation-delay: 0.3s;"></div>
+                                <div class="bar" style="animation-delay: 0.4s;"></div>
+                                <div class="bar" style="animation-delay: 0.5s;"></div>
+                                <div class="bar" style="animation-delay: 0.6s;"></div>
+                                <div class="bar" style="animation-delay: 0.7s;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-features">
+                    <div class="demo-feature">
+                        <div class="demo-icon">
+                            <i class="fas fa-waveform-lines"></i>
+                        </div>
+                        <div class="demo-content">
+                            <h4>Real-time Processing</h4>
+                            <p>Watch audio waveforms transform instantly as our AI enhances every frequency.</p>
+                        </div>
+                    </div>
+                    <div class="demo-feature">
+                        <div class="demo-icon">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <div class="demo-content">
+                            <h4>Immersive Experience</h4>
+                            <p>Spatial audio creates a 3D soundscape that surrounds you completely.</p>
+                        </div>
+                    </div>
+                    <div class="demo-feature">
+                        <div class="demo-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <div class="demo-content">
+                            <h4>One-Click Magic</h4>
+                            <p>Simply click the extension icon and experience the transformation instantly.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Features</span>
+                <h2 class="section-title">Studio-Quality Audio Technology</h2>
+                <p class="section-subtitle">
+                    Advanced AI-powered audio enhancement that transforms any browser audio into a premium listening experience.
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title">AI Audio Enhancement</h3>
+                    <p class="feature-description">
+                        Our cutting-edge AI algorithms analyze and enhance audio in real-time, delivering crystal-clear sound quality.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3 class="feature-title">Professional EQ Controls</h3>
+                    <p class="feature-description">
+                        Fine-tune your audio with professional-grade equalizer controls and preset configurations.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Spatial Audio</h3>
+                    <p class="feature-description">
+                        Immersive 3D audio technology that creates a surround sound experience from any stereo source.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Privacy First</h3>
+                    <p class="feature-description">
+                        All audio processing happens locally in your browser. Your data never leaves your device.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Instant Activation</h3>
+                    <p class="feature-description">
+                        One-click activation on any website. Works seamlessly with all major streaming platforms.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync"></i>
+                    </div>
+                    <h3 class="feature-title">Cloud Sync</h3>
+                    <p class="feature-description">
+                        Your settings sync across all devices, ensuring a consistent audio experience everywhere.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section class="comparison">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Comparison</span>
+                <h2 class="section-title">Before vs After Audio Enhancement</h2>
+                <p class="section-subtitle">
+                    Experience the dramatic difference our audio enhancement makes to your listening experience.
+                </p>
+            </div>
+            <div class="comparison-container">
+                <div class="comparison-side">
+                    <h3 class="comparison-title">
+                        <i class="fas fa-times-circle" style="color: var(--error);"></i>
+                        Before Enhancement
+                    </h3>
+                    <ul class="comparison-list">
+                        <li><i class="fas fa-times"></i> Muffled audio quality</li>
+                        <li><i class="fas fa-times"></i> Limited frequency range</li>
+                        <li><i class="fas fa-times"></i> Flat, lifeless sound</li>
+                        <li><i class="fas fa-times"></i> Poor dialogue clarity</li>
+                        <li><i class="fas fa-times"></i> Inconsistent volume levels</li>
+                    </ul>
+                </div>
+                <div class="comparison-divider">
+                    <div class="vs-badge">VS</div>
+                </div>
+                <div class="comparison-side">
+                    <h3 class="comparison-title">
+                        <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                        After Enhancement
+                    </h3>
+                    <ul class="comparison-list">
+                        <li><i class="fas fa-check"></i> Crystal-clear audio quality</li>
+                        <li><i class="fas fa-check"></i> Full spectrum frequency response</li>
+                        <li><i class="fas fa-check"></i> Rich, immersive soundscape</li>
+                        <li><i class="fas fa-check"></i> Perfect dialogue clarity</li>
+                        <li><i class="fas fa-check"></i> Optimized volume levels</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">FAQ</span>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">
+                    Everything you need to know about Audio Enhancer Pro.
+                </p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>How does Audio Enhancer Pro work?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Audio Enhancer Pro uses advanced AI algorithms to analyze audio in real-time, applying sophisticated digital signal processing techniques to enhance clarity, depth, and spatial positioning. All processing happens locally in your browser for maximum privacy and performance.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Which websites does it work on?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Audio Enhancer Pro works on all major streaming platforms including Netflix, YouTube, Spotify, Apple Music, Amazon Prime Video, Disney+, and virtually any website that plays audio or video content.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Can I cancel my subscription anytime?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! You can cancel your subscription at any time through your account dashboard. There are no long-term commitments or cancellation fees. Your enhanced audio experience will continue until the end of your current billing period.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Does it affect browser performance?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Audio Enhancer Pro is optimized for minimal resource usage. Our efficient algorithms process audio without impacting your browser's performance or battery life. Most users notice no difference in system performance.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Is my data secure and private?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely. All audio processing happens locally on your device. We never access, store, or transmit your audio data. Your listening habits and preferences remain completely private.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Pricing</span>
+                <h2 class="section-title">Start Your Audio Journey</h2>
+                <p class="section-subtitle">
+                    Transform your browser audio experience with our premium features. Cancel anytime.
+                </p>
+            </div>
+            <div class="pricing-card">
+                <span class="pricing-badge">Most Popular</span>
+                <h3 class="pricing-title">Audio Enhancer Pro</h3>
+                <p class="pricing-description">
+                    Unlock the full potential of your browser audio with our complete suite of professional tools.
+                </p>
+                <div class="pricing-price">
+                    <span class="price-currency">$</span>
+                    <span class="price-amount">4.99</span>
+                    <span class="price-period">/month</span>
+                </div>
+                <p class="pricing-trial">7-day free trial • Cancel anytime</p>
+                <ul class="pricing-features">
+                    <li>AI-Powered Audio Enhancement</li>
+                    <li>Professional EQ Controls</li>
+                    <li>Spatial 3D Audio</li>
+                    <li>Cross-Device Sync</li>
+                    <li>Premium Audio Presets</li>
+                    <li>Priority Support</li>
+                    <li>Unlimited Usage</li>
+                </ul>
+                <div class="pricing-cta">
+                    <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro" target="_blank" class="btn btn-chrome btn-lg" style="width: 100%; margin-bottom: 16px;">
+                        <i class="fab fa-chrome"></i>
+                        1. Install Chrome Extension
+                    </a>
+                    <a href="payment-integration.html" class="btn btn-primary btn-lg" style="width: 100%;">
+                        <i class="fas fa-rocket"></i>
+                        2. Start Free Trial
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <div class="cta-urgency">
+                    <i class="fas fa-fire"></i>
+                    <span>Limited Time: 7-Day Free Trial</span>
+                </div>
+                <h2 class="cta-title">Ready to Transform Your Audio?</h2>
+                <p class="cta-subtitle">
+                    Join thousands of users who have already upgraded their browser audio experience.
+                </p>
+                <div class="cta-buttons">
+                    <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro" target="_blank" class="btn btn-chrome btn-lg" style="margin-right: 16px;">
+                        <i class="fab fa-chrome"></i>
+                        Install Extension First
+                    </a>
+                    <a href="payment-integration.html" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-play"></i>
+                        Then Start Trial
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="logo.png" alt="Audio Enhancer Pro" height="32">
+                        <span>Audio Enhancer Pro</span>
+                    </div>
+                    <p class="footer-description">
+                        Transform your browser into a studio-quality audio experience with our cutting-edge AI technology.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#demo">Demo</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="account.html">Account</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#" data-popup="help">Help Center</a></li>
+                        <li><a href="#" data-popup="contact">Contact Us</a></li>
+                        <li><a href="#" data-popup="bugs">Bug Reports</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#" data-popup="about">About Us</a></li>
+                        <li><a href="#" data-popup="privacy">Privacy Policy</a></li>
+                        <li><a href="#" data-popup="terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Stay updated with the latest features and audio tips.</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" class="newsletter-input">
+                        <button type="submit" class="newsletter-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Audio Enhancer Pro. All rights reserved.</p>
+                <div class="footer-badges">
+                    <span class="badge">Chrome Web Store</span>
+                    <span class="badge">Trusted by Users Worldwide</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Popups -->
+    <div class="modal-overlay" id="modal-about">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">About Audio Enhancer Pro</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-content">
+                <p>Audio Enhancer Pro is a cutting-edge Chrome extension that transforms your browser's audio experience using advanced AI technology.</p>
+                
+                <h3>Our Mission</h3>
+                <p>To provide every internet user with studio-quality audio enhancement, making content consumption more enjoyable and immersive.</p>
+                
+                <h3>Technology</h3>
+                <p>We use proprietary AI algorithms and digital signal processing to enhance audio in real-time, all while maintaining your privacy by processing everything locally on your device.</p>
+                
+                <h3>Team</h3>
+                <p>Our team consists of audio engineers, software developers, and UX designers passionate about delivering the best audio experience possible.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-privacy">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Privacy Policy</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-content">
+                <p><strong>Last updated:</strong> January 2025</p>
+                
+                <h3>Data Collection</h3>
+                <p>Audio Enhancer Pro respects your privacy. We do not collect, store, or transmit any audio data. All audio processing happens locally on your device.</p>
+                
+                <h3>Information We Collect</h3>
+                <ul>
+                    <li>Account information (email, subscription status)</li>
+                    <li>Usage analytics (anonymous)</li>
+                    <li>Error reports (for improvement purposes)</li>
+                </ul>
+                
+                <h3>How We Use Information</h3>
+                <ul>
+                    <li>To provide and improve our service</li>
+                    <li>To process payments and manage subscriptions</li>
+                    <li>To send important service updates</li>
+                </ul>
+                
+                <h3>Data Security</h3>
+                <p>We implement industry-standard security measures to protect your personal information. Your audio data never leaves your browser.</p>
+                
+                <h3>Contact</h3>
+                <p>For privacy-related questions, contact us at privacy@audioenhancerpro.com</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-terms">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Terms of Service</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-content">
+                <p><strong>Last updated:</strong> January 2025</p>
+                
+                <h3>Service Agreement</h3>
+                <p>By using Audio Enhancer Pro, you agree to these terms. The service is provided as-is with a 7-day free trial period.</p>
+                
+                <h3>Subscription</h3>
+                <ul>
+                    <li>Monthly subscription at $4.99/month</li>
+                    <li>7-day free trial for new users</li>
+                    <li>Cancel anytime through your account dashboard</li>
+                    <li>No refunds for partial months</li>
+                </ul>
+                
+                <h3>Acceptable Use</h3>
+                <ul>
+                    <li>Use the extension only for personal, non-commercial purposes</li>
+                    <li>Do not attempt to reverse engineer or modify the software</li>
+                    <li>Respect copyright laws when enhancing audio content</li>
+                </ul>
+                
+                <h3>Limitation of Liability</h3>
+                <p>Audio Enhancer Pro is provided "as is" without warranties. We are not liable for any damages arising from use of the service.</p>
+                
+                <h3>Termination</h3>
+                <p>We may terminate accounts for violation of these terms. You may cancel your subscription at any time.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-help">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Help Center</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-content">
+                <h3>Getting Started</h3>
+                <ul>
+                    <li>Install the Chrome extension from the Chrome Web Store</li>
+                    <li>Sign up for your free trial</li>
+                    <li>Click the extension icon on any website with audio</li>
+                    <li>Enjoy enhanced audio quality!</li>
+                </ul>
+                
+                <h3>Common Issues</h3>
+                <p><strong>Audio not enhancing:</strong> Make sure the extension is enabled and you have an active subscription.</p>
+                <p><strong>Can't hear difference:</strong> Try adjusting your device volume and ensuring good audio equipment.</p>
+                <p><strong>Extension not working:</strong> Refresh the page and ensure you're on a supported website.</p>
+                
+                <h3>Supported Websites</h3>
+                <ul>
+                    <li>YouTube</li>
+                    <li>Netflix</li>
+                    <li>Spotify Web Player</li>
+                    <li>Most other audio/video websites</li>
+                </ul>
+                
+                <h3>Need More Help?</h3>
+                <p>Contact our support team at support@audioenhancerpro.com for personalized assistance.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-contact">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Contact Us</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-content">
+                <h3>Get in Touch</h3>
+                <p>We'd love to hear from you! Reach out to us through any of the following channels:</p>
+                
+                <h3>Support</h3>
+                <p><strong>Email:</strong> support@audioenhancerpro.com</p>
+                <p><strong>Response Time:</strong> Usually within 24 hours</p>
+                
+                <h3>Business Inquiries</h3>
+                <p><strong>Email:</strong> business@audioenhancerpro.com</p>
+                
+                <h3>Press & Media</h3>
+                <p><strong>Email:</strong> press@audioenhancerpro.com</p>
+                
+                <h3>Social Media</h3>
+                <ul>
+                    <li>Twitter: @AudioEnhancerPro</li>
+                    <li>Facebook: Audio Enhancer Pro</li>
+                    <li>LinkedIn: Audio Enhancer Pro</li>
+                </ul>
+                
+                <h3>Office Hours</h3>
+                <p>Monday - Friday: 9:00 AM - 6:00 PM PST<br>
+                Weekend: Limited support available</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-bugs">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Bug Reports</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-content">
+                <h3>Report a Bug</h3>
+                <p>Help us improve Audio Enhancer Pro by reporting any issues you encounter.</p>
+                
+                <h3>Before Reporting</h3>
+                <ul>
+                    <li>Make sure you have the latest version of the extension</li>
+                    <li>Try refreshing the page</li>
+                    <li>Check if the issue occurs on multiple websites</li>
+                    <li>Disable other browser extensions temporarily</li>
+                </ul>
+                
+                <h3>What to Include</h3>
+                <ul>
+                    <li>Detailed description of the issue</li>
+                    <li>Steps to reproduce the problem</li>
+                    <li>Website where the issue occurred</li>
+                    <li>Browser version and operating system</li>
+                    <li>Screenshots or screen recordings (if applicable)</li>
+                </ul>
+                
+                <h3>Report Methods</h3>
+                <p><strong>Email:</strong> bugs@audioenhancerpro.com</p>
+                <p><strong>Subject Line:</strong> [Bug Report] Brief description</p>
+                
+                <h3>Response Time</h3>
+                <p>We typically acknowledge bug reports within 48 hours and provide status updates as we investigate.</p>
+                
+                <p><strong>Thank you for helping us improve Audio Enhancer Pro!</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Create floating particles
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 6 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDuration = Math.random() * 20 + 15 + 's';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        // Initialize particles
+        createParticles();
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all feature cards and testimonials
+        document.querySelectorAll('.feature-card, .testimonial, .demo-feature, .faq-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+
+        // FAQ Toggle functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const faqItem = this.parentElement;
+                const isActive = faqItem.classList.contains('active');
+                
+                // Close all other FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Toggle current item
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+
+        // Video play button functionality
+        const playButton = document.querySelector('.play-button');
+        if (playButton) {
+            playButton.addEventListener('click', function() {
+                // Add visual effect when clicked
+                this.style.transform = 'translate(-50%, -50%) scale(0.9)';
+                setTimeout(() => {
+                    this.style.transform = 'translate(-50%, -50%) scale(1.1)';
+                }, 150);
+                setTimeout(() => {
+                    this.style.transform = 'translate(-50%, -50%) scale(1)';
+                }, 300);
+            });
+        }
+
+        // Smooth parallax effect for hero section
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const heroImage = document.querySelector('.hero-image');
+            const floatingCards = document.querySelectorAll('.floating-card');
+            
+            if (heroImage && scrolled < window.innerHeight) {
+                heroImage.style.transform = `perspective(1000px) rotateY(-15deg) rotateX(10deg) translateY(${scrolled * 0.3}px)`;
+            }
+            
+            floatingCards.forEach((card, index) => {
+                const speed = 0.2 + (index * 0.1);
+                card.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Add typing effect to hero title
+        const heroTitle = document.querySelector('.hero-title');
+        if (heroTitle) {
+            const text = heroTitle.textContent;
+            heroTitle.textContent = '';
+            let i = 0;
+            
+            const typeWriter = () => {
+                if (i < text.length) {
+                    heroTitle.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                }
+            };
+            
+            // Start typing effect after a short delay
+            setTimeout(typeWriter, 1000);
+        }
+
+        // Update counter animation to handle "Many" text  
+        animateCounters = () => {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = counter.textContent;
+                if (target === 'Many') {
+                    // Simple fade-in effect for "Many"
+                    counter.style.opacity = '0';
+                    setTimeout(() => {
+                        counter.style.transition = 'opacity 1s ease';
+                        counter.style.opacity = '1';
+                    }, 500);
+                } else {
+                    const numericTarget = parseInt(target.replace(/[^\d]/g, ''));
+                    let current = 0;
+                    const increment = numericTarget / 50;
+                    
+                    const updateCounter = () => {
+                        if (current < numericTarget) {
+                            current += increment;
+                            if (target.includes('★')) {
+                                counter.textContent = (current / 10).toFixed(1) + '★';
+                            } else if (target.includes('%')) {
+                                counter.textContent = Math.ceil(current) + '%';
+                            }
+                            requestAnimationFrame(updateCounter);
+                        }
+                    };
+                    updateCounter();
+                }
+            });
+        };
+
+        // Trigger counter animation when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        const heroStats = document.querySelector('.hero-stats');
+        if (heroStats) {
+            statsObserver.observe(heroStats);
+        }
+
+        // Mobile menu functionality
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (mobileMenuToggle && navLinks) {
+            mobileMenuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('mobile-open');
+                
+                // Change icon
+                const icon = this.querySelector('i');
+                if (navLinks.classList.contains('mobile-open')) {
+                    icon.className = 'fas fa-times';
+                } else {
+                    icon.className = 'fas fa-bars';
+                }
+            });
+            
+            // Close mobile menu when clicking on a link
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    navLinks.classList.remove('mobile-open');
+                    const icon = mobileMenuToggle.querySelector('i');
+                    icon.className = 'fas fa-bars';
+                });
+            });
+        }
+
+        // Newsletter form functionality
+        const newsletterForm = document.querySelector('.newsletter-form');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('.newsletter-input').value;
+                if (email) {
+                    // Show success message
+                    const btn = this.querySelector('.newsletter-btn');
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-check"></i>';
+                    btn.style.background = 'var(--success)';
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.style.background = 'var(--primary)';
+                        this.querySelector('.newsletter-input').value = '';
+                    }, 2000);
+                }
+            });
+        }
+
+        // Add loading states to CTA buttons
+        document.querySelectorAll('a[href="payment-integration.html"]').forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (!this.classList.contains('loading')) {
+                    this.classList.add('loading');
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                    
+                    // Remove loading state after navigation (for visual feedback)
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.classList.remove('loading');
+                    }, 1000);
+                }
+            });
+        });
+
+        // Hero Carousel functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            // Remove active class from all slides and indicators
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+            
+            // Add active class to current slide and indicator
+            slides[index].classList.add('active');
+            indicators[index].classList.add('active');
+            
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            const next = (currentSlide + 1) % totalSlides;
+            showSlide(next);
+        }
+
+        function prevSlide() {
+            const prev = (currentSlide - 1 + totalSlides) % totalSlides;
+            showSlide(prev);
+        }
+
+        // Event listeners for carousel controls
+        document.querySelector('.next-btn').addEventListener('click', nextSlide);
+        document.querySelector('.prev-btn').addEventListener('click', prevSlide);
+
+        // Event listeners for indicators
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => showSlide(index));
+        });
+
+        // Auto-play carousel (every 10 seconds)
+        setInterval(nextSlide, 10000);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+            }
+        });
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const carousel = document.querySelector('.carousel-container');
+
+        carousel.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        carousel.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swiped left, show next slide
+                    nextSlide();
+                } else {
+                    // Swiped right, show previous slide
+                    prevSlide();
+                }
+            }
+        }
+
+        // Modal functionality
+        const modals = {
+            about: document.getElementById('modal-about'),
+            privacy: document.getElementById('modal-privacy'),
+            terms: document.getElementById('modal-terms'),
+            help: document.getElementById('modal-help'),
+            contact: document.getElementById('modal-contact'),
+            bugs: document.getElementById('modal-bugs')
+        };
+
+        // Open modal function
+        function openModal(modalId) {
+            const modal = modals[modalId];
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Close modal function
+        function closeModal(modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Add click listeners for popup links
+        document.querySelectorAll('[data-popup]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const popupType = this.getAttribute('data-popup');
+                openModal(popupType);
+            });
+        });
+
+        // Add click listeners for modal close buttons
+        document.querySelectorAll('.modal-close').forEach(closeBtn => {
+            closeBtn.addEventListener('click', function() {
+                const modal = this.closest('.modal-overlay');
+                closeModal(modal);
+            });
+        });
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal(this);
+                }
+            });
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const activeModal = document.querySelector('.modal-overlay.active');
+                if (activeModal) {
+                    closeModal(activeModal);
+                }
+            }
+        });
+
+
+    </script>
+
+    <!-- Mobile Responsive CSS for Chrome Extension Notice -->
+    <style>
+        @media (max-width: 768px) {
+            .chrome-extension-notice {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+            
+            .notice-content {
+                justify-content: center;
+            }
+            
+            .btn-chrome {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .carousel-controls {
+                padding: 0 10px;
+            }
+            
+            .carousel-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</body>
+</html> 

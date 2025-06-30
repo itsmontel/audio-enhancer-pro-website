@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Enhancer Pro - Integration Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #007cba;
+        }
+        .success { border-left-color: #28a745; }
+        .warning { border-left-color: #ffc107; }
+        .error { border-left-color: #dc3545; }
+        button {
+            background: #007cba;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #005a8b; }
+        .log {
+            background: #000;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+            min-height: 100px;
+            overflow-y: auto;
+        }
+        input, select {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Audio Enhancer Pro - Stripe Integration Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Extension Detection</h2>
+        <p>This test checks if the Chrome extension is installed and can communicate.</p>
+        <button onclick="testExtensionDetection()">Test Extension Detection</button>
+        <div id="extension-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Payment Simulation</h2>
+        <p>Simulate the payment flow to test extension communication.</p>
+        <label>Extension ID: <input type="text" id="extensionId" placeholder="Extension ID (auto-filled if detected)"></label><br>
+        <label>Session ID: <input type="text" id="sessionId" value="test_session_123"></label><br>
+        <label>Amount: <input type="number" id="amount" value="4.99" step="0.01"></label><br>
+        <button onclick="simulatePaymentSuccess()">Simulate Payment Success</button>
+        <button onclick="simulatePaymentFailure()">Simulate Payment Failure</button>
+        <div id="payment-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. URL Parameter Test</h2>
+        <p>Test the URL parameter parsing that the extension uses.</p>
+        <button onclick="testUrlParameters()">Generate Test URL</button>
+        <div id="url-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Console Log</h2>
+        <p>Real-time log of test results and communication attempts.</p>
+        <button onclick="clearLog()">Clear Log</button>
+        <div id="console-log" class="log"></div>
+    </div>
+
+    <script>
+        let logElement = document.getElementById('console-log');
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#f00' : type === 'success' ? '#0f0' : '#0ff';
+            logElement.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(`[TEST] ${message}`);
+        }
+
+        function clearLog() {
+            logElement.innerHTML = '';
+            log('Log cleared');
+        }
+
+        async function testExtensionDetection() {
+            log('Testing extension detection...');
+            const resultDiv = document.getElementById('extension-result');
+            
+            try {
+                // Try to detect if we can access chrome.runtime
+                if (typeof chrome !== 'undefined' && chrome.runtime) {
+                    log('Chrome runtime API available', 'success');
+                    resultDiv.innerHTML = '<span style="color: green;">✓ Chrome runtime API available</span>';
+                    
+                    // Try to get extension IDs from the URL or detect current extension
+                    if (window.location.search.includes('extension=')) {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const extId = urlParams.get('extension').replace('chrome-extension://', '');
+                        document.getElementById('extensionId').value = extId;
+                        log(`Extension ID found in URL: ${extId}`, 'success');
+                    }
+                } else {
+                    log('Chrome runtime API not available', 'error');
+                    resultDiv.innerHTML = '<span style="color: red;">✗ Chrome runtime API not available (this page needs to be accessed from an extension context)</span>';
+                }
+            } catch (error) {
+                log(`Extension detection error: ${error.message}`, 'error');
+                resultDiv.innerHTML = `<span style="color: red;">✗ Error: ${error.message}</span>`;
+            }
+        }
+
+        function simulatePaymentSuccess() {
+            log('Simulating payment success...');
+            const extensionId = document.getElementById('extensionId').value;
+            const sessionId = document.getElementById('sessionId').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            
+            if (!extensionId) {
+                log('Extension ID required for testing', 'error');
+                return;
+            }
+
+            const paymentData = {
+                sessionId: sessionId,
+                amount: amount,
+                paymentIntentId: 'pi_test_' + Math.random().toString(36).substr(2, 9),
+                timestamp: Date.now()
+            };
+
+            log(`Sending payment success to extension: ${extensionId}`);
+            log(`Payment data: ${JSON.stringify(paymentData)}`);
+
+            try {
+                chrome.runtime.sendMessage(extensionId, {
+                    type: 'PAYMENT_SUCCESS',
+                    data: paymentData
+                }, function(response) {
+                    if (chrome.runtime.lastError) {
+                        log(`Extension communication error: ${chrome.runtime.lastError.message}`, 'error');
+                        document.getElementById('payment-result').innerHTML = 
+                            `<span style="color: red;">✗ Error: ${chrome.runtime.lastError.message}</span>`;
+                    } else {
+                        log('Payment success message sent successfully', 'success');
+                        log(`Extension response: ${JSON.stringify(response)}`, 'success');
+                        document.getElementById('payment-result').innerHTML = 
+                            '<span style="color: green;">✓ Payment success message sent</span>';
+                    }
+                });
+            } catch (error) {
+                log(`Error sending message: ${error.message}`, 'error');
+                document.getElementById('payment-result').innerHTML = 
+                    `<span style="color: red;">✗ Error: ${error.message}</span>`;
+            }
+        }
+
+        function simulatePaymentFailure() {
+            log('Simulating payment failure...');
+            const extensionId = document.getElementById('extensionId').value;
+            const sessionId = document.getElementById('sessionId').value;
+            
+            if (!extensionId) {
+                log('Extension ID required for testing', 'error');
+                return;
+            }
+
+            const failureData = {
+                sessionId: sessionId,
+                error: 'Test payment failure',
+                code: 'card_declined',
+                timestamp: Date.now()
+            };
+
+            log(`Sending payment failure to extension: ${extensionId}`);
+            log(`Failure data: ${JSON.stringify(failureData)}`);
+
+            try {
+                chrome.runtime.sendMessage(extensionId, {
+                    type: 'PAYMENT_FAILED',
+                    data: failureData
+                }, function(response) {
+                    if (chrome.runtime.lastError) {
+                        log(`Extension communication error: ${chrome.runtime.lastError.message}`, 'error');
+                        document.getElementById('payment-result').innerHTML = 
+                            `<span style="color: red;">✗ Error: ${chrome.runtime.lastError.message}</span>`;
+                    } else {
+                        log('Payment failure message sent successfully', 'success');
+                        log(`Extension response: ${JSON.stringify(response)}`, 'success');
+                        document.getElementById('payment-result').innerHTML = 
+                            '<span style="color: orange;">✓ Payment failure message sent</span>';
+                    }
+                });
+            } catch (error) {
+                log(`Error sending message: ${error.message}`, 'error');
+                document.getElementById('payment-result').innerHTML = 
+                    `<span style="color: red;">✗ Error: ${error.message}</span>`;
+            }
+        }
+
+        function testUrlParameters() {
+            log('Generating test URL parameters...');
+            const extensionId = document.getElementById('extensionId').value || 'your_extension_id_here';
+            const sessionId = 'test_' + Date.now();
+            const amount = document.getElementById('amount').value;
+            
+            const testUrl = `${window.location.origin}${window.location.pathname}?` +
+                `session=${sessionId}&` +
+                `extension=chrome-extension://${extensionId}&` +
+                `amount=${amount}&` +
+                `return=extension`;
+            
+            log(`Generated test URL: ${testUrl}`);
+            
+            document.getElementById('url-result').innerHTML = 
+                `<p><strong>Test URL:</strong></p>
+                 <p style="word-break: break-all; background: #f0f0f0; padding: 10px; border-radius: 4px;">
+                     ${testUrl}
+                 </p>
+                 <p><button onclick="window.location.href='${testUrl}'">Navigate to Test URL</button></p>`;
+        }
+
+        // Auto-run extension detection when page loads
+        window.addEventListener('load', function() {
+            log('Page loaded, starting tests...');
+            testExtensionDetection();
+            
+            // Parse any existing URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('session')) {
+                log(`Found session parameter: ${urlParams.get('session')}`);
+                document.getElementById('sessionId').value = urlParams.get('session');
+            }
+            if (urlParams.get('amount')) {
+                log(`Found amount parameter: ${urlParams.get('amount')}`);
+                document.getElementById('amount').value = urlParams.get('amount');
+            }
+        });
+    </script>
+</body>
+</html> 
