@@ -606,7 +606,7 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script>
 <<<<<<< HEAD
-        const stripe = Stripe('pk_live_51QzAYmDfCjeex4FCj1b6Veo22a9TfBIM2s4kYv6poh9Ab1jQYrF4t22D5sgqYh1bNm8s5L9S6s4kYv6poh9Ab1jQ'); // Replace with your publishable key
+        const stripe = Stripe('pk_live_YOUR_STRIPE_PUBLISHABLE_KEY'); // Replace with your Stripe publishable key
 
 =======
         // Parse URL parameters
@@ -623,7 +623,7 @@
         }
         
         // Initialize Stripe with your publishable key
-        const stripe = Stripe('pk_test_51QzAYmDfCjeex4FCvH1UVJS5LtOL1GNoUVDdbLZUqq3d0SoKCXJCt21DqzUmdMRCXZCWmGz0SqQJAuybLFWu4k5y00DHvH1qLy');
+        const stripe = Stripe('pk_test_YOUR_STRIPE_TEST_KEY'); // Replace with your Stripe test key
         const elements = stripe.elements();
 
         // Create card Element and mount it
@@ -703,7 +703,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kbGN4YmxyaHpzdHVvb3Nhd2VhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTk3NzI0MDAsImV4cCI6MjAzNTM0ODQwMH0.HHYHCa_1xgOe_6sPwvPZar6i_G4i2Uv_i_L9xGAn94I'
+                        'Authorization': 'Bearer YOUR_SUPABASE_ANON_KEY' // Replace with your Supabase anon key
                     },
                     body: JSON.stringify({ priceId: 'price_1R1UvLDfCjeex4FCmONW5936' })
                 });
