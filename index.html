@@ -293,13 +293,28 @@
             position: relative;
         }
 
+        .hero-image {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+        }
+
         .hero-image img {
             width: 100%;
             max-width: 600px;
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow-strong);
             transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
-            transition: all var(--transition-slow);
+            transition: transform var(--transition-slow), opacity 1s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+        }
+
+        .hero-image img.active {
+            opacity: 1;
+            position: relative;
         }
 
         .hero-image img:hover {
@@ -1198,7 +1213,8 @@
                 </div>
             </div>
             <div class="hero-image">
-                <img src="images/audiowebsitepic.png" alt="Audio Enhancer Pro Interface">
+                <img src="images/audiowebsitepic.png" alt="Audio Enhancer Pro Interface" class="hero-img active" id="hero-img-1">
+                <img src="images/audiowebsitepic1.png" alt="Audio Enhancer Pro Interface" class="hero-img" id="hero-img-2">
                 <div class="decorative-circle circle-1"></div>
                 <div class="decorative-circle circle-2"></div>
             </div>
@@ -1901,6 +1917,33 @@
                 document.body.style.overflow = 'auto';
             }
         });
+
+        // Hero image carousel animation
+        const heroImages = document.querySelectorAll('.hero-img');
+        let currentImageIndex = 0;
+
+        function switchHeroImage() {
+            // Remove active class from current image
+            heroImages[currentImageIndex].classList.remove('active');
+            
+            // Move to next image
+            currentImageIndex = (currentImageIndex + 1) % heroImages.length;
+            
+            // Add active class to new image with a slight delay for smooth transition
+            setTimeout(() => {
+                heroImages[currentImageIndex].classList.add('active');
+            }, 50);
+        }
+
+        // Start the image rotation after page load
+        if (heroImages.length > 1) {
+            // Initial delay before first switch
+            setTimeout(() => {
+                switchHeroImage();
+                // Then switch every 5 seconds
+                setInterval(switchHeroImage, 5000);
+            }, 5000);
+        }
 
     </script>
     
