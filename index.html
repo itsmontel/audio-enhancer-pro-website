@@ -10,8 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="images/image-styles.css">
-    <!-- Stripe.js -->
-    <script src="https://js.stripe.com/v3/"></script>
     <style>
         :root {
             --primary: #D32F2F;
@@ -855,7 +853,7 @@
             color: var(--text-secondary);
         }
 
-        /* Payment Modal */
+        /* Modal */
         .modal {
             position: fixed;
             top: 0;
@@ -916,11 +914,6 @@
             text-align: center;
         }
 
-        .payment-form {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-        }
 
         .form-group {
             display: flex;
@@ -946,39 +939,7 @@
             border-color: var(--primary);
         }
 
-        .card-element {
-            padding: 1rem;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: var(--border-radius);
-            background-color: var(--bg-secondary);
-        }
 
-        .payment-summary {
-            background-color: var(--bg-secondary);
-            padding: var(--spacing-md);
-            border-radius: var(--border-radius);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .payment-details {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .payment-total {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 700;
-            padding-top: var(--spacing-xs);
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            margin-top: var(--spacing-xs);
-        }
-
-        .payment-note {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            text-align: center;
             margin-top: var(--spacing-sm);
         }
 
@@ -1213,12 +1174,11 @@
                     <ul class="nav-links">
                         <li><a href="#features">Features</a></li>
                         <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="#pricing">Pricing</a></li>
                         <li><a href="/comparison">Compare Features</a></li>
                         <li><a href="#faq">FAQ</a></li>
                     </ul>
                 </nav>
-                <a href="#pricing" class="btn cta-button">Get Started</a>
+                <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn cta-button" target="_blank">Download Free</a>
                 <div class="mobile-menu-toggle">
                     <i class="fas fa-bars"></i>
                 </div>
@@ -1314,8 +1274,8 @@
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
-                    <h3 class="step-title">Start Free Trial</h3>
-                    <p class="step-description">Activate your 7-day free trial to access all premium features.</p>
+                    <h3 class="step-title">Open Extension</h3>
+                    <p class="step-description">Click the extension icon in your browser toolbar to open the control panel.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
@@ -1324,44 +1284,27 @@
                 </div>
                 <div class="step">
                     <div class="step-number">4</div>
-                    <h3 class="step-title">Enjoy Premium Audio</h3>
+                    <h3 class="step-title">Enjoy Enhanced Audio</h3>
                     <p class="step-description">Experience transformed audio quality on any website automatically.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing">
+    <!-- Download Section -->
+    <section id="download" class="pricing">
         <div class="container">
             <div class="section-title">
-                <h2>Simple, Transparent Pricing</h2>
+                <h2>Download Audio Enhancer Pro</h2>
             </div>
-            <p class="section-subtitle">Start with a 7-day free trial. No credit card required to try.</p>
+            <p class="section-subtitle">Completely free with all features unlocked. No subscription, no trial, no credit card required.</p>
             
-            <div class="pricing-cards">
-                <div class="price-card">
-                    <h3 class="price-title">FREE VERSION</h3>
-                    <p class="price-subtitle">Basic audio enhancement for casual users</p>
-                    <div class="price-amount">Free<span></span></div>
-                    <ul class="price-features">
-                        <li><i class="fas fa-check-circle"></i> Volume Boost (up to 150%)</li>
-                        <li><i class="fas fa-check-circle"></i> 10-Band Equalizer with Presets</li>
-                        <li class="strikethrough">AI-Powered Noise Reduction</li>
-                        <li class="strikethrough">Audio Clarity Enhancement</li>
-                        <li class="strikethrough">Dynamic Range Optimization</li>
-                        <li class="strikethrough">Immersive 3D Spatial Audio</li>
-                        <li class="strikethrough">Personalized Hearing Test</li>
-                        <li class="strikethrough">Custom Preset Management</li>
-                    </ul>
-                    <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn btn-lg btn-outline" target="_blank">Download Free</a>
-                </div>
-                
-                <div class="price-card premium">
-                    <div class="premium-badge">Pro</div>
+            <div class="pricing-cards" style="justify-content: center;">
+                <div class="price-card premium" style="max-width: 600px;">
+                    <div class="premium-badge">100% Free</div>
                     <h3 class="price-title">Audio Enhancer Pro</h3>
-                    <p class="price-subtitle">Unlock the full potential of your browser audio</p>
-                    <div class="price-amount">$4.99<span>/month</span></div>
+                    <p class="price-subtitle">All premium features available at no cost</p>
+                    <div class="price-amount">Free<span> Forever</span></div>
                     <ul class="price-features">
                         <li><i class="fas fa-check-circle"></i> Advanced Volume Boost (up to 500%)</li>
                         <li><i class="fas fa-check-circle"></i> 10-Band Equalizer with Presets</li>
@@ -1369,10 +1312,10 @@
                         <li><i class="fas fa-check-circle"></i> Audio Clarity Enhancement</li>
                         <li><i class="fas fa-check-circle"></i> Dynamic Range Optimization</li>
                         <li><i class="fas fa-check-circle"></i> Immersive 3D Spatial Audio</li>
-                        <li><i class="fas fa-check-circle"></i> Personalized Hearing Test</li>
                         <li><i class="fas fa-check-circle"></i> Custom Preset Management</li>
+                        <li><i class="fas fa-check-circle"></i> All Features Unlocked</li>
                     </ul>
-                    <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn btn-lg" id="subscribe-button" target="_blank">Download Extension</a>
+                    <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn btn-lg" target="_blank" style="width: 100%;">Download from Chrome Web Store</a>
                 </div>
             </div>
         </div>
@@ -1443,7 +1386,7 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        Our 7-day free trial gives you full access to all premium features with no credit card required. After the trial period, you can choose to subscribe for $4.99/month to continue using all the premium features.
+                        Audio Enhancer Pro is completely free! All features are available at no cost with no subscription, no trial period, and no credit card required. Simply install the extension and enjoy all premium features immediately.
                     </div>
                 </div>
                 <div class="faq-item">
@@ -1457,11 +1400,11 @@
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>How do I cancel my subscription?</span>
+                        <span>Is there a subscription or payment required?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        You can cancel your subscription at any time directly from the extension interface. Go to the settings panel and click "Manage Subscription." Your access will continue until the end of your current billing period.
+                        No! Audio Enhancer Pro is completely free with no subscription, no payment, and no credit card required. All features are available immediately upon installation at no cost.
                     </div>
                 </div>
                 <div class="faq-item">
@@ -1484,7 +1427,7 @@
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Can I use multiple devices with one subscription?</span>
+                        <span>Can I use the extension on multiple devices?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
@@ -1558,29 +1501,6 @@
         </div>
     </footer>
 
-    <!-- Payment Modal -->
-    <div class="modal" id="payment-modal">
-        <div class="modal-content">
-            <div class="modal-close" id="modal-close">
-                <i class="fas fa-times"></i>
-            </div>
-            <h3 class="modal-title">Get Audio Enhancer Pro</h3>
-            
-            <div class="extension-warning-box" style="display: block;">
-                <i class="fas fa-arrow-right warning-icon"></i>
-                <h4>Download From Chrome Web Store</h4>
-                <p>Audio Enhancer Pro is a browser extension available on the Chrome Web Store. To get started:</p>
-                <div class="install-steps">
-                    <ol>
-                        <li>Click the button below to go to the Chrome Web Store</li>
-                        <li>Click "Add to Chrome" to install the extension</li>
-                        <li>After installation, click the extension icon to start your free trial</li>
-                    </ol>
-                </div>
-                <a href="https://chrome.google.com/webstore/detail/audio-enhancer-pro/gligbihjcmlhoeidminbplfikfkjjneg" class="btn btn-lg" target="_blank">Go to Chrome Web Store</a>
-            </div>
-        </div>
-    </div>
 
     <!-- Feature Info Modals -->
     <div class="modal" id="feature-modal">
@@ -1616,37 +1536,37 @@
                 <p>At Audio Enhancer Pro, we respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you use our browser extension.</p>
                 
                 <h4>Information We Collect</h4>
-                <p>We collect the following types of information:</p>
+                <p>We collect minimal information:</p>
                 <ul>
-                    <li><strong>Personal Information:</strong> Email address (for account creation and support)</li>
-                    <li><strong>Usage Data:</strong> Information about how you use our extension, including settings preferences and feature usage statistics</li>
+                    <li><strong>Usage Data:</strong> Audio settings preferences (stored locally on your device only)</li>
                     <li><strong>Technical Data:</strong> Browser type and version, installation timestamp, error reports</li>
+                    <li><strong>Contact Information:</strong> Email address (only if you voluntarily contact us for support)</li>
                 </ul>
                 
                 <h4>How We Use Your Information</h4>
                 <p>We use the collected information to:</p>
                 <ul>
-                    <li>Provide, maintain, and improve our services</li>
-                    <li>Process transactions and manage your subscription</li>
-                    <li>Send you important updates about your account or our extension</li>
+                    <li>Provide and maintain our free service</li>
+                    <li>Respond to your inquiries and support requests</li>
                     <li>Address technical issues and improve user experience</li>
                     <li>Analyze usage patterns to enhance functionality</li>
                 </ul>
                 
                 <h4>Data Storage and Security</h4>
-                <p>Your personal data is stored securely using industry-standard encryption and security measures. Most user preferences are stored locally on your device to minimize data transmission. We retain your information only for as long as necessary to fulfill the purposes outlined in this policy or as required by law.</p>
+                <p><strong>Your audio is processed entirely locally on your device.</strong> We do not collect, store, or process any of the actual audio content you listen to. All audio processing happens in your browser using the Web Audio API, and no audio data is transmitted to our servers or any third parties.</p>
+                <p>Your audio settings and preferences are stored locally in your browser's storage. We do not sync this data to any cloud service. This ensures complete privacy - your audio preferences remain on your device only.</p>
                 
                 <h4>Third-Party Services</h4>
                 <p>We use the following third-party services:</p>
                 <ul>
-                    <li><strong>Stripe:</strong> For payment processing (subject to Stripe's privacy policy)</li>
-                    <li><strong>Google Analytics:</strong> For anonymous usage statistics (with IP anonymization enabled)</li>
+                    <li><strong>Google Analytics:</strong> For anonymous website analytics (with IP anonymization enabled)</li>
+                    <li><strong>Chrome Web Store:</strong> For extension distribution (subject to Google's privacy policy)</li>
                 </ul>
                 
                 <h4>Your Privacy Rights</h4>
                 <p>You have the right to:</p>
                 <ul>
-                    <li>Access the personal data we hold about you</li>
+                    <li>Access any personal data we hold about you</li>
                     <li>Request correction of inaccurate data</li>
                     <li>Request deletion of your data</li>
                     <li>Object to processing of your data</li>
@@ -1659,9 +1579,9 @@
                 <p>Email: <a href="mailto:privacy@audioenhancerpro.com">privacy@audioenhancerpro.com</a></p>
                 
                 <h4>Policy Updates</h4>
-                <p>We may update this Privacy Policy from time to time. We will notify you of significant changes by email or through the extension.</p>
+                <p>We may update this Privacy Policy from time to time. We will notify you of significant changes by posting the updated policy on our website.</p>
                 
-                <p><em>Last updated: May 2024</em></p>
+                <p><em>Last updated: January 2025</em></p>
             </div>
         </div>
     </div>
@@ -1826,7 +1746,7 @@
                     <p><a href="mailto:support@audioenhancerpro.com">support@audioenhancerpro.com</a></p>
                     <p>For general inquiries, feature requests, or business opportunities, please contact: <a href="mailto:info@audioenhancerpro.com">info@audioenhancerpro.com</a></p>
                     <h4>Response Time:</h4>
-                    <p>We aim to respond to all inquiries within 24 hours during business days. Premium subscribers receive priority support with typical response times under 4 hours.</p>
+                    <p>We aim to respond to all inquiries within 24 hours during business days.</p>
                     <h4>Mailing Address:</h4>
                     <p>
                         Audio Enhancer Pro<br>
@@ -1854,7 +1774,7 @@
                         <li>Click the "Add to Chrome" button</li>
                         <li>Confirm the installation by clicking "Add extension" in the popup</li>
                         <li>After installation, you'll see our icon in your browser toolbar</li>
-                        <li>Click the icon to access controls and start your free trial</li>
+                        <li>Click the icon to access controls and start enhancing your audio</li>
                     </ol>
                     <h4>For Firefox, Edge, and Other Browsers:</h4>
                     <p>Audio Enhancer Pro is currently optimized for Google Chrome. Support for additional browsers is coming soon!</p>
@@ -1870,9 +1790,58 @@
                         <li>Adjust enhancement settings</li>
                         <li>Take the hearing test</li>
                         <li>Create and save custom presets</li>
-                        <li>Manage your subscription</li>
+                        <li>Access all features for free</li>
                     </ul>
                     <p>Need help? Contact our support team at <a href="mailto:support@audioenhancerpro.com">support@audioenhancerpro.com</a></p>
+                `
+            },
+            'terms': {
+                title: 'Terms of Service',
+                description: `
+                    <h4>1. Acceptance of Terms</h4>
+                    <p>By installing and using Audio Enhancer Pro ("the Extension"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the Extension.</p>
+                    
+                    <h4>2. Description of Service</h4>
+                    <p>Audio Enhancer Pro is a free browser extension that enhances audio quality on websites you visit. The Extension provides features including volume boost, equalizer controls, AI-powered audio enhancement, and 3D spatial audio processing.</p>
+                    
+                    <h4>3. Free Service</h4>
+                    <p>Audio Enhancer Pro is provided free of charge. All features are available at no cost, with no subscription fees, no trial periods, and no payment required.</p>
+                    
+                    <h4>4. Use of the Extension</h4>
+                    <p>You agree to use the Extension only for lawful purposes and in accordance with these Terms. You agree not to:</p>
+                    <ul>
+                        <li>Use the Extension in any way that violates any applicable law or regulation</li>
+                        <li>Attempt to reverse engineer, decompile, or disassemble the Extension</li>
+                        <li>Remove or alter any copyright, trademark, or other proprietary notices</li>
+                        <li>Use the Extension to infringe upon the rights of others</li>
+                    </ul>
+                    
+                    <h4>5. Privacy</h4>
+                    <p>Your use of the Extension is also governed by our Privacy Policy. Please review our Privacy Policy, which explains how we collect, use, and protect your information. All audio processing occurs locally on your device - we do not collect or store any audio content.</p>
+                    
+                    <h4>6. Disclaimer of Warranties</h4>
+                    <p>THE EXTENSION IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. WE DISCLAIM ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</p>
+                    
+                    <h4>7. Limitation of Liability</h4>
+                    <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, WE SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES RESULTING FROM YOUR USE OF THE EXTENSION.</p>
+                    
+                    <h4>8. Modifications to Service</h4>
+                    <p>We reserve the right to modify, suspend, or discontinue the Extension at any time, with or without notice. We may also update these Terms from time to time. Continued use of the Extension after changes constitutes acceptance of the new Terms.</p>
+                    
+                    <h4>9. Intellectual Property</h4>
+                    <p>The Extension, including its design, code, and all content, is the property of Audio Enhancer Pro and is protected by copyright and other intellectual property laws. You are granted a limited, non-exclusive, non-transferable license to use the Extension for personal, non-commercial purposes.</p>
+                    
+                    <h4>10. Termination</h4>
+                    <p>We may terminate or suspend your access to the Extension immediately, without prior notice, for any reason, including if you breach these Terms. Upon termination, your right to use the Extension will cease immediately.</p>
+                    
+                    <h4>11. Governing Law</h4>
+                    <p>These Terms shall be governed by and construed in accordance with the laws of the United States, without regard to its conflict of law provisions.</p>
+                    
+                    <h4>12. Contact Information</h4>
+                    <p>If you have any questions about these Terms of Service, please contact us at:</p>
+                    <p>Email: <a href="mailto:legal@audioenhancerpro.com">legal@audioenhancerpro.com</a></p>
+                    
+                    <p><em>Last updated: January 2025</em></p>
                 `
             },
             'feedback': {
@@ -1902,7 +1871,7 @@
                         <div class="review-author">- Maria L. ★★★★★</div>
                     </div>
                     <div class="review">
-                        <p class="review-text">"The 3D spatial audio feature transformed my laptop's tinny speakers into something that actually sounds immersive. Worth every penny for the premium version."</p>
+                        <p class="review-text">"The 3D spatial audio feature transformed my laptop's tinny speakers into something that actually sounds immersive. Best of all, it's completely free!"</p>
                         <div class="review-author">- Alex T. ★★★★★</div>
                     </div>
                     <h4>Share Your Experience:</h4>
@@ -1994,41 +1963,6 @@
             }
         });
 
-        // Optional: Show modal for visitors coming from the extension
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if this page was accessed from the extension after payment
-            const params = new URLSearchParams(window.location.search);
-            const fromPayment = params.get('from_payment');
-            
-            if (fromPayment === 'success') {
-                // Show a thank you message or redirect to a thank you page
-                const container = document.createElement('div');
-                container.className = 'payment-success-notification';
-                container.innerHTML = `
-                    <div style="position: fixed; bottom: 20px; right: 20px; background-color: #4CAF50; color: white; padding: 15px 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; animation: slide-in-right 0.5s ease;">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <i class="fas fa-check-circle" style="font-size: 24px;"></i>
-                            <div>
-                                <p style="margin: 0; font-weight: bold;">Thank You for Your Purchase!</p>
-                                <p style="margin: 5px 0 0 0; font-size: 14px;">Your premium features are now active.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <style>
-                        @keyframes slide-in-right {
-                            from { transform: translateX(100%); opacity: 0; }
-                            to { transform: translateX(0); opacity: 1; }
-                        }
-                    </style>
-                `;
-                document.body.appendChild(container);
-                
-                // Remove after 5 seconds
-                setTimeout(() => {
-                    container.remove();
-                }, 5000);
-            }
-        });
     </script>
     
     <!-- Schema.org structured data for better SEO -->
@@ -2041,9 +1975,8 @@
       "operatingSystem": "Windows, macOS, Linux",
       "offers": {
         "@type": "Offer",
-        "price": "39.99",
+        "price": "0",
         "priceCurrency": "USD",
-        "priceValidUntil": "2024-12-31",
         "availability": "https://schema.org/InStock"
       },
       "aggregateRating": {

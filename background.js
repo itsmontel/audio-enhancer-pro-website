@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(() => {
-    // Initialize default settings with free version restrictions
+    // Initialize default settings - extension is now free
     chrome.storage.local.set({
         enabled: true,
         volume: 100,
@@ -11,7 +11,7 @@ chrome.runtime.onInstalled.addListener(() => {
             dynamicRange: 0
         },
         license: {
-            isPro: false, // Default to free version
+            isPro: true, // Always Pro - extension is free
             purchaseDate: null
         },
         // Track the last date the fact was viewed and set initial date
@@ -46,8 +46,6 @@ function checkForBadgeNotification() {
             chrome.action.setBadgeText({text: "NEW"});
             chrome.action.setBadgeBackgroundColor({color: "#D32F2F"});
             
-            // Log for debugging
-            console.log(`Badge shown: ${daysDiff} days since last fact view`);
         } else {
             // Less than 3 days, ensure badge is cleared
             chrome.action.setBadgeText({text: ""});
@@ -74,12 +72,11 @@ function scheduleNextCheck() {
 // Start the scheduling
 scheduleNextCheck();
 
-// Handle license check - check actual license status
+// Handle license check - DISABLED: Extension is now free
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.type === 'CHECK_LICENSE') {
-        chrome.storage.local.get('license', (result) => {
-            sendResponse({ isPro: result.license?.isPro || false });
-        });
+        // Always return Pro status - extension is free
+        sendResponse({ isPro: true });
         return true;
     }
     

@@ -2,7 +2,10 @@
   "manifest_version": 3,
   "name": "Audio Enhancer Pro",
   "version": "1.0",
-  "description": "Upgrade your browser audio experience with professional-grade volume control, an industry-standard equalizer, intelligent AI-powered audio enhancement, and immersive spatial audio",
+  "description": "Professional volume control, 10-band EQ, AI audio enhancement, and immersive 3D spatial audio for your browser",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
   "permissions": [
     "storage",
     "activeTab",
@@ -23,9 +26,9 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icons/icon16.svg",
-      "48": "icons/icon48.svg",
-      "128": "icons/icon128.svg"
+      "16": "Icons/AudioEnhancerProPic.png",
+      "48": "Icons/AudioEnhancerProPic.png",
+      "128": "Icons/AudioEnhancerProPic.png"
     }
   },
   "background": {
@@ -47,15 +50,15 @@
     {
       "resources": [
         "assets/*", 
-        "icons/*", 
+        "Icons/*", 
         "impulse-responses/*"
       ],
       "matches": ["<all_urls>"]
     }
   ],
   "icons": {
-    "16": "icons/icon16.svg",
-    "48": "icons/icon48.svg",
-    "128": "icons/icon128.svg"
+    "16": "Icons/AudioEnhancerProPic.png",
+    "48": "Icons/AudioEnhancerProPic.png",
+    "128": "Icons/AudioEnhancerProPic.png"
   }
 }

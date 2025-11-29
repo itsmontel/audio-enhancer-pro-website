@@ -70,12 +70,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     let savedEQSettings = null;
     let savedPresetValue = null;  // Added to store the original preset value
 
-    // Subscription variables
-    let isProUser = false; // Default to free version
-    let trialDaysLeft = 0;
-    let subscriptionAmount = 0;
-    let selectedAmount = 4.99; // Default selected amount
-    let isTrialActive = false;
+    // Extension is free - all features unlocked
+    let isProUser = true;
     
     // Custom presets array - will be populated from storage
     let customPresets = [];
@@ -166,12 +162,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         const boostFill = eqFills.boost[index];
         const cutFill = eqFills.cut[index];
         
-        if (value === 0) {
-            // Reset fills at 0 dB
-            boostFill.style.height = '0';
-            boostFill.style.opacity = '0';
+        // Always hide cut fill (red lines) - removed per user request
+        if (cutFill) {
+            cutFill.style.display = 'none';
+            cutFill.style.visibility = 'hidden';
             cutFill.style.height = '0';
             cutFill.style.opacity = '0';
+        }
+        
+        if (value === 0) {
+            // Reset fills at 0 dB
+            if (boostFill) {
+                boostFill.style.height = '0';
+                boostFill.style.opacity = '0';
+            }
             return;
         }
         
@@ -182,48 +186,25 @@ document.addEventListener('DOMContentLoaded', async () => {
             const opacity = 0.3 + (0.7 * intensity); // Higher value = more opaque
             const greenValue = Math.max(60, 175 - (intensity * 75)); // Darker green for higher values
             
-            boostFill.style.height = `${height}%`;
-            boostFill.style.opacity = '1';
-            boostFill.style.backgroundColor = `rgba(76, ${greenValue}, 80, ${opacity})`;
-            
-            // Hide cut fill
-            cutFill.style.height = '0';
-            cutFill.style.opacity = '0';
+            if (boostFill) {
+                boostFill.style.height = `${height}%`;
+                boostFill.style.opacity = '1';
+                boostFill.style.backgroundColor = `rgba(76, ${greenValue}, 80, ${opacity})`;
+            }
         } else {
-            // Cutting - fill below zero line
-            const height = (Math.abs(value) / 12) * 50; // Proportional to slider value
-            const intensity = Math.abs(value) / 12; // 0 to 1
-            const opacity = 0.3 + (0.7 * intensity); // Higher value = more opaque
-            const redValue = Math.max(180, 244 - (intensity * 60)); // Darker red for higher values
-            
-            cutFill.style.height = `${height}%`;
-            cutFill.style.opacity = '1';
-            cutFill.style.backgroundColor = `rgba(${redValue}, 67, 54, ${opacity})`;
-            
-            // Hide boost fill
-            boostFill.style.height = '0';
-            boostFill.style.opacity = '0';
+            // Cutting - hide boost fill, cut fill already hidden above
+            if (boostFill) {
+                boostFill.style.height = '0';
+                boostFill.style.opacity = '0';
+            }
         }
     }
 
-    // Function to check license status
+    // Function to check license status - DISABLED: Extension is now free
     async function checkLicenseStatus() {
-        return new Promise((resolve) => {
-            chrome.runtime.sendMessage({ type: 'CHECK_LICENSE' }, (response) => {
-                isProUser = response?.isPro || false;
-                
-                // Check trial status and update UI
-                if (response) {
-                    checkTrialStatus({
-                        isTrialActive: response.isTrialActive, 
-                        trialEndDate: response.trialEndDate,
-                        subscriptionAmount: response.subscriptionAmount
-                    });
-                }
-                
-                resolve(isProUser);
-            });
-        });
+        // Always return Pro status - extension is free
+        isProUser = true;
+        return Promise.resolve(true);
     }
 
     // Function to check trial status and update UI accordingly
@@ -296,7 +277,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function showStatus(message, isError = false) {
-        console.log('[Audio Enhancer Debug] Status:', message, isError ? '(error)' : '');
         status.textContent = message;
         status.style.color = isError ? '#f44336' : '#4CAF50';
         status.style.opacity = '1';
@@ -351,7 +331,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.querySelector('.spatial-audio').classList.add('pro-only');
     }
 
-    // Function to unlock pro features
+    // Function to unlock pro features - Always enabled since extension is free
     function unlockProFeatures() {
         // 1. Unlock volume to 500%
         volumeSlider.max = 500;
@@ -370,10 +350,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (audioClaritySlider) audioClaritySlider.disabled = false;
         if (dynamicRangeSlider) dynamicRangeSlider.disabled = false;
         
-        // 4. Hide upgrade section
-        proUpgrade.style.display = 'none';
+        // 4. Hide upgrade section - extension is free
+        if (proUpgrade) proUpgrade.style.display = 'none';
         
-        // 5. Hide the PRO badges
+        // 5. Hide the PRO badges (optional - can keep them for branding)
         document.querySelectorAll('.pro-feature').forEach(badge => {
             badge.style.display = 'none';
         });
@@ -486,8 +466,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             // Update the preset dropdown with custom presets
             updateCustomPresetsInDropdown();
-            
-            console.log('[Audio Enhancer Debug] Loaded custom presets:', customPresets);
         } catch (error) {
             console.error('[Audio Enhancer Debug] Error loading custom presets:', error);
         }
@@ -553,11 +531,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (preset.volume && volumeSlider) {
                 let value = preset.volume;
                 
-                // If free user tries to exceed 150%, cap it
-                if (!isProUser && value > 150) {
-                    value = 150;
-                    showStatus('Upgrade to Pro for volume boost up to 500%!', true);
-                }
+                // No restrictions - extension is free
                 
                 volumeSlider.value = value;
                 volumeValue.textContent = `${value}%`;
@@ -570,8 +544,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 await chrome.storage.local.set({ volume: value });
             }
             
-            // Apply AI enhancement settings if pro user
-            if (isProUser && preset.aiEnhancement) {
+            // Apply AI enhancement settings - extension is free
+            if (preset.aiEnhancement) {
                 // Noise reduction
                 if (preset.aiEnhancement.noiseReduction !== undefined && noiseReductionSlider) {
                     const value = preset.aiEnhancement.noiseReduction;
@@ -617,8 +591,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
             }
             
-            // Apply spatial audio settings if pro user
-            if (isProUser && preset.spatialEnabled !== undefined && spatialToggle) {
+            // Apply spatial audio settings - extension is free
+            if (preset.spatialEnabled !== undefined && spatialToggle) {
                 spatialToggle.checked = preset.spatialEnabled;
                 
                 // Show/hide controls based on toggle state
@@ -706,21 +680,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 dateCreated: new Date().toISOString()
             };
             
-            // Add AI enhancement settings if pro user
-            if (isProUser) {
-                preset.aiEnhancement = {
-                    noiseReduction: parseInt(noiseReductionSlider.value),
-                    audioClarity: parseInt(audioClaritySlider.value),
-                    dynamicRange: parseInt(dynamicRangeSlider.value)
-                };
-                
-                // Add spatial audio settings
-                preset.spatialEnabled = spatialToggle.checked;
-                if (preset.spatialEnabled) {
-                    preset.roomSize = parseInt(roomSizeSlider.value);
-                    preset.spatialWidth = parseInt(spatialWidthSlider.value);
-                    preset.spatialMode = spatialModeSelect.value;
-                }
+            // Add AI enhancement settings - extension is free
+            preset.aiEnhancement = {
+                noiseReduction: parseInt(noiseReductionSlider.value),
+                audioClarity: parseInt(audioClaritySlider.value),
+                dynamicRange: parseInt(dynamicRangeSlider.value)
+            };
+            
+            // Add spatial audio settings
+            preset.spatialEnabled = spatialToggle.checked;
+            if (preset.spatialEnabled) {
+                preset.roomSize = parseInt(roomSizeSlider.value);
+                preset.spatialWidth = parseInt(spatialWidthSlider.value);
+                preset.spatialMode = spatialModeSelect.value;
             }
             
             // If editing an existing preset, replace it
@@ -1077,25 +1049,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize UI state
     async function initializeUI() {
         try {
-            console.log('[Audio Enhancer Debug] Initializing popup');
-
             if (!await isPageSupported()) {
                 showStatus('Please open a regular website to use the audio controls.', true);
                 return;
             }
 
-            // Check license status including trial information
+            // Check license status - DISABLED: Extension is now free
             await checkLicenseStatus();
+            
+            // Always unlock Pro features - extension is free
+            unlockProFeatures();
             
             // Update status badge
             updateStatusBadge();
-            
-            // Apply appropriate restrictions based on license
-            if (isProUser) {
-                unlockProFeatures();
-            } else {
-                applyFreeVersionRestrictions();
-            }
 
             // Initialize EQ visualization elements
             createEQVisualElements();
@@ -1121,10 +1087,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             masterToggle.checked = settings.enabled !== false;
             
             if (settings.volume) {
-                // For free users, cap at 150%
-                const volumeVal = !isProUser && settings.volume > 150 ? 150 : settings.volume;
-                volumeSlider.value = volumeVal;
-                volumeValue.textContent = `${volumeVal}%`;
+                // No restrictions - extension is free
+                volumeSlider.value = settings.volume;
+                volumeValue.textContent = `${settings.volume}%`;
             }
             
             if (settings.equalizer) {
@@ -1137,7 +1102,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
             }
             
-            if (settings.aiEnhancement && isProUser) {
+            if (settings.aiEnhancement) {
                 if (noiseReductionSlider) {
                     noiseReductionSlider.value = settings.aiEnhancement.noiseReduction || 0;
                     aiEnhancementValueSpans[0].textContent = `${settings.aiEnhancement.noiseReduction || 0}%`;
@@ -1152,7 +1117,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
             
-            // Set preset dropdown to saved value or flat for free users
+            // Set preset dropdown to saved value - no restrictions
             if (settings.preset && presetSelect) {
                 if (settings.preset.startsWith('custom-')) {
                     // For custom presets, we need to wait for them to load
@@ -1163,10 +1128,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                         // If the custom preset no longer exists, fall back to flat
                         presetSelect.value = 'flat';
                     }
-                } else if (isProUser || settings.preset === 'flat') {
-                    presetSelect.value = settings.preset;
                 } else {
-                    presetSelect.value = 'flat';
+                    presetSelect.value = settings.preset;
                 }
             }
             
@@ -1222,26 +1185,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Update status badge based on license status
+    // Update status badge - DISABLED: Extension is now free
     function updateStatusBadge() {
-        if (isProUser) {
-            if (isTrialActive && trialDaysLeft > 0) {
-                // In trial mode
-                planBadge.classList.add('pro');
-                planBadge.innerHTML = `<i class="fas fa-crown"></i> <span>Pro Trial</span>`;
-            } else if (subscriptionAmount > 0) {
-                // Paid subscription
-                planBadge.classList.add('pro');
-                planBadge.innerHTML = `<i class="fas fa-crown"></i> <span>Pro Plan</span>`;
-            } else {
-                // Standard Pro
-                planBadge.classList.add('pro');
-                planBadge.innerHTML = `<i class="fas fa-crown"></i> <span>Pro Plan</span>`;
-            }
-        } else {
-            planBadge.classList.remove('pro');
-            planBadge.innerHTML = '<i class="fas fa-user"></i> <span>Free Plan</span>';
-        }
+        // Always show Pro badge - extension is free
+        planBadge.classList.add('pro');
+        planBadge.innerHTML = `<i class="fas fa-crown"></i> <span>Pro</span>`;
     }
 
     // Toggle dark mode
@@ -1340,8 +1288,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         await sendMessage({
                             type: 'FORCE_RECONNECT'
                         });
-                        
-                        console.log('[Audio Enhancer Debug] AI Enhancements reapplied after toggle');
                     } catch (error) {
                         console.error('[Audio Enhancer Debug] Error reapplying AI enhancements:', error);
                     }
@@ -1360,12 +1306,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             let value = parseInt(e.target.value);
             
-            // If free user tries to exceed 150%, cap it
-            if (!isProUser && value > 150) {
-                value = 150;
-                volumeSlider.value = 150;
-                showStatus('Upgrade to Pro for volume boost up to 500%!', true);
-            }
+            // No restrictions - extension is free
             
             volumeValue.textContent = `${value}%`;
             
@@ -1456,12 +1397,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Handle built-in presets
             const presetName = presetValue;
             
-            // If trying to use a non-flat preset in free mode, show upgrade message
-            if (!isProUser && presetName !== 'flat') {
-                showStatus('Upgrade to Pro to unlock all presets!', true);
-                presetSelect.value = 'flat'; // Reset to flat
-                return;
-            }
+            // No restrictions - extension is free
             
             const presetValues = eqPresets[presetName];
             
@@ -1518,13 +1454,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (noiseReductionSlider) {
         noiseReductionSlider.addEventListener('input', (e) => {
-            if (!isProUser) {
-                e.preventDefault();
-                noiseReductionSlider.value = 0;
-                showStatus('Upgrade to Pro to use AI Enhancement!', true);
-                return;
-            }
-            
+            // No restrictions - extension is free
             const value = parseInt(e.target.value);
             aiEnhancementValueSpans[0].textContent = `${value}%`;
             updateAIEnhancement('noiseReduction', value);
@@ -1542,13 +1472,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (audioClaritySlider) {
         audioClaritySlider.addEventListener('input', (e) => {
-            if (!isProUser) {
-                e.preventDefault();
-                audioClaritySlider.value = 0;
-                showStatus('Upgrade to Pro to use AI Enhancement!', true);
-                return;
-            }
-            
+            // No restrictions - extension is free
             const value = parseInt(e.target.value);
             aiEnhancementValueSpans[1].textContent = `${value}%`;
             
@@ -1568,13 +1492,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (dynamicRangeSlider) {
         dynamicRangeSlider.addEventListener('input', (e) => {
-            if (!isProUser) {
-                e.preventDefault();
-                dynamicRangeSlider.value = 0;
-                showStatus('Upgrade to Pro to use AI Enhancement!', true);
-                return;
-            }
-            
+            // No restrictions - extension is free
             const value = parseInt(e.target.value);
             aiEnhancementValueSpans[2].textContent = `${value}%`;
             updateAIEnhancement('dynamicRange', value);
@@ -1593,13 +1511,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 3D Spatial Audio control handlers
     spatialToggle.addEventListener('change', async (e) => {
         try {
-            if (!isProUser) {
-                e.preventDefault();
-                spatialToggle.checked = false;
-                showStatus('Upgrade to Pro to use 3D Spatial Audio!', true);
-                return;
-            }
-            
+            // No restrictions - extension is free
             const enabled = e.target.checked;
             
             // Show/hide controls based on toggle state
@@ -1660,13 +1572,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     roomSizeSlider.addEventListener('input', async (e) => {
         try {
-            if (!isProUser) {
-                e.preventDefault();
-                roomSizeSlider.value = 40;
-                showStatus('Upgrade to Pro to use 3D Spatial Audio!', true);
-                return;
-            }
-            
+            // No restrictions - extension is free
             const value = parseInt(e.target.value);
             updateRoomSizeLabel(value);
             
@@ -1700,13 +1606,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     spatialWidthSlider.addEventListener('input', async (e) => {
         try {
-            if (!isProUser) {
-                e.preventDefault();
-                spatialWidthSlider.value = 50;
-                showStatus('Upgrade to Pro to use 3D Spatial Audio!', true);
-                return;
-            }
-            
+            // No restrictions - extension is free
             const value = parseInt(e.target.value);
             updateSpatialWidthLabel(value);
             
@@ -1723,12 +1623,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     spatialPresetSelect.addEventListener('change', async () => {
         try {
-            if (!isProUser) {
-                showStatus('Upgrade to Pro to use 3D Spatial Audio!', true);
-                spatialPresetSelect.value = 'small-room'; // Reset to default
-                return;
-            }
-            
+            // No restrictions - extension is free
             const preset = spatialPresetSelect.value;
             
             // Map preset to room size value
@@ -1765,12 +1660,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (spatialModeSelect) {
         spatialModeSelect.addEventListener('change', async () => {
             try {
-                if (!isProUser) {
-                    spatialModeSelect.value = 'music'; // Reset to default
-                    showStatus('Upgrade to Pro to use content-optimized spatial audio!', true);
-                    return;
-                }
-                
+                // No restrictions - extension is free
                 const mode = spatialModeSelect.value;
                 
                 await sendMessage({
@@ -1815,152 +1705,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
     
-    // Upgrade button handler
-    upgradeBtn.addEventListener('click', async () => {
-        try {
-            // Get current tab to pass extension context
-            const tabs = await chrome.tabs.query({active: true, currentWindow: true});
-            const currentTab = tabs[0];
-            
-            // Create unique session ID for this payment attempt
-            const sessionId = Date.now().toString() + Math.random().toString(36).substr(2, 9);
-            
-            // Store session info for verification later
-            await chrome.storage.local.set({
-                paymentSession: {
-                    sessionId: sessionId,
-                    timestamp: Date.now(),
-                    tabId: currentTab?.id
-                }
-            });
-            
-            // Build payment URL with extension context
-            const paymentUrl = `https://audioenhancerpro.com/audio-enhancer-website/payment-integration.html?` +
-                `session=${sessionId}&` +
-                `extension=chrome-extension://${chrome.runtime.id}&` +
-                `return=extension`;
-            
-            // Open payment page in new tab
-            chrome.tabs.create({
-                url: paymentUrl,
-                active: true
-            });
-            
-        } catch (error) {
-            console.error('Error opening payment page:', error);
-            showStatus('Error opening payment page. Please try again.', true);
-        }
-    });
-    
-    // Price option selection handler
-    priceOptions.forEach(option => {
-        option.addEventListener('click', () => {
-            // Clear previous selection
-            priceOptions.forEach(opt => opt.classList.remove('selected'));
-            
-            // Set new selection
-            option.classList.add('selected');
-            
-            const amount = option.dataset.amount;
-            
-            if (amount === 'custom') {
-                customPriceSection.style.display = 'block';
-                selectedAmount = parseFloat(customPriceInput.value);
-            } else {
-                customPriceSection.style.display = 'none';
-                selectedAmount = parseFloat(amount);
-            }
-        });
-    });
-
-    // Custom price input handler
-    customPriceInput.addEventListener('input', (e) => {
-        let value = parseFloat(e.target.value);
-        
-        // Enforce min/max limits
-        if (value < 2) value = 2;
-        if (value > 20) value = 20;
-        
-        selectedAmount = value;
-    });
-
-    // Confirm payment button handler
-    confirmPaymentBtn.addEventListener('click', async () => {
-        try {
-            // Get current tab to pass extension context
-            const tabs = await chrome.tabs.query({active: true, currentWindow: true});
-            const currentTab = tabs[0];
-            
-            // Create unique session ID for this payment attempt
-            const sessionId = Date.now().toString() + Math.random().toString(36).substr(2, 9);
-            
-            // Store session info for verification later
-            await chrome.storage.local.set({
-                paymentSession: {
-                    sessionId: sessionId,
-                    timestamp: Date.now(),
-                    tabId: currentTab?.id,
-                    amount: selectedAmount
-                }
-            });
-            
-            // Build payment URL with extension context and amount
-            const paymentUrl = `https://audioenhancerpro.com/audio-enhancer-website/payment-integration.html?` +
-                `session=${sessionId}&` +
-                `extension=chrome-extension://${chrome.runtime.id}&` +
-                `amount=${selectedAmount}&` +
-                `return=extension`;
-            
-            // Open payment page in new tab
-            chrome.tabs.create({
-                url: paymentUrl,
-                active: true
-            });
-            
-        } catch (error) {
-            console.error('Error opening payment page:', error);
-            showStatus('Error opening payment page. Please try again.', true);
-        }
-    });
-
-    // Change subscription button handler
-    changeSubscriptionBtn.addEventListener('click', () => {
-        // Hide subscription section
-        subscriptionSection.style.display = 'none';
-        
-        // Show payment section
-        paymentSection.style.display = 'block';
-        
-        // Pre-select current amount or closest option
-        let foundMatch = false;
-        
-        priceOptions.forEach(option => {
-            option.classList.remove('selected');
-            
-            if (option.dataset.amount !== 'custom') {
-                const optionAmount = parseFloat(option.dataset.amount);
-                
-                if (optionAmount === subscriptionAmount) {
-                    option.classList.add('selected');
-                    foundMatch = true;
-                    customPriceSection.style.display = 'none';
-                }
-            }
-        });
-        
-        // If no matching option, select custom
-        if (!foundMatch) {
-            const customOption = document.querySelector('.price-option[data-amount="custom"]');
-            customOption.classList.add('selected');
-            customPriceSection.style.display = 'block';
-            customPriceInput.value = subscriptionAmount.toFixed(2);
-        }
-        
-        selectedAmount = subscriptionAmount;
-        
-        upgradeTitle.textContent = 'Update Your Subscription';
-        upgradeDesc.textContent = 'Choose a new amount for your monthly subscription.';
-    });
+    // Payment functionality removed - extension is free
     
     // Event listeners for custom presets
     savePresetBtn.addEventListener('click', () => {
@@ -1986,7 +1731,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         // Check if this name already exists
                         checkPresetNameExists();
                     } catch (e) {
-                        console.error('[Audio Enhancer Debug] Error generating preset name:', e);
+                        // Error generating preset name - use default
                     }
                 }
             });

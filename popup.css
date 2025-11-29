@@ -480,8 +480,10 @@ select:hover {
 }
 
 .eq-fill-cut {
-    top: calc(50% + 1px); /* Offset for zero line */
-    background-color: var(--cut-color);
+    /* Hidden - red lines removed per user request */
+    display: none;
+    visibility: hidden;
+    opacity: 0;
     height: 0;
 }
 
@@ -664,35 +666,45 @@ select:hover {
 }
 
 .preset-btn {
-    background-color: var(--bg-card);
+    background: linear-gradient(135deg, var(--bg-card), rgba(211, 47, 47, 0.05));
     color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 6px 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px 14px;
     font-size: 0.85rem;
+    font-weight: 500;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    transition: all 0.2s ease;
+    gap: 6px;
+    transition: all 0.3s ease;
     flex: 1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .preset-btn:hover {
-    border-color: var(--brand-red-light);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-color: var(--brand-red);
+    background: linear-gradient(135deg, rgba(211, 47, 47, 0.1), rgba(211, 47, 47, 0.15));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(211, 47, 47, 0.2);
+    color: var(--brand-red);
 }
 
 .preset-btn:active {
-    background-color: rgba(211, 47, 47, 0.1);
-    border-color: var(--brand-red);
+    background: linear-gradient(135deg, rgba(211, 47, 47, 0.15), rgba(211, 47, 47, 0.2));
+    border-color: var(--brand-red-dark);
     transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(211, 47, 47, 0.15);
 }
 
 .preset-btn i {
     font-size: 0.9rem;
+    transition: transform 0.2s ease;
+}
+
+.preset-btn:hover i {
+    transform: scale(1.1);
 }
 
 /* A/B Testing Button Styles */

@@ -147,7 +147,6 @@ class AudioProcessor {
             await this.initializeVoiceIsolation();
 
             this.initialized = true;
-            console.log('[Audio Enhancer Debug] Audio context initialized successfully');
         } catch (error) {
             console.error('[Audio Enhancer Debug] Audio context initialization error:', error);
             throw error;
@@ -209,8 +208,6 @@ class AudioProcessor {
             // Default: Voice isolation disabled
             this.voiceSplitterNode.gain.value = 0;
             this.backgroundNoiseNode.gain.value = 1;
-            
-            console.log('[Audio Enhancer Debug] Voice isolation components initialized');
         }
     }
 
@@ -310,20 +307,20 @@ class AudioProcessor {
             // Create direct signal path (preserves clarity)
             this.directPath = this.audioContext.createGain();
             this.directGain = this.audioContext.createGain();
-            this.directGain.gain.value = 0.75; // ADJUSTED: Increased to reduce muddy sound
+            this.directGain.gain.value = 0.90; // IMPROVED: Higher direct signal for cleaner sound, less echo
 
             // Create ambient path (adds spatialization)
             this.ambientPath = this.audioContext.createGain();
             this.ambientGain = this.audioContext.createGain();
-            this.ambientGain.gain.value = 0.38; // ADJUSTED: Reduced to prevent overload
+            this.ambientGain.gain.value = 0.35; // ENHANCED: Increased for more 3D immersion, but kept clean
             
             // Create virtual speaker positions for 360° sound
-            // ADJUSTED: Reduced angles for more natural sound field
-            this.frontLeftNode = this.createVirtualSpeaker(-30, 0, -1);
-            this.frontRightNode = this.createVirtualSpeaker(30, 0, -1);
-            this.surroundLeftNode = this.createVirtualSpeaker(-110, 0, 0);
-            this.surroundRightNode = this.createVirtualSpeaker(110, 0, 0);
-            this.topNode = this.createVirtualSpeaker(0, 40, -1);
+            // ENHANCED: Maximum 3D positioning for immersive surround sound
+            this.frontLeftNode = this.createVirtualSpeaker(-45, 0, -1.5); // Much wider angle, further for depth
+            this.frontRightNode = this.createVirtualSpeaker(45, 0, -1.5); // Much wider angle, further for depth
+            this.surroundLeftNode = this.createVirtualSpeaker(-135, 0, 1.2); // Further behind, more separation
+            this.surroundRightNode = this.createVirtualSpeaker(135, 0, 1.2); // Further behind, more separation
+            this.topNode = this.createVirtualSpeaker(0, 60, -1.2); // Higher elevation, forward for overhead immersion
             
             // Store gains for each speaker
             this.speakerGains = {
@@ -334,12 +331,12 @@ class AudioProcessor {
                 top: this.audioContext.createGain()
             };
             
-            // ADJUSTED: Lowered all gain values to prevent clipping
-            this.speakerGains.frontLeft.gain.value = 0.35;
-            this.speakerGains.frontRight.gain.value = 0.35;
-            this.speakerGains.surroundLeft.gain.value = 0.30;
-            this.speakerGains.surroundRight.gain.value = 0.30;
-            this.speakerGains.top.gain.value = 0.25;
+            // ENHANCED: Optimized gains for maximum 3D immersion
+            this.speakerGains.frontLeft.gain.value = 0.42; // Strong front presence
+            this.speakerGains.frontRight.gain.value = 0.42; // Strong front presence
+            this.speakerGains.surroundLeft.gain.value = 0.38; // ENHANCED: Increased for more surround immersion
+            this.speakerGains.surroundRight.gain.value = 0.38; // ENHANCED: Increased for more surround immersion
+            this.speakerGains.top.gain.value = 0.32; // ENHANCED: Increased for better overhead 3D effect
             
             // Create spectral processing for spatial cues without reverb
             this.spectralProcessor = this.createSpectralProcessor();
@@ -394,7 +391,6 @@ class AudioProcessor {
             this.dialogEQ = this.createResonantFilter(2200, 1.8, 0);
             
             this.spatialEnabled = false;
-            console.log('[Audio Enhancer Debug] Enhanced premium spatial audio system initialized');
         } catch (error) {
             console.error('[Audio Enhancer Debug] Failed to initialize spatial audio:', error);
         }
@@ -849,31 +845,31 @@ class AudioProcessor {
             // Initialize direct and ambient paths for this chain
             chain.directPath = this.audioContext.createGain();
             chain.directGain = this.audioContext.createGain();
-            chain.directGain.gain.value = 0.75; // ADJUSTED: Increased for cleaner sound
+            chain.directGain.gain.value = 0.90; // IMPROVED: Higher direct signal for cleaner sound, less echo
             
             chain.ambientPath = this.audioContext.createGain();
             chain.ambientGain = this.audioContext.createGain();
-            chain.ambientGain.gain.value = 0.38; // ADJUSTED: Decreased to reduce muddiness
+            chain.ambientGain.gain.value = 0.35; // ENHANCED: Increased for more 3D immersion, but kept clean
             
             // Create content-specific EQ bands for this chain
             chain.vocalPresenceEQ = this.createResonantFilter(3000, 1.5, 0);
             chain.vocalFundamentalsEQ = this.createResonantFilter(800, 1.3, 0);
             chain.dialogEQ = this.createResonantFilter(2200, 1.8, 0);
             
-            // Create virtual speakers for 360° sound with moderate positioning
-            chain.frontLeftNode = this.createVirtualSpeaker(-30, 0, -1);
-            chain.frontRightNode = this.createVirtualSpeaker(30, 0, -1);
-            chain.surroundLeftNode = this.createVirtualSpeaker(-110, 0, 0);
-            chain.surroundRightNode = this.createVirtualSpeaker(110, 0, 0);
-            chain.topNode = this.createVirtualSpeaker(0, 40, -1);
+            // ENHANCED: Maximum 3D positioning for immersive surround sound
+            chain.frontLeftNode = this.createVirtualSpeaker(-45, 0, -1.5); // Much wider, further for depth
+            chain.frontRightNode = this.createVirtualSpeaker(45, 0, -1.5); // Much wider, further for depth
+            chain.surroundLeftNode = this.createVirtualSpeaker(-135, 0, 1.2); // Further behind, more separation
+            chain.surroundRightNode = this.createVirtualSpeaker(135, 0, 1.2); // Further behind, more separation
+            chain.topNode = this.createVirtualSpeaker(0, 60, -1.2); // Higher elevation for overhead immersion
             
-            // NEW: Expanded 7.1.4 speaker configuration (with reduced gains)
-            chain.centerNode = this.createVirtualSpeaker(0, 0, -1);
-            chain.topFrontLeftNode = this.createVirtualSpeaker(-35, 40, -0.8);
-            chain.topFrontRightNode = this.createVirtualSpeaker(35, 40, -0.8);
-            chain.topRearLeftNode = this.createVirtualSpeaker(-120, 40, 0.5);
-            chain.topRearRightNode = this.createVirtualSpeaker(120, 40, 0.5);
-            chain.subwooferNode = this.createVirtualSpeaker(0, -10, 0);
+            // ENHANCED: Expanded 7.1.4 speaker configuration for maximum 3D effect
+            chain.centerNode = this.createVirtualSpeaker(0, 0, -1.3); // Slightly forward for center focus
+            chain.topFrontLeftNode = this.createVirtualSpeaker(-45, 55, -1.0); // Wider, higher for overhead front
+            chain.topFrontRightNode = this.createVirtualSpeaker(45, 55, -1.0); // Wider, higher for overhead front
+            chain.topRearLeftNode = this.createVirtualSpeaker(-135, 55, 0.8); // Further back, higher
+            chain.topRearRightNode = this.createVirtualSpeaker(135, 55, 0.8); // Further back, higher
+            chain.subwooferNode = this.createVirtualSpeaker(0, -15, 0); // Lower for bass positioning
             
             // Create gains for each speaker (with REDUCED values to prevent clipping)
             chain.speakerGains = {
@@ -891,20 +887,20 @@ class AudioProcessor {
                 subwoofer: this.audioContext.createGain()
             };
             
-            // Set speaker gains with LOWER values
-            chain.speakerGains.frontLeft.gain.value = 0.35;
-            chain.speakerGains.frontRight.gain.value = 0.35;
-            chain.speakerGains.surroundLeft.gain.value = 0.30;
-            chain.speakerGains.surroundRight.gain.value = 0.30;
-            chain.speakerGains.top.gain.value = 0.25;
+            // ENHANCED: Optimized gains for maximum 3D immersion
+            chain.speakerGains.frontLeft.gain.value = 0.42; // Strong front presence
+            chain.speakerGains.frontRight.gain.value = 0.42; // Strong front presence
+            chain.speakerGains.surroundLeft.gain.value = 0.38; // ENHANCED: Increased for surround immersion
+            chain.speakerGains.surroundRight.gain.value = 0.38; // ENHANCED: Increased for surround immersion
+            chain.speakerGains.top.gain.value = 0.32; // ENHANCED: Increased for overhead 3D effect
             
-            // NEW: Set gains for additional speakers
-            chain.speakerGains.center.gain.value = 0.40;
-            chain.speakerGains.topFrontLeft.gain.value = 0.20;
-            chain.speakerGains.topFrontRight.gain.value = 0.20;
-            chain.speakerGains.topRearLeft.gain.value = 0.15;
-            chain.speakerGains.topRearRight.gain.value = 0.15;
-            chain.speakerGains.subwoofer.gain.value = 0.35;
+            // ENHANCED: Increased gains for additional speakers for more 3D immersion
+            chain.speakerGains.center.gain.value = 0.45; // Strong center for dialog focus
+            chain.speakerGains.topFrontLeft.gain.value = 0.28; // ENHANCED: Increased overhead front
+            chain.speakerGains.topFrontRight.gain.value = 0.28; // ENHANCED: Increased overhead front
+            chain.speakerGains.topRearLeft.gain.value = 0.26; // ENHANCED: Increased overhead rear
+            chain.speakerGains.topRearRight.gain.value = 0.26; // ENHANCED: Increased overhead rear
+            chain.speakerGains.subwoofer.gain.value = 0.40; // Strong bass for immersion
             
             // Create spectral processor with milder settings
             chain.spectralProcessor = {
@@ -1226,8 +1222,6 @@ class AudioProcessor {
             chain.voiceDynamicsProcessor.connect(chain.noiseGateNode);
             chain.noiseGateNode.connect(chain.voiceSplitterNode);
             chain.voiceSplitterNode.connect(chain.gain);
-            
-            console.log('[Audio Enhancer Debug] Enhanced premium spatial audio chain created');
             return true;
         } catch (error) {
             console.error('[Audio Enhancer Debug] Error creating spatial chain:', error);
@@ -1266,7 +1260,6 @@ class AudioProcessor {
                             if (permissionState === 'granted') {
                                 window.addEventListener('deviceorientation', this.orientationListener);
                                 this.headTrackingEnabled = true;
-                                console.log('[Audio Enhancer Debug] Head tracking enabled (iOS)');
                             } else {
                                 console.warn('[Audio Enhancer Debug] Head tracking permission denied');
                             }
@@ -1276,7 +1269,6 @@ class AudioProcessor {
                     // Standard implementation for other browsers
                     window.addEventListener('deviceorientation', this.orientationListener);
                     this.headTrackingEnabled = true;
-                    console.log('[Audio Enhancer Debug] Head tracking enabled');
                 }
             } catch (error) {
                 console.error('[Audio Enhancer Debug] Error initializing head tracking:', error);
@@ -1361,7 +1353,6 @@ class AudioProcessor {
         if (this.headTrackingEnabled && this.orientationListener) {
             window.removeEventListener('deviceorientation', this.orientationListener);
             this.headTrackingEnabled = false;
-            console.log('[Audio Enhancer Debug] Head tracking disabled');
         }
     }
 
@@ -1390,13 +1381,13 @@ class AudioProcessor {
         };
     }
 
-    // Create early reflections for externalization - GENTLER settings
+    // Create early reflections for externalization - IMPROVED: Much less echo
     createEarlyReflections() {
         const delay = this.audioContext.createDelay(0.1);
-        delay.delayTime.value = 0.04; // 40ms delay for first reflection
+        delay.delayTime.value = 0.025; // IMPROVED: Shorter delay (25ms) for less noticeable echo
         
         const gain = this.audioContext.createGain();
-        gain.gain.value = 0.2; // REDUCED to 20% of direct sound
+        gain.gain.value = 0.08; // IMPROVED: Significantly reduced to 8% (was 20%) to minimize echo
         
         return {
             delay: delay,
@@ -1543,7 +1534,6 @@ class AudioProcessor {
                 this.processingChains.set(audioElement, chain);
                 this.connectedElements.add(audioElement);
                 audioElement._audioEnhancerConnected = true;
-                console.log('[Audio Enhancer Debug] Connected to audio element successfully');
             }
         } catch (e) {
             console.error('[Audio Enhancer Debug] Connection Error:', e);
@@ -1864,22 +1854,22 @@ class AudioProcessor {
         // Store current setting for reconnections
         this.currentRoomSize = size;
         
-        // MODIFIED: More conservative values to prevent distortion
+        // ENHANCED: Better balance for maximum 3D immersion while maintaining clarity
         let directLevel, ambientLevel;
         
-        // Adjust room size characteristics based on spatial mode with MILDER scaling
+        // ENHANCED: Distinct room characteristics for each mode
         if (this.spatialMode === 'podcast') {
-            // Podcast: Higher direct level for speech clarity
-            directLevel = 0.9 - (size / 300); // Range: 0.9 to 0.56
-            ambientLevel = 0.15 + (size / 200); // Range: 0.15 to 0.65
+            // Podcast: "You're actually there" - High direct, minimal reverb, natural feel
+            directLevel = 0.90 - (size / 500); // Range: 0.90 to 0.73 (very high direct)
+            ambientLevel = 0.15 + (size / 400); // Range: 0.15 to 0.24 (minimal, natural)
         } else if (this.spatialMode === 'movie') {
-            // Movie: Balance for both clarity and immersion
-            directLevel = 0.85 - (size / 250); // Range: 0.85 to 0.45
-            ambientLevel = 0.20 + (size / 180); // Range: 0.20 to 0.75
+            // Movie: Cinema experience - Balanced for dialog clarity and cinematic immersion
+            directLevel = 0.78 - (size / 320); // Range: 0.78 to 0.55 (good direct for dialog)
+            ambientLevel = 0.32 + (size / 250); // Range: 0.32 to 0.62 (cinematic ambience)
         } else {
-            // Music: Enhanced immersion with safe levels
-            directLevel = 0.80 - (size / 250); // Range: 0.80 to 0.40
-            ambientLevel = 0.25 + (size / 170); // Range: 0.25 to 0.84
+            // Music: Festival/Concert/Theater - Maximum immersion with concert feel
+            directLevel = 0.70 - (size / 280); // Range: 0.70 to 0.38 (more ambient for concert feel)
+            ambientLevel = 0.40 + (size / 200); // Range: 0.40 to 0.85 (maximum concert ambience)
         }
         
         // Set gains for direct and ambient paths
@@ -1906,24 +1896,24 @@ class AudioProcessor {
             // Update chain-specific speaker positions
             this.updateChainSpeakerPositioning(chain, size);
             
-            // Adjust concert ambience with MILDER settings
+            // IMPROVED: Significantly reduced concert ambience to minimize echo
             if (chain.concertAmbience) {
                 let earlyReflections, crowdLevel, bandpassFreq;
                 
                 if (this.spatialMode === 'podcast') {
                     // Podcast: Minimal reflections, almost no crowd
-                    earlyReflections = Math.min(0.05 + (size / 1000), 0.15);
-                    crowdLevel = Math.min(0.02 + (size / 1200), 0.10);
+                    earlyReflections = Math.min(0.02 + (size / 1500), 0.08); // Reduced from 0.15
+                    crowdLevel = Math.min(0.01 + (size / 2000), 0.05); // Reduced from 0.10
                     bandpassFreq = 1200 + (size * 2);
                 } else if (this.spatialMode === 'movie') {
-                    // Movie: Moderate reflections
-                    earlyReflections = Math.min(0.08 + (size / 900), 0.19);
-                    crowdLevel = Math.min(0.05 + (size / 1000), 0.15);
+                    // Movie: Very subtle reflections
+                    earlyReflections = Math.min(0.03 + (size / 1200), 0.10); // Reduced from 0.19
+                    crowdLevel = Math.min(0.02 + (size / 1500), 0.08); // Reduced from 0.15
                     bandpassFreq = 1000 + (size * 2.5);
                 } else {
-                    // Music: Full concert ambience but still gentle
-                    earlyReflections = Math.min(0.10 + (size / 800), 0.22);
-                    crowdLevel = Math.min(0.08 + (size / 700), 0.22);
+                    // Music: Subtle ambience, not overwhelming
+                    earlyReflections = Math.min(0.04 + (size / 1000), 0.12); // Reduced from 0.22
+                    crowdLevel = Math.min(0.03 + (size / 1000), 0.12); // Reduced from 0.22
                     bandpassFreq = 800 + (size * 3);
                 }
                 
@@ -1936,63 +1926,76 @@ class AudioProcessor {
     
     // Adjust virtual speaker positions - OPTIMIZED for natural sound field
     updateVirtualSpeakerPositioning(size) {
-        // Map size to distance/spread with MILDER positioning
+        // ENHANCED: Distinct positioning for each mode's unique experience
         let distance, spread, surroundDistance, surroundAngleBase;
         
         if (this.spatialMode === 'podcast') {
-            // Podcast: Closer, narrower placement for speech focus
-            distance = 0.9 + (size / 60); // Range: 0.9 to 2.56
-            spread = 0.8 + (size / 300); // Range: 0.8 to 1.13 (narrower)
-            surroundDistance = distance * 0.95; // Surrounds closer
-            surroundAngleBase = 90; // Narrower surround angle
+            // Podcast: "You're actually there" - Close, intimate, natural positioning
+            distance = 0.7 + (size / 80); // Range: 0.7 to 1.14 (closer, more intimate)
+            spread = 0.6 + (size / 400); // Range: 0.6 to 0.69 (narrow, focused)
+            surroundDistance = distance * 0.85; // Surrounds much closer for natural feel
+            surroundAngleBase = 85; // Narrower surround angle for intimate feel
         } else if (this.spatialMode === 'movie') {
-            // Movie: Medium distance, wide spread for cinematic effect
-            distance = 1.0 + (size / 55); // Range: 1.0 to 2.81
-            spread = 0.85 + (size / 250); // Range: 0.85 to 1.25 (wider)
-            surroundDistance = distance * 0.9; // Surrounds slightly closer
-            surroundAngleBase = 100; // Medium surround
+            // Movie: Cinema - Medium distance, wide spread for cinematic theater
+            distance = 1.2 + (size / 50); // Range: 1.2 to 3.0 (cinema distance)
+            spread = 0.95 + (size / 220); // Range: 0.95 to 1.29 (wide for cinema)
+            surroundDistance = distance * 0.88; // Surrounds for cinema effects
+            surroundAngleBase = 115; // Wide surround for cinema immersion
         } else {
-            // Music: Standard immersive configuration
-            distance = 1.1 + (size / 50); // Range: 1.1 to 3.1
-            spread = 0.9 + (size / 230); // Range: 0.9 to 1.33
-            surroundDistance = distance * 0.85; // Surrounds slightly closer
-            surroundAngleBase = 100; // Wide surround
+            // Music: Festival/Concert/Theater - Maximum distance and spread
+            distance = 1.5 + (size / 40); // Range: 1.5 to 3.75 (far, concert distance)
+            spread = 1.1 + (size / 200); // Range: 1.1 to 1.55 (maximum spread)
+            surroundDistance = distance * 0.82; // Surrounds further for concert feel
+            surroundAngleBase = 130; // Maximum surround angle for festival feel
         }
         
-        // Set z-distance of front speakers (closer or further)
+        // ENHANCED: Maximum 3D positioning for immersive surround sound
         if (this.frontLeftNode && this.frontRightNode) {
-            this.frontLeftNode.positionZ.setTargetAtTime(-distance, this.audioContext.currentTime, 0.05);
-            this.frontRightNode.positionZ.setTargetAtTime(-distance, this.audioContext.currentTime, 0.05);
+            // Use wider angles and further distances for maximum 3D effect
+            let frontAngleBase = this.spatialMode === 'podcast' ? 40 : (this.spatialMode === 'movie' ? 45 : 50); // ENHANCED: Much wider angles
+            const frontAngle = frontAngleBase * (1 + spread * 0.3); // Additional spread multiplier
             
-            // Adjust spread (x-position)
-            let frontAngleBase = this.spatialMode === 'podcast' ? 25 : 30; // REDUCED angles
-            const leftX = -frontAngleBase * spread;
-            const rightX = frontAngleBase * spread;
-            this.frontLeftNode.positionX.setTargetAtTime(leftX / 50, this.audioContext.currentTime, 0.05);
-            this.frontRightNode.positionX.setTargetAtTime(rightX / 50, this.audioContext.currentTime, 0.05);
+            const leftAngleRad = -frontAngle * Math.PI / 180;
+            const rightAngleRad = frontAngle * Math.PI / 180;
+            
+            // Set 3D positions with enhanced distance for depth
+            const enhancedDistance = distance * 1.2; // Further for more depth
+            this.frontLeftNode.positionX.setTargetAtTime(Math.sin(leftAngleRad) * enhancedDistance, this.audioContext.currentTime, 0.05);
+            this.frontLeftNode.positionZ.setTargetAtTime(-Math.cos(leftAngleRad) * enhancedDistance, this.audioContext.currentTime, 0.05);
+            this.frontLeftNode.positionY.setTargetAtTime(0, this.audioContext.currentTime, 0.05);
+            
+            this.frontRightNode.positionX.setTargetAtTime(Math.sin(rightAngleRad) * enhancedDistance, this.audioContext.currentTime, 0.05);
+            this.frontRightNode.positionZ.setTargetAtTime(-Math.cos(rightAngleRad) * enhancedDistance, this.audioContext.currentTime, 0.05);
+            this.frontRightNode.positionY.setTargetAtTime(0, this.audioContext.currentTime, 0.05);
         }
         
-        // Adjust surround speaker positions with more natural angles
+        // ENHANCED: Maximum surround positioning for immersive 3D separation
         if (this.surroundLeftNode && this.surroundRightNode) {
-            const surroundAngle = surroundAngleBase + (size / (this.spatialMode === 'podcast' ? 12 : 10));
+            const surroundAngle = (surroundAngleBase + 10) + (size / (this.spatialMode === 'podcast' ? 10 : 8)); // ENHANCED: Wider angles
             
-            // Convert angles to positions for surround
+            // Convert angles to positions with enhanced distance for more separation
             const leftAngleRad = -surroundAngle * Math.PI / 180;
             const rightAngleRad = surroundAngle * Math.PI / 180;
             
-            this.surroundLeftNode.positionX.setTargetAtTime(Math.sin(leftAngleRad) * surroundDistance, this.audioContext.currentTime, 0.05);
-            this.surroundLeftNode.positionZ.setTargetAtTime(Math.cos(leftAngleRad) * surroundDistance, this.audioContext.currentTime, 0.05);
+            const enhancedSurroundDistance = surroundDistance * 1.3; // Further for more separation
+            this.surroundLeftNode.positionX.setTargetAtTime(Math.sin(leftAngleRad) * enhancedSurroundDistance, this.audioContext.currentTime, 0.05);
+            this.surroundLeftNode.positionZ.setTargetAtTime(Math.cos(leftAngleRad) * enhancedSurroundDistance, this.audioContext.currentTime, 0.05);
+            this.surroundLeftNode.positionY.setTargetAtTime(0, this.audioContext.currentTime, 0.05);
             
-            this.surroundRightNode.positionX.setTargetAtTime(Math.sin(rightAngleRad) * surroundDistance, this.audioContext.currentTime, 0.05);
-            this.surroundRightNode.positionZ.setTargetAtTime(Math.cos(rightAngleRad) * surroundDistance, this.audioContext.currentTime, 0.05);
+            this.surroundRightNode.positionX.setTargetAtTime(Math.sin(rightAngleRad) * enhancedSurroundDistance, this.audioContext.currentTime, 0.05);
+            this.surroundRightNode.positionZ.setTargetAtTime(Math.cos(rightAngleRad) * enhancedSurroundDistance, this.audioContext.currentTime, 0.05);
+            this.surroundRightNode.positionY.setTargetAtTime(0, this.audioContext.currentTime, 0.05);
         }
         
-        // Adjust top speaker height with milder elevation
+        // ENHANCED: Maximum overhead positioning for immersive 3D effect
         if (this.topNode) {
-            // Less overhead for podcast, more for movie and music
-            const heightMultiplier = this.spatialMode === 'podcast' ? 150 : (this.spatialMode === 'movie' ? 130 : 120);
-            const height = 0.4 + (size / heightMultiplier); // MILDER height range
+            // Higher elevation and forward position for maximum overhead immersion
+            const heightMultiplier = this.spatialMode === 'podcast' ? 150 : (this.spatialMode === 'movie' ? 130 : 110);
+            const height = 0.7 + (size / heightMultiplier); // ENHANCED: Higher for more overhead effect
             this.topNode.positionY.setTargetAtTime(height, this.audioContext.currentTime, 0.05);
+            // Forward position for better overhead imaging
+            this.topNode.positionZ.setTargetAtTime(-1.0 - (size / 150), this.audioContext.currentTime, 0.05);
+            this.topNode.positionX.setTargetAtTime(0, this.audioContext.currentTime, 0.05);
         }
     }
     
@@ -2000,62 +2003,75 @@ class AudioProcessor {
     updateChainSpeakerPositioning(chain, size) {
         if (!chain) return;
         
-        // Map size to distance/spread with MILDER positioning
+        // ENHANCED: Distinct positioning for each mode's unique experience
         let distance, spread, surroundDistance, surroundAngleBase;
         
         if (this.spatialMode === 'podcast') {
-            // Podcast: Closer, narrower placement for speech focus
-            distance = 0.9 + (size / 60);
-            spread = 0.8 + (size / 300);
-            surroundDistance = distance * 0.95;
-            surroundAngleBase = 90;
+            // Podcast: "You're actually there" - Close, intimate, natural positioning
+            distance = 0.7 + (size / 80); // Closer, more intimate
+            spread = 0.6 + (size / 400); // Narrow, focused
+            surroundDistance = distance * 0.85; // Surrounds much closer
+            surroundAngleBase = 85; // Narrower surround angle
         } else if (this.spatialMode === 'movie') {
-            // Movie: Medium distance, wide spread for cinematic effect
-            distance = 1.0 + (size / 55);
-            spread = 0.85 + (size / 250);
-            surroundDistance = distance * 0.9;
-            surroundAngleBase = 100;
+            // Movie: Cinema - Medium distance, wide spread for cinematic theater
+            distance = 1.2 + (size / 50); // Cinema distance
+            spread = 0.95 + (size / 220); // Wide for cinema
+            surroundDistance = distance * 0.88; // Surrounds for cinema effects
+            surroundAngleBase = 115; // Wide surround for cinema
         } else {
-            // Music: Standard immersive configuration
-            distance = 1.1 + (size / 50);
-            spread = 0.9 + (size / 230);
-            surroundDistance = distance * 0.85;
-            surroundAngleBase = 100;
+            // Music: Festival/Concert/Theater - Maximum distance and spread
+            distance = 1.5 + (size / 40); // Far, concert distance
+            spread = 1.1 + (size / 200); // Maximum spread
+            surroundDistance = distance * 0.82; // Surrounds further for concert
+            surroundAngleBase = 130; // Maximum surround angle
         }
         
-        // Set z-distance of front speakers (closer or further)
+        // ENHANCED: Maximum 3D positioning for front speakers
         if (chain.frontLeftNode && chain.frontRightNode) {
-            chain.frontLeftNode.positionZ.setTargetAtTime(-distance, this.audioContext.currentTime, 0.05);
-            chain.frontRightNode.positionZ.setTargetAtTime(-distance, this.audioContext.currentTime, 0.05);
+            // Use distinct angles per mode for maximum 3D effect
+            let frontAngleBase = this.spatialMode === 'podcast' ? 30 : (this.spatialMode === 'movie' ? 45 : 55); // ENHANCED: Distinct angles per mode
+            const frontAngle = frontAngleBase * (1 + spread * 0.3); // Additional spread multiplier
             
-            // Adjust spread (x-position)
-            let frontAngleBase = this.spatialMode === 'podcast' ? 25 : 30;
-            const leftX = -frontAngleBase * spread;
-            const rightX = frontAngleBase * spread;
-            chain.frontLeftNode.positionX.setTargetAtTime(leftX / 50, this.audioContext.currentTime, 0.05);
-            chain.frontRightNode.positionX.setTargetAtTime(rightX / 50, this.audioContext.currentTime, 0.05);
+            const leftAngleRad = -frontAngle * Math.PI / 180;
+            const rightAngleRad = frontAngle * Math.PI / 180;
+            
+            // Set 3D positions with enhanced distance for depth
+            const enhancedDistance = distance * 1.2; // Further for more depth
+            chain.frontLeftNode.positionX.setTargetAtTime(Math.sin(leftAngleRad) * enhancedDistance, this.audioContext.currentTime, 0.05);
+            chain.frontLeftNode.positionZ.setTargetAtTime(-Math.cos(leftAngleRad) * enhancedDistance, this.audioContext.currentTime, 0.05);
+            chain.frontLeftNode.positionY.setTargetAtTime(0, this.audioContext.currentTime, 0.05);
+            
+            chain.frontRightNode.positionX.setTargetAtTime(Math.sin(rightAngleRad) * enhancedDistance, this.audioContext.currentTime, 0.05);
+            chain.frontRightNode.positionZ.setTargetAtTime(-Math.cos(rightAngleRad) * enhancedDistance, this.audioContext.currentTime, 0.05);
+            chain.frontRightNode.positionY.setTargetAtTime(0, this.audioContext.currentTime, 0.05);
         }
         
-        // Adjust surround speaker positions with more moderate angles
+        // ENHANCED: Maximum surround positioning for immersive 3D separation
         if (chain.surroundLeftNode && chain.surroundRightNode) {
-            const surroundAngle = surroundAngleBase + (size / (this.spatialMode === 'podcast' ? 12 : 10));
+            const surroundAngle = (surroundAngleBase + 10) + (size / (this.spatialMode === 'podcast' ? 10 : 8)); // ENHANCED: Wider angles
             
-            // Convert angles to positions for surround
+            // Convert angles to positions with enhanced distance for more separation
             const leftAngleRad = -surroundAngle * Math.PI / 180;
             const rightAngleRad = surroundAngle * Math.PI / 180;
             
-            chain.surroundLeftNode.positionX.setTargetAtTime(Math.sin(leftAngleRad) * surroundDistance, this.audioContext.currentTime, 0.05);
-            chain.surroundLeftNode.positionZ.setTargetAtTime(Math.cos(leftAngleRad) * surroundDistance, this.audioContext.currentTime, 0.05);
+            const enhancedSurroundDistance = surroundDistance * 1.3; // Further for more separation
+            chain.surroundLeftNode.positionX.setTargetAtTime(Math.sin(leftAngleRad) * enhancedSurroundDistance, this.audioContext.currentTime, 0.05);
+            chain.surroundLeftNode.positionZ.setTargetAtTime(Math.cos(leftAngleRad) * enhancedSurroundDistance, this.audioContext.currentTime, 0.05);
+            chain.surroundLeftNode.positionY.setTargetAtTime(0, this.audioContext.currentTime, 0.05);
             
-            chain.surroundRightNode.positionX.setTargetAtTime(Math.sin(rightAngleRad) * surroundDistance, this.audioContext.currentTime, 0.05);
-            chain.surroundRightNode.positionZ.setTargetAtTime(Math.cos(rightAngleRad) * surroundDistance, this.audioContext.currentTime, 0.05);
+            chain.surroundRightNode.positionX.setTargetAtTime(Math.sin(rightAngleRad) * enhancedSurroundDistance, this.audioContext.currentTime, 0.05);
+            chain.surroundRightNode.positionZ.setTargetAtTime(Math.cos(rightAngleRad) * enhancedSurroundDistance, this.audioContext.currentTime, 0.05);
+            chain.surroundRightNode.positionY.setTargetAtTime(0, this.audioContext.currentTime, 0.05);
         }
         
-        // Adjust top speaker height with milder elevation
+        // ENHANCED: Maximum overhead positioning for immersive 3D effect
         if (chain.topNode) {
-            const heightMultiplier = this.spatialMode === 'podcast' ? 150 : (this.spatialMode === 'movie' ? 130 : 120);
-            const height = 0.4 + (size / heightMultiplier);
+            const heightMultiplier = this.spatialMode === 'podcast' ? 150 : (this.spatialMode === 'movie' ? 130 : 110);
+            const height = 0.7 + (size / heightMultiplier); // ENHANCED: Higher for more overhead effect
             chain.topNode.positionY.setTargetAtTime(height, this.audioContext.currentTime, 0.05);
+            // Forward position for better overhead imaging
+            chain.topNode.positionZ.setTargetAtTime(-1.0 - (size / 150), this.audioContext.currentTime, 0.05);
+            chain.topNode.positionX.setTargetAtTime(0, this.audioContext.currentTime, 0.05);
         }
 
         // Center speaker positioning - keep centered but adjust distance
@@ -2130,23 +2146,23 @@ class AudioProcessor {
         let midGain, sideGain, frontAngleBase, surroundAngleBase;
         
         if (this.spatialMode === 'podcast') {
-            // Podcast: More centered, less stereo width
-            midGain = Math.max(0.55, 1 - Math.abs(scaledWidth) * 0.45);
-            sideGain = 1 + scaledWidth * 0.90;
-            frontAngleBase = 30; // Narrower front angle
-            surroundAngleBase = 100; // Narrower surround 
+            // Podcast: Enhanced spatial width
+            midGain = Math.max(0.50, 1 - Math.abs(scaledWidth) * 0.50);
+            sideGain = 1 + scaledWidth * 1.20; // ENHANCED: More side for width
+            frontAngleBase = 40; // ENHANCED: Wider front angle
+            surroundAngleBase = 110; // ENHANCED: Wider surround 
         } else if (this.spatialMode === 'movie') {
-            // Movie: Medium stereo width
-            midGain = Math.max(0.48, 1 - Math.abs(scaledWidth) * 0.55);
-            sideGain = 1 + scaledWidth * 1.05;
-            frontAngleBase = 35; // Medium front angle
-            surroundAngleBase = 110; // Medium surround
+            // Movie: Maximum stereo width for cinematic 3D
+            midGain = Math.max(0.45, 1 - Math.abs(scaledWidth) * 0.55);
+            sideGain = 1 + scaledWidth * 1.35; // ENHANCED: More side for width
+            frontAngleBase = 45; // ENHANCED: Much wider front angle
+            surroundAngleBase = 120; // ENHANCED: Much wider surround
         } else {
-            // Music: Full stereo width
-            midGain = Math.max(0.42, 1 - Math.abs(scaledWidth) * 0.60);
-            sideGain = 1 + scaledWidth * 1.18;
-            frontAngleBase = 38; // Wider front angle
-            surroundAngleBase = 118; // Wider surround
+            // Music: Maximum stereo width for immersive 3D
+            midGain = Math.max(0.40, 1 - Math.abs(scaledWidth) * 0.60);
+            sideGain = 1 + scaledWidth * 1.50; // ENHANCED: Maximum side for width
+            frontAngleBase = 50; // ENHANCED: Maximum front angle
+            surroundAngleBase = 130; // ENHANCED: Maximum surround
         }
         
         if (this.midSideProcessor) {
@@ -2218,18 +2234,25 @@ class AudioProcessor {
             }
         }
         
-        // Adjust direct/ambient balance for wider soundstage
-        // Content-specific adjustments
-        let directLevel;
+        // IMPROVED: Better direct/ambient balance - maintain clarity even with wider soundstage
+        let directLevel, ambientLevel;
         if (this.spatialMode === 'podcast') {
-            // Podcast: More direct sound for clarity regardless of width
-            directLevel = Math.max(0.55, 1 - (Math.abs(scaledWidth) * 0.28));
+            // Podcast: High direct sound for clarity regardless of width
+            directLevel = Math.max(0.85, 0.95 - (Math.abs(scaledWidth) * 0.10));
+            ambientLevel = 0.08 + (Math.abs(scaledWidth) * 0.12); // Range: 0.08 to 0.20
         } else if (this.spatialMode === 'movie') {
-            // Movie: Moderate reduction in direct sound
-            directLevel = Math.max(0.48, 1 - (Math.abs(scaledWidth) * 0.33));
+            // Movie: Good direct level, subtle ambient
+            directLevel = Math.max(0.80, 0.92 - (Math.abs(scaledWidth) * 0.12));
+            ambientLevel = 0.10 + (Math.abs(scaledWidth) * 0.15); // Range: 0.10 to 0.25
         } else {
-            // Music: More reduction for wider stereo
-            directLevel = Math.max(0.42, 1 - (Math.abs(scaledWidth) * 0.38));
+            // Music: Balanced but prioritizing clarity
+            directLevel = Math.max(0.75, 0.88 - (Math.abs(scaledWidth) * 0.13));
+            ambientLevel = 0.12 + (Math.abs(scaledWidth) * 0.18); // Range: 0.12 to 0.30
+        }
+        
+        // Apply ambient level as well
+        if (this.ambientGain) {
+            this.ambientGain.gain.setTargetAtTime(ambientLevel, this.audioContext.currentTime, 0.05);
         }
         
         if (this.directGain) {
@@ -2267,9 +2290,12 @@ class AudioProcessor {
                 chain.surroundRightNode.positionZ.setTargetAtTime(Math.cos(rightAngleRad), this.audioContext.currentTime, 0.05);
             }
             
-            // Adjust direct level
+            // Adjust direct and ambient levels
             if (chain.directGain) {
                 chain.directGain.gain.setTargetAtTime(directLevel, this.audioContext.currentTime, 0.05);
+            }
+            if (chain.ambientGain) {
+                chain.ambientGain.gain.setTargetAtTime(ambientLevel, this.audioContext.currentTime, 0.05);
             }
             
             // Adjust center channel level
@@ -2412,8 +2438,6 @@ class AudioProcessor {
                     }, 50);
                 }
             }, 50);
-            
-            console.log(`[Audio Enhancer Debug] Enhanced premium 360° Spatial audio ${enabled ? 'enabled' : 'disabled'}`);
         } catch (error) {
             console.error('[Audio Enhancer Debug] Error in setSpatialEnabled:', error);
         }
@@ -2422,10 +2446,7 @@ class AudioProcessor {
     // Implementation of setSpatialMode for content-specific optimization
     setSpatialMode(mode) {
         try {
-            console.log(`[Audio Enhancer Debug] Setting spatial mode to ${mode}`);
-            
             if (!this.spatialEnabled) {
-                console.log('[Audio Enhancer Debug] Spatial audio not enabled, not setting mode');
                 return;
             }
             
@@ -2435,36 +2456,36 @@ class AudioProcessor {
             // Apply mode-specific settings
             let roomSize, spatialWidth;
             
-            // Set optimal parameters based on content type
+            // Set optimal parameters based on content type - ENHANCED for distinct experiences
             if (mode === 'podcast') {
-                // Podcast Mode - Optimize for voice clarity
-                roomSize = 25;  // Smaller room for focus
-                spatialWidth = 35; // Narrower width for centered dialog
+                // Podcast Mode - "You're actually there" natural, intimate experience
+                roomSize = 35;  // Small-medium room for intimate, natural feel
+                spatialWidth = 30; // Narrow width for centered, focused dialog
                 
-                // Apply to main processors
-                if (this.vocalPresenceEQ) this.vocalPresenceEQ.gain.setTargetAtTime(4, this.audioContext.currentTime, 0.05);
-                if (this.vocalFundamentalsEQ) this.vocalFundamentalsEQ.gain.setTargetAtTime(3, this.audioContext.currentTime, 0.05);
-                if (this.dialogEQ) this.dialogEQ.gain.setTargetAtTime(2.5, this.audioContext.currentTime, 0.05);
-                
-            } else if (mode === 'movie') {
-                // Movie Mode - Balance dialog clarity with cinematic feel
-                roomSize = 65;  // Larger room for cinematic feel
-                spatialWidth = 60; // Wider for more immersion
-                
-                // Apply to main processors
-                if (this.vocalPresenceEQ) this.vocalPresenceEQ.gain.setTargetAtTime(2, this.audioContext.currentTime, 0.05);
-                if (this.vocalFundamentalsEQ) this.vocalFundamentalsEQ.gain.setTargetAtTime(1.5, this.audioContext.currentTime, 0.05);
+                // Apply to main processors - Strong voice clarity
+                if (this.vocalPresenceEQ) this.vocalPresenceEQ.gain.setTargetAtTime(5, this.audioContext.currentTime, 0.05);
+                if (this.vocalFundamentalsEQ) this.vocalFundamentalsEQ.gain.setTargetAtTime(4, this.audioContext.currentTime, 0.05);
                 if (this.dialogEQ) this.dialogEQ.gain.setTargetAtTime(3.5, this.audioContext.currentTime, 0.05);
                 
-            } else {
-                // Music Mode (default) - Full immersive experience
-                roomSize = 50;  // Medium room for balance
-                spatialWidth = 50; // Standard width
+            } else if (mode === 'movie') {
+                // Movie Mode - Cinema experience with perfect dialog and immersive effects
+                roomSize = 75;  // Large room for cinematic theater feel
+                spatialWidth = 70; // Wide for immersive cinema experience
                 
-                // Apply to main processors
-                if (this.vocalPresenceEQ) this.vocalPresenceEQ.gain.setTargetAtTime(1.5, this.audioContext.currentTime, 0.05);
-                if (this.vocalFundamentalsEQ) this.vocalFundamentalsEQ.gain.setTargetAtTime(1, this.audioContext.currentTime, 0.05);
-                if (this.dialogEQ) this.dialogEQ.gain.setTargetAtTime(0, this.audioContext.currentTime, 0.05);
+                // Apply to main processors - Enhanced dialog clarity
+                if (this.vocalPresenceEQ) this.vocalPresenceEQ.gain.setTargetAtTime(3, this.audioContext.currentTime, 0.05);
+                if (this.vocalFundamentalsEQ) this.vocalFundamentalsEQ.gain.setTargetAtTime(2.5, this.audioContext.currentTime, 0.05);
+                if (this.dialogEQ) this.dialogEQ.gain.setTargetAtTime(4, this.audioContext.currentTime, 0.05);
+                
+            } else {
+                // Music Mode - Festival/Concert/Theater experience
+                roomSize = 90;  // Very large room for concert/festival feel
+                spatialWidth = 80; // Maximum width for immersive music experience
+                
+                // Apply to main processors - Balanced for music
+                if (this.vocalPresenceEQ) this.vocalPresenceEQ.gain.setTargetAtTime(1, this.audioContext.currentTime, 0.05);
+                if (this.vocalFundamentalsEQ) this.vocalFundamentalsEQ.gain.setTargetAtTime(0.5, this.audioContext.currentTime, 0.05);
+                if (this.dialogEQ) this.dialogEQ.gain.setTargetAtTime(-0.5, this.audioContext.currentTime, 0.05);
             }
             
             // Apply mode to all chains
@@ -2507,36 +2528,47 @@ class AudioProcessor {
             // Apply EQ settings based on content type
             if (chain.vocalPresenceEQ && chain.vocalFundamentalsEQ && chain.dialogEQ) {
                 if (mode === 'podcast') {
-                    // Podcast: Enhance voice clarity significantly
-                    chain.vocalPresenceEQ.gain.setTargetAtTime(4, this.audioContext.currentTime, 0.05);
-                    chain.vocalFundamentalsEQ.gain.setTargetAtTime(3, this.audioContext.currentTime, 0.05);
-                    chain.dialogEQ.gain.setTargetAtTime(2.5, this.audioContext.currentTime, 0.05);
+                    // Podcast: "You're actually there" - Maximum voice clarity, natural feel
+                    chain.vocalPresenceEQ.gain.setTargetAtTime(6, this.audioContext.currentTime, 0.05); // ENHANCED
+                    chain.vocalFundamentalsEQ.gain.setTargetAtTime(5, this.audioContext.currentTime, 0.05); // ENHANCED
+                    chain.dialogEQ.gain.setTargetAtTime(4, this.audioContext.currentTime, 0.05); // ENHANCED
                     
-                    // Reduce low frequencies that can muddy speech
+                    // Reduce low frequencies that muddy speech, enhance clarity
                     if (chain.directEQ && chain.directEQ.lowControl) {
-                        chain.directEQ.lowControl.gain.setTargetAtTime(-2, this.audioContext.currentTime, 0.05);
+                        chain.directEQ.lowControl.gain.setTargetAtTime(-3, this.audioContext.currentTime, 0.05); // More reduction
+                    }
+                    // Enhance high frequencies for clarity
+                    if (chain.directEQ && chain.directEQ.highShelf) {
+                        chain.directEQ.highShelf.gain.setTargetAtTime(3, this.audioContext.currentTime, 0.05);
                     }
                     
                 } else if (mode === 'movie') {
-                    // Movie: Balance dialog clarity with cinematic feel
-                    chain.vocalPresenceEQ.gain.setTargetAtTime(2, this.audioContext.currentTime, 0.05);
-                    chain.vocalFundamentalsEQ.gain.setTargetAtTime(1.5, this.audioContext.currentTime, 0.05);
-                    chain.dialogEQ.gain.setTargetAtTime(3.5, this.audioContext.currentTime, 0.05);
+                    // Movie: Cinema - Enhanced dialog with cinematic bass
+                    chain.vocalPresenceEQ.gain.setTargetAtTime(3.5, this.audioContext.currentTime, 0.05); // ENHANCED
+                    chain.vocalFundamentalsEQ.gain.setTargetAtTime(3, this.audioContext.currentTime, 0.05); // ENHANCED
+                    chain.dialogEQ.gain.setTargetAtTime(4.5, this.audioContext.currentTime, 0.05); // ENHANCED
                     
-                    // Slight bass boost for cinematic feel
+                    // Enhanced bass for cinematic feel
                     if (chain.directEQ && chain.directEQ.lowControl) {
-                        chain.directEQ.lowControl.gain.setTargetAtTime(-0.5, this.audioContext.currentTime, 0.05);
+                        chain.directEQ.lowControl.gain.setTargetAtTime(1, this.audioContext.currentTime, 0.05); // Bass boost
+                    }
+                    // Enhance presence for dialog clarity
+                    if (chain.directEQ && chain.directEQ.presence) {
+                        chain.directEQ.presence.gain.setTargetAtTime(2, this.audioContext.currentTime, 0.05);
                     }
                     
                 } else {
-                    // Music: Balanced with slight vocal enhancement
-                    chain.vocalPresenceEQ.gain.setTargetAtTime(1.5, this.audioContext.currentTime, 0.05);
-                    chain.vocalFundamentalsEQ.gain.setTargetAtTime(1, this.audioContext.currentTime, 0.05);
-                    chain.dialogEQ.gain.setTargetAtTime(0, this.audioContext.currentTime, 0.05);
+                    // Music: Festival/Concert/Theater - Full frequency response, concert feel
+                    chain.vocalPresenceEQ.gain.setTargetAtTime(0.5, this.audioContext.currentTime, 0.05); // Minimal vocal boost
+                    chain.vocalFundamentalsEQ.gain.setTargetAtTime(0, this.audioContext.currentTime, 0.05); // Neutral
+                    chain.dialogEQ.gain.setTargetAtTime(-1, this.audioContext.currentTime, 0.05); // Slight reduction
                     
-                    // Default bass level for music
+                    // Enhanced bass and highs for concert feel
                     if (chain.directEQ && chain.directEQ.lowControl) {
-                        chain.directEQ.lowControl.gain.setTargetAtTime(-1, this.audioContext.currentTime, 0.05);
+                        chain.directEQ.lowControl.gain.setTargetAtTime(2, this.audioContext.currentTime, 0.05); // Bass boost
+                    }
+                    if (chain.directEQ && chain.directEQ.highShelf) {
+                        chain.directEQ.highShelf.gain.setTargetAtTime(2.5, this.audioContext.currentTime, 0.05); // High boost
                     }
                 }
             }
@@ -2544,52 +2576,52 @@ class AudioProcessor {
             // Adjust speaker gain levels based on content type
             if (chain.speakerGains) {
                 if (mode === 'podcast') {
-                    // Podcast: Focus on front speakers, reduce surround and top
-                    chain.speakerGains.frontLeft.gain.setTargetAtTime(0.50, this.audioContext.currentTime, 0.05);
-                    chain.speakerGains.frontRight.gain.setTargetAtTime(0.50, this.audioContext.currentTime, 0.05);
-                    chain.speakerGains.surroundLeft.gain.setTargetAtTime(0.25, this.audioContext.currentTime, 0.05);
-                    chain.speakerGains.surroundRight.gain.setTargetAtTime(0.25, this.audioContext.currentTime, 0.05);
-                    chain.speakerGains.top.gain.setTargetAtTime(0.20, this.audioContext.currentTime, 0.05);
+                    // Podcast: "You're actually there" - Focus on front/center, minimal surround
+                    chain.speakerGains.frontLeft.gain.setTargetAtTime(0.55, this.audioContext.currentTime, 0.05); // ENHANCED front
+                    chain.speakerGains.frontRight.gain.setTargetAtTime(0.55, this.audioContext.currentTime, 0.05); // ENHANCED front
+                    chain.speakerGains.surroundLeft.gain.setTargetAtTime(0.18, this.audioContext.currentTime, 0.05); // Minimal surround
+                    chain.speakerGains.surroundRight.gain.setTargetAtTime(0.18, this.audioContext.currentTime, 0.05); // Minimal surround
+                    chain.speakerGains.top.gain.setTargetAtTime(0.15, this.audioContext.currentTime, 0.05); // Minimal overhead
                     
-                    // NEW: Adjust expanded speaker configuration for podcast mode
-                    if (chain.speakerGains.center) chain.speakerGains.center.gain.setTargetAtTime(0.80, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.subwoofer) chain.speakerGains.subwoofer.gain.setTargetAtTime(0.40, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.topFrontLeft) chain.speakerGains.topFrontLeft.gain.setTargetAtTime(0.15, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.topFrontRight) chain.speakerGains.topFrontRight.gain.setTargetAtTime(0.15, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.topRearLeft) chain.speakerGains.topRearLeft.gain.setTargetAtTime(0.10, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.topRearRight) chain.speakerGains.topRearRight.gain.setTargetAtTime(0.10, this.audioContext.currentTime, 0.05);
+                    // ENHANCED: Strong center for dialog focus, minimal other speakers
+                    if (chain.speakerGains.center) chain.speakerGains.center.gain.setTargetAtTime(0.90, this.audioContext.currentTime, 0.05); // Very strong center
+                    if (chain.speakerGains.subwoofer) chain.speakerGains.subwoofer.gain.setTargetAtTime(0.25, this.audioContext.currentTime, 0.05); // Minimal bass
+                    if (chain.speakerGains.topFrontLeft) chain.speakerGains.topFrontLeft.gain.setTargetAtTime(0.12, this.audioContext.currentTime, 0.05);
+                    if (chain.speakerGains.topFrontRight) chain.speakerGains.topFrontRight.gain.setTargetAtTime(0.12, this.audioContext.currentTime, 0.05);
+                    if (chain.speakerGains.topRearLeft) chain.speakerGains.topRearLeft.gain.setTargetAtTime(0.08, this.audioContext.currentTime, 0.05);
+                    if (chain.speakerGains.topRearRight) chain.speakerGains.topRearRight.gain.setTargetAtTime(0.08, this.audioContext.currentTime, 0.05);
                     
                 } else if (mode === 'movie') {
-                    // Movie: Enhanced surrounds for dramatic effect
-                    chain.speakerGains.frontLeft.gain.setTargetAtTime(0.45, this.audioContext.currentTime, 0.05);
-                    chain.speakerGains.frontRight.gain.setTargetAtTime(0.45, this.audioContext.currentTime, 0.05);
-                    chain.speakerGains.surroundLeft.gain.setTargetAtTime(0.48, this.audioContext.currentTime, 0.05);
-                    chain.speakerGains.surroundRight.gain.setTargetAtTime(0.48, this.audioContext.currentTime, 0.05);
-                    chain.speakerGains.top.gain.setTargetAtTime(0.38, this.audioContext.currentTime, 0.05);
+                    // Movie: Cinema - Strong center for dialog, enhanced surrounds for effects
+                    chain.speakerGains.frontLeft.gain.setTargetAtTime(0.48, this.audioContext.currentTime, 0.05);
+                    chain.speakerGains.frontRight.gain.setTargetAtTime(0.48, this.audioContext.currentTime, 0.05);
+                    chain.speakerGains.surroundLeft.gain.setTargetAtTime(0.52, this.audioContext.currentTime, 0.05); // ENHANCED for cinema
+                    chain.speakerGains.surroundRight.gain.setTargetAtTime(0.52, this.audioContext.currentTime, 0.05); // ENHANCED for cinema
+                    chain.speakerGains.top.gain.setTargetAtTime(0.42, this.audioContext.currentTime, 0.05); // ENHANCED overhead
                     
-                    // NEW: Adjust expanded speaker configuration for movie mode
-                    if (chain.speakerGains.center) chain.speakerGains.center.gain.setTargetAtTime(0.70, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.subwoofer) chain.speakerGains.subwoofer.gain.setTargetAtTime(0.85, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.topFrontLeft) chain.speakerGains.topFrontLeft.gain.setTargetAtTime(0.42, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.topFrontRight) chain.speakerGains.topFrontRight.gain.setTargetAtTime(0.42, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.topRearLeft) chain.speakerGains.topRearLeft.gain.setTargetAtTime(0.38, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.topRearRight) chain.speakerGains.topRearRight.gain.setTargetAtTime(0.38, this.audioContext.currentTime, 0.05);
+                    // ENHANCED: Strong center for dialog, powerful bass, immersive overhead
+                    if (chain.speakerGains.center) chain.speakerGains.center.gain.setTargetAtTime(0.75, this.audioContext.currentTime, 0.05); // Strong center
+                    if (chain.speakerGains.subwoofer) chain.speakerGains.subwoofer.gain.setTargetAtTime(0.90, this.audioContext.currentTime, 0.05); // Powerful bass
+                    if (chain.speakerGains.topFrontLeft) chain.speakerGains.topFrontLeft.gain.setTargetAtTime(0.45, this.audioContext.currentTime, 0.05); // ENHANCED
+                    if (chain.speakerGains.topFrontRight) chain.speakerGains.topFrontRight.gain.setTargetAtTime(0.45, this.audioContext.currentTime, 0.05); // ENHANCED
+                    if (chain.speakerGains.topRearLeft) chain.speakerGains.topRearLeft.gain.setTargetAtTime(0.40, this.audioContext.currentTime, 0.05); // ENHANCED
+                    if (chain.speakerGains.topRearRight) chain.speakerGains.topRearRight.gain.setTargetAtTime(0.40, this.audioContext.currentTime, 0.05); // ENHANCED
                     
                 } else {
-                    // Music: Balanced for immersive musical experience
-                    chain.speakerGains.frontLeft.gain.setTargetAtTime(0.42, this.audioContext.currentTime, 0.05);
-                    chain.speakerGains.frontRight.gain.setTargetAtTime(0.42, this.audioContext.currentTime, 0.05);
-                    chain.speakerGains.surroundLeft.gain.setTargetAtTime(0.46, this.audioContext.currentTime, 0.05);
-                    chain.speakerGains.surroundRight.gain.setTargetAtTime(0.46, this.audioContext.currentTime, 0.05);
-                    chain.speakerGains.top.gain.setTargetAtTime(0.39, this.audioContext.currentTime, 0.05);
+                    // Music: Festival/Concert/Theater - Maximum immersion, all speakers active
+                    chain.speakerGains.frontLeft.gain.setTargetAtTime(0.45, this.audioContext.currentTime, 0.05);
+                    chain.speakerGains.frontRight.gain.setTargetAtTime(0.45, this.audioContext.currentTime, 0.05);
+                    chain.speakerGains.surroundLeft.gain.setTargetAtTime(0.50, this.audioContext.currentTime, 0.05); // ENHANCED for concert
+                    chain.speakerGains.surroundRight.gain.setTargetAtTime(0.50, this.audioContext.currentTime, 0.05); // ENHANCED for concert
+                    chain.speakerGains.top.gain.setTargetAtTime(0.45, this.audioContext.currentTime, 0.05); // ENHANCED overhead
                     
-                    // NEW: Adjust expanded speaker configuration for music mode
-                    if (chain.speakerGains.center) chain.speakerGains.center.gain.setTargetAtTime(0.50, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.subwoofer) chain.speakerGains.subwoofer.gain.setTargetAtTime(0.70, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.topFrontLeft) chain.speakerGains.topFrontLeft.gain.setTargetAtTime(0.35, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.topFrontRight) chain.speakerGains.topFrontRight.gain.setTargetAtTime(0.35, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.topRearLeft) chain.speakerGains.topRearLeft.gain.setTargetAtTime(0.30, this.audioContext.currentTime, 0.05);
-                    if (chain.speakerGains.topRearRight) chain.speakerGains.topRearRight.gain.setTargetAtTime(0.30, this.audioContext.currentTime, 0.05);
+                    // ENHANCED: Balanced for concert feel, strong bass, immersive overhead
+                    if (chain.speakerGains.center) chain.speakerGains.center.gain.setTargetAtTime(0.45, this.audioContext.currentTime, 0.05); // Balanced center
+                    if (chain.speakerGains.subwoofer) chain.speakerGains.subwoofer.gain.setTargetAtTime(0.85, this.audioContext.currentTime, 0.05); // Strong bass
+                    if (chain.speakerGains.topFrontLeft) chain.speakerGains.topFrontLeft.gain.setTargetAtTime(0.42, this.audioContext.currentTime, 0.05); // ENHANCED
+                    if (chain.speakerGains.topFrontRight) chain.speakerGains.topFrontRight.gain.setTargetAtTime(0.42, this.audioContext.currentTime, 0.05); // ENHANCED
+                    if (chain.speakerGains.topRearLeft) chain.speakerGains.topRearLeft.gain.setTargetAtTime(0.38, this.audioContext.currentTime, 0.05); // ENHANCED
+                    if (chain.speakerGains.topRearRight) chain.speakerGains.topRearRight.gain.setTargetAtTime(0.38, this.audioContext.currentTime, 0.05); // ENHANCED
                 }
             }
             
