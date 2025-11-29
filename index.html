@@ -292,26 +292,33 @@
             flex: 1;
             position: relative;
             width: 100%;
-            max-width: 600px;
-            min-height: 400px;
+            max-width: 700px;
+            min-height: 450px;
         }
 
         .hero-image img {
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow-strong);
-            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
-            transition: transform var(--transition-slow), opacity 1s ease-in-out;
+            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg) scale(0.98);
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+                        filter 1.2s cubic-bezier(0.4, 0, 0.2, 1);
             position: absolute;
             top: 0;
             left: 0;
             opacity: 0;
+            filter: blur(3px) brightness(0.9);
+            will-change: opacity, transform, filter;
         }
 
         .hero-image img.active {
             opacity: 1;
             position: relative;
+            z-index: 2;
+            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg) scale(1);
+            filter: blur(0px) brightness(1);
         }
 
         .hero-image img:hover {
@@ -1484,7 +1491,7 @@
                 </div>
                 <div class="footer-terms">
                     <a href="#" id="privacy-policy-link">Privacy Policy</a>
-                    <a href="#" data-info="terms">Terms of Service</a>
+                    <a href="#" class="info-link" data-info="terms">Terms of Service</a>
                 </div>
             </div>
         </div>
@@ -1915,26 +1922,42 @@
             }
         });
 
-        // Hero image carousel animation
+        // Hero image carousel animation with smooth professional transitions
         const heroImages = document.querySelectorAll('.hero-img');
         let currentImageIndex = 0;
+        let isTransitioning = false;
 
         function switchHeroImage() {
-            // Remove active class from current image
+            // Prevent overlapping transitions
+            if (isTransitioning || heroImages.length <= 1) return;
+            
+            isTransitioning = true;
+            
+            // Fade out current image
             heroImages[currentImageIndex].classList.remove('active');
             
             // Move to next image
             currentImageIndex = (currentImageIndex + 1) % heroImages.length;
             
-            // Add active class to new image with a slight delay for smooth transition
+            // Small delay to ensure fade-out starts before fade-in
             setTimeout(() => {
+                // Fade in new image
                 heroImages[currentImageIndex].classList.add('active');
-            }, 50);
+                
+                // Reset transition flag after animation completes
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 1300); // Slightly longer than CSS transition (1200ms)
+            }, 100);
         }
 
         // Start the image rotation after page load
         if (heroImages.length > 1) {
-            // Initial delay before first switch
+            // Preload second image for smoother transition
+            const secondImage = new Image();
+            secondImage.src = heroImages[1].src;
+            
+            // Initial delay before first switch (5 seconds)
             setTimeout(() => {
                 switchHeroImage();
                 // Then switch every 5 seconds
