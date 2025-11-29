@@ -107,12 +107,6 @@
             padding: 0 var(--spacing-md);
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 var(--spacing-sm);
-            }
-        }
-
         /* Button Styles */
         .btn {
             display: inline-block;
@@ -221,6 +215,67 @@
             display: none;
             font-size: 1.5rem;
             cursor: pointer;
+            color: var(--text-primary);
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-primary);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: var(--spacing-md);
+            max-height: calc(100vh - 70px);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-menu li {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            transition: all var(--transition-fast);
+        }
+
+        .mobile-menu a:hover {
+            background-color: var(--bg-secondary);
+            color: var(--primary);
         }
 
         /* Hero Section */
@@ -1111,12 +1166,28 @@
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--spacing-sm);
+            }
+
             .nav-links, .cta-button {
                 display: none;
             }
 
             .mobile-menu-toggle {
                 display: block;
+            }
+
+            .header-container {
+                padding: 1rem 0;
+            }
+
+            .logo span {
+                font-size: 1.4rem !important;
+            }
+
+            .logo img {
+                height: 36px !important;
             }
 
             .hero-container {
@@ -1165,27 +1236,6 @@
             .hero-image img {
                 max-width: 100%;
                 width: 100%;
-            }
-
-            .steps {
-                flex-direction: column;
-                align-items: center;
-                gap: var(--spacing-lg);
-            }
-
-            .steps::before {
-                display: none;
-            }
-
-            .footer-container {
-                grid-template-columns: 1fr;
-                gap: var(--spacing-lg);
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: var(--spacing-sm);
-                text-align: center;
             }
 
             h1 {
@@ -1241,6 +1291,32 @@
             .btn-lg {
                 padding: 0.9rem 1.8rem;
                 font-size: 1rem;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+
+            .steps {
+                flex-direction: column;
+                align-items: center;
+                gap: var(--spacing-lg);
+            }
+
+            .steps::before {
+                display: none;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+                text-align: center;
             }
         }
 
@@ -1674,6 +1750,44 @@
 
     <!-- JavaScript -->
     <script>
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuIcon = mobileMenuToggle.querySelector('i');
+
+        if (mobileMenuToggle && mobileMenu) {
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+                // Change icon between bars and X
+                if (mobileMenu.classList.contains('active')) {
+                    mobileMenuIcon.classList.remove('fa-bars');
+                    mobileMenuIcon.classList.add('fa-times');
+                } else {
+                    mobileMenuIcon.classList.remove('fa-times');
+                    mobileMenuIcon.classList.add('fa-bars');
+                }
+            });
+
+            // Close mobile menu when clicking on a link
+            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    mobileMenuIcon.classList.remove('fa-times');
+                    mobileMenuIcon.classList.add('fa-bars');
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!mobileMenuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.remove('active');
+                    mobileMenuIcon.classList.remove('fa-times');
+                    mobileMenuIcon.classList.add('fa-bars');
+                }
+            });
+        }
+
         // Header scroll effect
         window.addEventListener('scroll', function() {
             const header = document.querySelector('.header');
