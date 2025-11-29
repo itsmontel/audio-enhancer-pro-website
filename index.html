@@ -107,6 +107,12 @@
             padding: 0 var(--spacing-md);
         }
 
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--spacing-sm);
+            }
+        }
+
         /* Button Styles */
         .btn {
             display: inline-block;
@@ -1116,19 +1122,49 @@
             .hero-container {
                 flex-direction: column;
                 text-align: center;
+                gap: var(--spacing-md);
+                padding: var(--spacing-md) 0;
+            }
+
+            .hero-content {
+                width: 100%;
             }
 
             .hero-title {
-                font-size: 2.5rem;
+                font-size: 2rem;
+                line-height: 1.2;
+                margin-bottom: var(--spacing-sm);
             }
 
             .hero-subtitle {
+                font-size: 1rem;
                 margin-left: auto;
                 margin-right: auto;
+                margin-bottom: var(--spacing-md);
             }
 
             .hero-cta {
                 justify-content: center;
+                flex-direction: column;
+                gap: var(--spacing-sm);
+                width: 100%;
+            }
+
+            .hero-cta .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .hero-image {
+                width: 100%;
+                max-width: 100%;
+                min-height: 300px;
+                margin-top: var(--spacing-md);
+            }
+
+            .hero-image img {
+                max-width: 100%;
+                width: 100%;
             }
 
             .steps {
@@ -1150,6 +1186,60 @@
                 flex-direction: column;
                 gap: var(--spacing-sm);
                 text-align: center;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+            }
+
+            h3 {
+                font-size: 1.5rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .section-subtitle {
+                font-size: 1rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+
+            .feature-card {
+                padding: var(--spacing-md);
+            }
+
+            .testimonial-cards {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+
+            .testimonial-card {
+                padding: var(--spacing-md);
+            }
+
+            .faq-item {
+                padding: var(--spacing-sm);
+            }
+
+            .modal-content {
+                width: 95%;
+                max-width: 95%;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            .btn-lg {
+                padding: 0.9rem 1.8rem;
+                font-size: 1rem;
             }
         }
 
