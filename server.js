@@ -152,7 +152,7 @@ app.post('/create-payment-intent', async (req, res) => {
       ],
       metadata: {
         user_email: email,
-        extension_id: 'gligbihjcmlhoeidminbplfikfkjjneg' // Your Chrome extension ID
+        extension_id: 'naechonogncekonmliekcodpohfnkcjg' // Your Chrome extension ID
       }
     });
     
