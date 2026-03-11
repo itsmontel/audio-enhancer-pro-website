@@ -182,6 +182,7 @@
             max-width: 540px; margin-bottom: 2rem;
         }
         .hero-actions { display: flex; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .hero-actions-mobile { display: none; }
         .hero-social-proof {
             display: flex; align-items: center; gap: 1.25rem;
             padding-top: 1.5rem; border-top: 2px solid var(--border);
@@ -472,7 +473,12 @@
             .hero { padding: 8rem 0 3rem; }
             .hero-container { flex-direction: column; text-align: center; gap: 2.5rem; }
             .hero-subtitle { margin-left: auto; margin-right: auto; }
-            .hero-actions { justify-content: center; }
+            .hero-actions-desktop { display: none !important; }
+            .hero-actions-mobile {
+                display: flex !important; flex-direction: column; gap: 0.75rem;
+                margin-top: 2rem; width: 100%; align-items: center;
+            }
+            .hero-actions-mobile .btn { width: 100%; max-width: 320px; }
             .hero-social-proof { justify-content: center; flex-wrap: wrap; }
             .hero-image-wrap { max-width: 100%; min-height: 280px; }
             .hero-title { font-size: 2.25rem; letter-spacing: -1px; }
@@ -541,7 +547,7 @@
                 <div class="hero-badge"><i class="fas fa-circle"></i> 100% Free &mdash; All Features Unlocked</div>
                 <h1 class="hero-title">The #1 Free <span class="accent">Audio Enhancer</span> & Sound Booster for Chrome</h1>
                 <p class="hero-subtitle">Boost volume up to 500%, fine-tune with a 10-band equalizer, reduce noise with AI, and experience immersive 3D spatial audio — on every website.</p>
-                <div class="hero-actions">
+                <div class="hero-actions hero-actions-desktop">
                     <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" class="btn btn-primary btn-lg" id="hero-cta-button" target="_blank">
                         <i class="fab fa-chrome"></i> Add to Chrome — Free
                     </a>
@@ -559,6 +565,12 @@
                 <div class="hero-glow"></div>
                 <img src="images/audiowebsitepic.png" alt="Audio Enhancer Pro Chrome extension interface showing equalizer, volume booster, and spatial audio controls" class="hero-img active" id="hero-img-1">
                 <img src="images/audiowebsitepic1.png" alt="Audio Enhancer Pro sound enhancer extension with 10-band EQ and AI noise reduction" class="hero-img" id="hero-img-2">
+                <div class="hero-actions hero-actions-mobile">
+                    <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" class="btn btn-primary btn-lg" target="_blank">
+                        <i class="fab fa-chrome"></i> Add to Chrome — Free
+                    </a>
+                    <a href="/comparison" class="btn btn-ghost btn-lg">Compare Features</a>
+                </div>
             </div>
         </div>
     </section>
