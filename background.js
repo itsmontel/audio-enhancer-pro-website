@@ -10,6 +10,10 @@ chrome.runtime.onInstalled.addListener(() => {
             audioClarity: 0,
             dynamicRange: 0
         },
+        spatialEnabled: false, // 3D Spatial Audio OFF by default
+        roomSize: 40, // Medium room size
+        spatialWidth: 65, // Wide spatial width
+        spatialMode: 'music', // Music content type
         license: {
             isPro: true, // Always Pro - extension is free
             purchaseDate: null

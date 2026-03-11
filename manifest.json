@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Audio Enhancer Pro",
-  "version": "1.0",
+  "version": "1.0.2",
   "description": "Professional volume control, 10-band EQ, AI audio enhancement, and immersive 3D spatial audio for your browser",
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
@@ -9,7 +9,6 @@
   "permissions": [
     "storage",
     "activeTab",
-    "scripting",
     "tabs"
   ],
   "host_permissions": [

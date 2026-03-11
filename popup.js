@@ -886,7 +886,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 },
                 spatialEnabled: false,
                 roomSize: 40,
-                spatialWidth: 50,
+                spatialWidth: 65,
                 spatialMode: 'music'
             };
             
@@ -1135,26 +1135,28 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             // Set 3D spatial audio settings
             if (spatialToggle) {
+                // Default to false if not set (first time user)
                 spatialToggle.checked = settings.spatialEnabled === true;
                 // Show/hide controls based on toggle state
                 document.querySelector('.spatial-controls').style.display = 
                     spatialToggle.checked ? 'block' : 'none';
             }
             
-            // Set room size slider
-            if (roomSizeSlider && settings.roomSize !== undefined) {
-                roomSizeSlider.value = settings.roomSize;
-                updateRoomSizeLabel(settings.roomSize);
+            // Set room size slider (default to 40 if not set)
+            if (roomSizeSlider) {
+                roomSizeSlider.value = settings.roomSize !== undefined ? settings.roomSize : 40;
+                updateRoomSizeLabel(roomSizeSlider.value);
             }
             
-            // Set spatial width slider
-            if (spatialWidthSlider && settings.spatialWidth !== undefined) {
-                spatialWidthSlider.value = settings.spatialWidth;
-                updateSpatialWidthLabel(settings.spatialWidth);
+            // Set spatial width slider (default to 65 if not set for "Wide")
+            if (spatialWidthSlider) {
+                spatialWidthSlider.value = settings.spatialWidth !== undefined ? settings.spatialWidth : 65;
+                updateSpatialWidthLabel(spatialWidthSlider.value);
             }
             
             // Set spatial preset dropdown to match room size if possible
-            if (spatialPresetSelect && settings.roomSize !== undefined) {
+            if (spatialPresetSelect) {
+                const roomSize = settings.roomSize !== undefined ? settings.roomSize : 40;
                 const roomTypes = [
                     'tiny-room',
                     'small-room',
@@ -1165,16 +1167,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 ];
                 
                 const index = Math.min(
-                    Math.floor(settings.roomSize / (100 / roomTypes.length)),
+                    Math.floor(roomSize / (100 / roomTypes.length)),
                     roomTypes.length - 1
                 );
                 
                 spatialPresetSelect.value = roomTypes[index];
             }
             
-            // Set spatial mode if saved
-            if (spatialModeSelect && settings.spatialMode) {
-                spatialModeSelect.value = settings.spatialMode;
+            // Set spatial mode if saved (default to 'music')
+            if (spatialModeSelect) {
+                spatialModeSelect.value = settings.spatialMode || 'music';
             }
 
             await sendMessage({ type: 'PING' });
@@ -1519,11 +1521,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 enabled ? 'block' : 'none';
             
             // Get current settings before changing spatial state
-            const settings = await chrome.storage.local.get(['volume', 'roomSize', 'spatialWidth', 'spatialMode']);
+            const settings = await chrome.storage.local.get(['volume', 'roomSize', 'spatialWidth', 'spatialMode', 'spatialEnabled']);
             const volumeValue = settings.volume || 100;
-            const roomSizeValue = settings.roomSize || 40;
-            const spatialWidthValue = settings.spatialWidth || 50;
-            const spatialModeValue = settings.spatialMode || 'music';
+            
+            // Check if this is the first time enabling spatial audio
+            const isFirstTimeEnable = enabled && settings.spatialEnabled === false;
+            
+            // Use defaults if first time enabling, otherwise use saved values
+            const roomSizeValue = isFirstTimeEnable ? 40 : (settings.roomSize || 40);
+            const spatialWidthValue = isFirstTimeEnable ? 65 : (settings.spatialWidth || 65);
+            const spatialModeValue = isFirstTimeEnable ? 'music' : (settings.spatialMode || 'music');
             
             await sendMessage({
                 type: 'SET_SPATIAL_ENABLED',
@@ -1534,6 +1541,32 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             // Re-apply all spatial settings after toggling
             if (enabled) {
+                // If first time enabling, update UI sliders to show defaults
+                if (isFirstTimeEnable) {
+                    if (roomSizeSlider) {
+                        roomSizeSlider.value = roomSizeValue;
+                        updateRoomSizeLabel(roomSizeValue);
+                    }
+                    if (spatialWidthSlider) {
+                        spatialWidthSlider.value = spatialWidthValue;
+                        updateSpatialWidthLabel(spatialWidthValue);
+                    }
+                    if (spatialModeSelect) {
+                        spatialModeSelect.value = spatialModeValue;
+                    }
+                    // Update room preset dropdown to match room size
+                    if (spatialPresetSelect) {
+                        spatialPresetSelect.value = 'medium-room';
+                    }
+                    
+                    // Save the default values
+                    await chrome.storage.local.set({
+                        roomSize: roomSizeValue,
+                        spatialWidth: spatialWidthValue,
+                        spatialMode: spatialModeValue
+                    });
+                }
+                
                 setTimeout(async () => {
                     // First apply spatial mode if available
                     if (spatialModeValue) {
@@ -1921,6 +1954,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Master reset button click event
     masterResetBtn.addEventListener('click', showResetConfirmDialog);
+
+    // WriteScholar ad card - open in new tab
+    const writeScholarBtn = document.getElementById('writeScholarBtn');
+    if (writeScholarBtn) {
+        writeScholarBtn.addEventListener('click', () => {
+            chrome.tabs.create({ url: 'https://writescholar.com' });
+        });
+    }
 
     // Call the initialization when DOM is ready
     initializeUI();

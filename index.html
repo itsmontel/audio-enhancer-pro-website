@@ -3,1347 +3,497 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Enhancer Pro | Studio-Quality Sound for Your Browser</title>
+    <title>Audio Enhancer Pro - Free Browser Audio Enhancer, Equalizer & Sound Booster for Chrome</title>
+    <meta name="description" content="Audio Enhancer Pro is a free Chrome extension that boosts volume up to 500%, adds a 10-band equalizer, AI noise reduction, and immersive 3D spatial audio to every website. Download now.">
+    <meta name="keywords" content="audio enhancer, sound enhancer, audio booster, volume booster, chrome audio equalizer, browser sound enhancer, audio quality enhancer, sound enhancement extension, audio enhancer extension, free equalizer chrome">
+    <link rel="canonical" href="https://www.audioenhancerpro.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.audioenhancerpro.com/">
+    <meta property="og:title" content="Audio Enhancer Pro - Free Sound Enhancer & Equalizer for Chrome">
+    <meta property="og:description" content="Transform your browser audio with studio-quality sound. Free volume boost up to 500%, 10-band EQ, AI noise reduction & 3D spatial audio.">
+    <meta property="og:image" content="https://www.audioenhancerpro.com/images/audiowebsitepic.png">
+    <meta property="og:site_name" content="Audio Enhancer Pro">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Audio Enhancer Pro - Free Sound Enhancer & Equalizer for Chrome">
+    <meta name="twitter:description" content="Transform your browser audio with studio-quality sound. Free volume boost up to 500%, 10-band EQ, AI noise reduction & 3D spatial audio.">
+    <meta name="twitter:image" content="https://www.audioenhancerpro.com/images/audiowebsitepic.png">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#ffffff">
     <link rel="icon" href="images/AudioEnhancerProPic.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="images/image-styles.css">
     <style>
         :root {
-            --primary: #D32F2F;
-            --primary-light: #EF5350;
-            --primary-dark: #B71C1C;
-            --accent: #2979FF;
-            --text-primary: #333333;
-            --text-secondary: #666666;
-            --text-light: #FFFFFF;
-            --bg-primary: #FFFFFF;
-            --bg-secondary: #F8F9FA;
-            --bg-dark: #1A1A1A;
-            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
-            --shadow-strong: 0 20px 50px rgba(0, 0, 0, 0.1);
-            --border-radius: 12px;
-            --border-radius-lg: 24px;
-            --spacing-xs: 0.5rem;
-            --spacing-sm: 1rem;
-            --spacing-md: 2rem;
-            --spacing-lg: 3rem;
-            --spacing-xl: 5rem;
-            --container-width: 1200px;
-            --transition-fast: 0.2s ease;
-            --transition-normal: 0.3s ease;
-            --transition-slow: 0.5s ease;
+            --white: #ffffff;
+            --white-warm: #fefbf9;
+            --white-cream: #fff8f5;
+            --red: #d32f2f;
+            --red-bright: #e53935;
+            --red-dark: #b71c1c;
+            --red-pale: #ffebee;
+            --black: #1a1a1a;
+            --gray-800: #2d2d2d;
+            --gray-600: #5c5c5c;
+            --gray-400: #888888;
+            --border: rgba(211, 47, 47, 0.12);
+            --border-strong: rgba(211, 47, 47, 0.25);
+            --shadow-soft: 0 4px 24px rgba(211, 47, 47, 0.08);
+            --shadow-red: 0 8px 32px rgba(211, 47, 47, 0.18);
+            --radius: 14px;
+            --radius-lg: 22px;
+            --radius-xl: 32px;
         }
 
-        /* Dark mode variables */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --text-primary: #F0F0F0;
-                --text-secondary: #AAAAAA;
-                --bg-primary: #121212;
-                --bg-secondary: #1E1E1E;
-            }
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            color: var(--text-primary);
-            background-color: var(--bg-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--black);
+            background-color: var(--white);
             line-height: 1.6;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        a {
-            text-decoration: none;
-            color: var(--accent);
-            transition: color var(--transition-fast);
-        }
+        a { text-decoration: none; color: var(--red-bright); transition: color 0.2s; }
+        a:hover { color: var(--red-dark); }
 
-        a:hover {
-            color: var(--primary);
-        }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 
-        h1, h2, h3, h4, h5, h6 {
-            font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            letter-spacing: -1px;
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            letter-spacing: -0.5px;
-        }
-
-        h3 {
-            font-size: 2rem;
-        }
-
-        p {
-            margin-bottom: var(--spacing-sm);
-        }
-
-        /* Container */
-        .container {
-            width: 100%;
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 var(--spacing-md);
-        }
-
-        /* Button Styles */
+        /* ── Buttons ── */
         .btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2);
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+            padding: 0.85rem 1.75rem; font-weight: 600; font-size: 0.95rem;
+            border-radius: var(--radius); border: none; cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit; text-decoration: none;
         }
-
-        .btn:hover {
-            background-color: var(--primary-light);
+        .btn-primary {
+            background: var(--red); color: var(--white);
+            box-shadow: var(--shadow-red);
+        }
+        .btn-primary:hover {
+            background: var(--red-bright);
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(211, 47, 47, 0.3);
-            color: white;
+            box-shadow: 0 12px 40px rgba(211, 47, 47, 0.28);
+            color: var(--white);
         }
-
-        .btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(211, 47, 47, 0.2);
+        .btn-ghost {
+            background: var(--white); color: var(--black);
+            border: 2px solid var(--red);
         }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            box-shadow: none;
+        .btn-ghost:hover {
+            background: var(--red-pale); border-color: var(--red-bright);
+            color: var(--red-dark);
         }
+        .btn-lg { padding: 1rem 2.25rem; font-size: 1.05rem; border-radius: var(--radius-lg); }
+        .btn-white { background: var(--white); color: var(--red); font-weight: 700; border: 2px solid var(--white); }
+        .btn-white:hover { background: var(--white-cream); color: var(--red-dark); transform: translateY(-2px); border-color: var(--white); }
+        .btn-outline-white { background: transparent; border: 2px solid rgba(255,255,255,0.85); color: #fff; }
+        .btn-outline-white:hover { background: rgba(255,255,255,0.15); color: #fff; border-color: #fff; }
 
-        .btn-outline:hover {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-lg {
-            padding: 1.2rem 2.5rem;
-            font-size: 1.1rem;
-        }
-
-        /* Header */
+        /* ── Header ── */
         .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 1.5rem 0;
-            transition: all var(--transition-normal);
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .header.scrolled {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
             padding: 1rem 0;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--border);
+            transition: padding 0.3s;
         }
-
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--text-primary);
-        }
-
-        .logo img {
-            height: 40px;
-            margin-right: var(--spacing-xs);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: var(--spacing-md);
-        }
-
-        .nav-links a {
-            color: var(--text-primary);
-            font-weight: 500;
-            transition: color var(--transition-fast);
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .cta-button {
-            margin-left: var(--spacing-md);
-        }
-
-        /* Mobile Menu */
-        .mobile-menu-toggle {
-            display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-primary);
-            padding: 0.5rem;
-            z-index: 1001;
-        }
-
-        .mobile-menu-toggle:hover {
-            color: var(--primary);
-        }
-
+        .header.scrolled { padding: 0.6rem 0; border-bottom-color: var(--border-strong); }
+        .header-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.6rem; color: var(--black); font-weight: 800; font-size: 1.25rem; }
+        .logo .logo-pro { color: var(--red); }
+        .logo img { height: 36px; width: auto; }
+        .nav-links { display: flex; list-style: none; gap: 2rem; }
+        .nav-links a { color: var(--gray-600); font-weight: 600; font-size: 0.9rem; }
+        .nav-links a:hover { color: var(--red); }
+        .header .btn-primary { padding: 0.65rem 1.5rem; font-size: 0.875rem; }
+        .mobile-menu-toggle { display: none; font-size: 1.25rem; cursor: pointer; color: var(--gray-600); padding: 0.5rem; }
+        .mobile-menu-toggle:hover { color: var(--red); }
         .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 70px;
-            left: 0;
-            width: 100%;
-            background-color: var(--bg-primary);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            padding: var(--spacing-md);
-            max-height: calc(100vh - 70px);
-            overflow-y: auto;
+            display: none; position: fixed; top: 62px; left: 0; width: 100%;
+            background: var(--white); border-bottom: 2px solid var(--border);
+            z-index: 1000; padding: 1.5rem; box-shadow: 0 12px 40px rgba(0,0,0,0.08);
         }
+        .mobile-menu.active { display: block; animation: slideDown 0.3s ease-out; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+        .mobile-menu ul { list-style: none; }
+        .mobile-menu li { margin-bottom: 0.25rem; }
+        .mobile-menu a { display: block; padding: 0.85rem 1rem; color: var(--gray-600); font-weight: 600; border-radius: var(--radius); }
+        .mobile-menu a:hover { background: var(--red-pale); color: var(--red); }
 
-        .mobile-menu.active {
-            display: block;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .mobile-menu ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .mobile-menu li {
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .mobile-menu a {
-            display: block;
-            padding: 1rem;
-            color: var(--text-primary);
-            font-weight: 500;
-            border-radius: var(--border-radius);
-            transition: all var(--transition-fast);
-        }
-
-        .mobile-menu a:hover {
-            background-color: var(--bg-secondary);
-            color: var(--primary);
-        }
-
-        /* Hero Section */
+        /* ── Hero ── */
         .hero {
-            padding: 12rem 0 8rem;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            position: relative;
-            overflow: hidden;
+            padding: 10rem 0 6rem;
+            position: relative; overflow: hidden;
+            background: var(--white);
         }
-
         .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MCIgaGVpZ2h0PSI4MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiIGlkPSJhIj48c3RvcCBzdG9wLWNvbG9yPSIjRDMyRjJGIiBzdG9wLW9wYWNpdHk9Ii4wNSIgb2Zmc2V0PSIwJSIvPjxzdG9wIHN0b3AtY29sb3I9IiNCNzFDMUMiIHN0b3Atb3BhY2l0eT0iLjEiIG9mZnNldD0iMTAwJSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxwYXRoIGQ9Ik0wIDBoMTQ0MHY4MDBIMHoiIGZpbGw9InVybCgjYSkiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZmlsbC1vcGFjaXR5PSIuOCIvPjwvc3ZnPg==');
-            background-size: cover;
-            opacity: 0.8;
+            content: ''; position: absolute; top: -20%; right: -15%;
+            width: 70vmin; height: 70vmin; border-radius: 50%;
+            background: var(--red); opacity: 0.06;
             z-index: 0;
         }
-
-        .hero-container {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xl);
+        .hero::after {
+            content: ''; position: absolute; bottom: -10%; left: -10%;
+            width: 50vmin; height: 50vmin; border-radius: 50%;
+            background: var(--red); opacity: 0.04;
+            z-index: 0;
         }
-
-        .hero-content {
-            flex: 1;
+        .hero .red-stripe {
+            position: absolute; top: 0; right: 0;
+            width: 45%; height: 100%;
+            background: linear-gradient(135deg, var(--red-pale) 0%, var(--white-cream) 100%);
+            clip-path: polygon(25% 0, 100% 0, 100% 100%, 0 100%);
+            z-index: 0;
         }
-
+        .hero-container { position: relative; z-index: 1; display: flex; align-items: center; gap: 4rem; }
+        .hero-content { flex: 1; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.45rem 1.1rem; margin-bottom: 1.5rem;
+            background: var(--red-pale); border: 2px solid var(--red);
+            border-radius: 100px; font-size: 0.8rem; font-weight: 700; color: var(--red);
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .hero-badge i { font-size: 0.6rem; }
         .hero-title {
-            margin-bottom: var(--spacing-md);
-            font-size: 3.5rem;
-            line-height: 1.2;
-            color: var(--text-primary);
+            font-size: 3.75rem; font-weight: 900; line-height: 1.08;
+            letter-spacing: -2px; margin-bottom: 1.5rem; color: var(--black);
         }
-
-        .hero-title span {
-            color: var(--primary);
+        .hero-title .accent {
+            color: var(--red);
             position: relative;
-            display: inline-block;
         }
-
-        .hero-title span::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 8px;
-            background-color: var(--primary);
-            opacity: 0.2;
-            border-radius: 4px;
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: var(--spacing-md);
-            max-width: 600px;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: var(--spacing-sm);
-            margin-top: var(--spacing-md);
-        }
-
-        .hero-image {
-            flex: 1;
-            position: relative;
-            width: 100%;
-            max-width: 700px;
-            min-height: 450px;
-        }
-
-        .hero-image img {
-            width: 100%;
-            max-width: 700px;
-            border-radius: var(--border-radius-lg);
-            box-shadow: var(--shadow-strong);
-            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg) scale(0.98);
-            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1),
-                        transform 1.2s cubic-bezier(0.4, 0, 0.2, 1),
-                        filter 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            filter: blur(3px) brightness(0.9);
-            will-change: opacity, transform, filter;
-        }
-
-        .hero-image img.active {
-            opacity: 1;
-            position: relative;
-            z-index: 2;
-            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg) scale(1);
-            filter: blur(0px) brightness(1);
-        }
-
-        .hero-image img:hover {
-            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
-        }
-
-        .decorative-circle {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%);
-            opacity: 0.1;
-            filter: blur(50px);
-            z-index: -1;
-        }
-
-        .circle-1 {
-            top: -100px;
-            right: -50px;
-        }
-
-        .circle-2 {
-            bottom: -150px;
-            left: -100px;
-        }
-
-        /* Features Section */
-        .features {
-            padding: var(--spacing-xl) 0;
-            background-color: var(--bg-primary);
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .section-title h2 {
-            position: relative;
-            display: inline-block;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            bottom: -10px;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 4px;
-            background-color: var(--primary);
+        .hero-title .accent::after {
+            content: ''; position: absolute; bottom: 4px; left: 0;
+            width: 100%; height: 12px;
+            background: var(--red); opacity: 0.2;
             border-radius: 2px;
         }
-
-        .section-subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto var(--spacing-lg);
-            text-align: center;
+        .hero-subtitle {
+            font-size: 1.15rem; color: var(--gray-600); line-height: 1.75;
+            max-width: 540px; margin-bottom: 2rem;
+        }
+        .hero-actions { display: flex; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .hero-social-proof {
+            display: flex; align-items: center; gap: 1.25rem;
+            padding-top: 1.5rem; border-top: 2px solid var(--border);
+        }
+        .hero-rating { display: flex; flex-direction: column; gap: 0.15rem; }
+        .hero-rating .stars { color: #e65100; font-size: 0.85rem; letter-spacing: 1px; }
+        .hero-rating .label { font-size: 0.75rem; color: var(--gray-400); font-weight: 600; }
+        .hero-users { font-size: 0.8rem; color: var(--gray-400); font-weight: 500; }
+        .hero-users strong { color: var(--gray-600); }
+        .hero-image-wrap {
+            flex: 1; position: relative; max-width: 580px; min-height: 400px;
+        }
+        .hero-image-wrap img {
+            width: 100%; border-radius: var(--radius-xl);
+            border: 3px solid var(--red);
+            box-shadow: 0 24px 64px rgba(211, 47, 47, 0.15);
+            position: absolute; top: 0; left: 0;
+            opacity: 0; transition: opacity 1s ease, transform 1s ease;
+            transform: scale(0.97); z-index: 1;
+        }
+        .hero-image-wrap img.active {
+            opacity: 1; position: relative; z-index: 2; transform: scale(1);
         }
 
+        /* ── Trust Bar ── */
+        .trust-bar {
+            padding: 3rem 0;
+            border-top: 2px solid var(--border);
+            border-bottom: 2px solid var(--border);
+            background: var(--white-warm);
+        }
+        .trust-bar .container { text-align: center; }
+        .trust-bar-label { font-size: 0.75rem; color: var(--gray-400); text-transform: uppercase; letter-spacing: 3px; font-weight: 700; margin-bottom: 1.5rem; }
+        .trust-logos {
+            display: flex; justify-content: center; align-items: center; gap: 3rem; flex-wrap: wrap;
+            opacity: 0.6;
+        }
+        .trust-logos .trust-item { display: flex; align-items: center; gap: 0.5rem; color: var(--gray-600); font-weight: 600; font-size: 1.1rem; }
+        .trust-logos .trust-item i { font-size: 1.4rem; }
+
+        /* ── Stats Bar ── */
+        .stats {
+            padding: 4rem 0;
+            background: var(--white);
+        }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+        }
+        .stat-item {
+            text-align: center; padding: 2rem 1rem;
+            background: var(--white); border-radius: var(--radius-lg);
+            border: 2px solid var(--border); transition: all 0.3s;
+            box-shadow: var(--shadow-soft);
+        }
+        .stat-item:hover { border-color: var(--red); box-shadow: var(--shadow-red); }
+        .stat-number {
+            font-size: 2.5rem; font-weight: 900; letter-spacing: -1px;
+            color: var(--red); margin-bottom: 0.25rem;
+        }
+        .stat-label { font-size: 0.85rem; color: var(--gray-600); font-weight: 600; }
+
+        /* ── Section Shared ── */
+        .section { padding: 6rem 0; }
+        .section-dark { background: var(--white-warm); }
+        .section-header { text-align: center; max-width: 640px; margin: 0 auto 3.5rem; }
+        .section-header h2 {
+            font-size: 2.5rem; font-weight: 900; letter-spacing: -0.75px;
+            margin-bottom: 1rem; color: var(--black);
+        }
+        .section-header h2::after {
+            content: ''; display: block; width: 60px; height: 4px;
+            background: var(--red); margin: 1rem auto 0; border-radius: 2px;
+        }
+        .section-header p { font-size: 1.1rem; color: var(--gray-600); line-height: 1.7; }
+
+        /* ── Features ── */
         .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--spacing-md);
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
         }
-
         .feature-card {
-            background-color: var(--bg-secondary);
-            border-radius: var(--border-radius);
-            padding: var(--spacing-md);
+            padding: 2rem; border-radius: var(--radius-lg);
+            background: var(--white); border: 2px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: var(--shadow-soft);
-            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
         }
-
         .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-strong);
+            border-color: var(--red);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-red);
         }
-
         .feature-icon {
-            width: 60px;
-            height: 60px;
-            background-color: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: var(--spacing-sm);
+            width: 52px; height: 52px; border-radius: var(--radius);
+            background: var(--red-pale); border: 2px solid var(--red);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem; color: var(--red);
+            margin-bottom: 1.25rem;
         }
+        .feature-card h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--black); }
+        .feature-card p { font-size: 0.9rem; color: var(--gray-600); line-height: 1.65; margin: 0; }
 
-        .feature-title {
-            font-size: 1.5rem;
-            margin-bottom: var(--spacing-xs);
+        /* ── How It Works ── */
+        .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; counter-reset: step; }
+        .step-card {
+            position: relative; padding: 2rem 1.5rem; text-align: center;
+            border-radius: var(--radius-lg); background: var(--white);
+            border: 2px solid var(--border); counter-increment: step;
+            transition: all 0.3s; box-shadow: var(--shadow-soft);
         }
+        .step-card:hover { border-color: var(--red); box-shadow: var(--shadow-red); }
+        .step-card::before {
+            content: counter(step);
+            display: flex; align-items: center; justify-content: center;
+            width: 44px; height: 44px; margin: 0 auto 1rem;
+            border-radius: 50%; font-weight: 900; font-size: 1.1rem;
+            background: var(--red); color: var(--white);
+        }
+        .step-card h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--black); }
+        .step-card p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.6; margin: 0; }
 
-        .feature-description {
-            color: var(--text-secondary);
+        /* ── Download Card ── */
+        .download-section { padding: 6rem 0; background: var(--white); }
+        .download-card {
+            max-width: 640px; margin: 0 auto; padding: 3rem;
+            background: var(--white); border: 3px solid var(--red);
+            border-radius: var(--radius-xl); text-align: center;
+            position: relative; overflow: hidden;
+            box-shadow: var(--shadow-red);
         }
+        .download-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+            background: var(--red);
+        }
+        .download-card .free-badge {
+            display: inline-block; padding: 0.4rem 1.2rem; margin-bottom: 1.5rem;
+            background: var(--red-pale); border: 2px solid var(--red);
+            border-radius: 100px; font-size: 0.75rem; font-weight: 800;
+            color: var(--red); text-transform: uppercase; letter-spacing: 1.5px;
+        }
+        .download-card h3 { font-size: 1.6rem; font-weight: 900; color: var(--black); margin-bottom: 0.5rem; }
+        .download-card .price { font-size: 3.5rem; font-weight: 900; color: var(--red); margin-bottom: 0.25rem; letter-spacing: -2px; }
+        .download-card .price span { font-size: 1rem; font-weight: 600; color: var(--gray-600); }
+        .download-features { list-style: none; margin: 2rem 0; text-align: left; }
+        .download-features li {
+            padding: 0.65rem 0; display: flex; align-items: center; gap: 0.75rem;
+            border-bottom: 1px solid var(--border); font-size: 0.9rem; color: var(--gray-600);
+        }
+        .download-features li:last-child { border-bottom: none; }
+        .download-features li i { color: var(--red); font-size: 0.85rem; flex-shrink: 0; }
 
-        /* How It Works Section */
-        .how-it-works {
-            padding: var(--spacing-xl) 0;
-            background-color: var(--bg-secondary);
-        }
-
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            margin-top: var(--spacing-lg);
-            position: relative;
-        }
-
-        .steps::before {
-            content: '';
-            position: absolute;
-            top: 40px;
-            left: 20%;
-            right: 20%;
-            height: 2px;
-            background-color: var(--primary);
-            z-index: 0;
-        }
-
-        .step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            z-index: 1;
-            width: 200px;
-        }
-
-        .step-number {
-            width: 60px;
-            height: 60px;
-            background-color: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: var(--spacing-sm);
-            position: relative;
-            z-index: 2;
-        }
-
-        .step-title {
-            font-size: 1.2rem;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .step-description {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* Pricing Section */
-        .pricing {
-            padding: var(--spacing-xl) 0;
-            background-color: var(--bg-primary);
-        }
-
-        .pricing-cards {
-            display: flex;
-            justify-content: center;
-            gap: var(--spacing-lg);
-            margin: 0 auto;
-        }
-        
-        @media (max-width: 768px) {
-            .pricing-cards {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        .price-card {
-            background-color: var(--bg-secondary);
-            border-radius: var(--border-radius);
-            padding: var(--spacing-lg);
-            box-shadow: var(--shadow-soft);
-            text-align: center;
-            max-width: 400px;
-            min-height: 680px;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
-            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .price-card .btn {
-            margin-top: auto;
-        }
-
-        .price-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-strong);
-        }
-
-        .price-card.premium::before {
-            content: 'MOST POPULAR';
-            position: absolute;
-            top: 20px;
-            right: -30px;
-            background-color: var(--primary);
-            color: white;
-            padding: 5px 30px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transform: rotate(45deg);
-        }
-
-        .price-title {
-            font-size: 1.8rem;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .price-subtitle {
-            color: var(--text-secondary);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .price-amount {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .price-amount span {
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-
-        .price-features {
-            list-style: none;
-            margin-bottom: var(--spacing-md);
-        }
-
-        .price-features li {
-            padding: 0.8rem 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .price-features li:last-child {
-            border-bottom: none;
-        }
-
-        .price-features i {
-            color: var(--primary);
-        }
-
-        .price-features .x-mark {
-            color: #F44336;
-        }
-        
-        .strikethrough {
-            text-decoration: line-through;
-            color: var(--text-secondary);
-            opacity: 0.7;
-        }
-
-        .premium-badge {
-            display: inline-block;
-            background-color: var(--primary);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        /* Testimonials Section */
-        .testimonials {
-            padding: var(--spacing-xl) 0;
-            background-color: var(--bg-secondary);
-        }
-
-        .testimonial-cards {
-            display: flex;
-            gap: var(--spacing-md);
-            overflow-x: auto;
-            padding: var(--spacing-sm) 0;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-        }
-
+        /* ── Testimonials ── */
+        .testimonials-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
         .testimonial-card {
-            flex: 0 0 350px;
-            background-color: var(--bg-primary);
-            border-radius: var(--border-radius);
-            padding: var(--spacing-md);
-            box-shadow: var(--shadow-soft);
-            scroll-snap-align: start;
+            padding: 2rem; border-radius: var(--radius-lg);
+            background: var(--white); border: 2px solid var(--border);
+            box-shadow: var(--shadow-soft); transition: all 0.3s;
         }
-
+        .testimonial-card:hover { border-color: var(--red); box-shadow: var(--shadow-red); }
+        .testimonial-stars { color: #d32f2f; font-size: 0.8rem; margin-bottom: 1rem; letter-spacing: 1px; }
         .testimonial-text {
-            font-style: italic;
-            margin-bottom: var(--spacing-md);
-            position: relative;
+            font-size: 0.95rem; color: var(--gray-600); line-height: 1.7;
+            margin-bottom: 1.5rem; font-style: italic; position: relative;
         }
-
-        .testimonial-text::before {
-            content: '"';
-            position: absolute;
-            top: -20px;
-            left: -10px;
-            font-size: 3rem;
-            color: var(--primary);
-            opacity: 0.2;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-
+        .testimonial-author { display: flex; align-items: center; gap: 0.75rem; }
         .testimonial-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            font-weight: 600;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--red); color: var(--white);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; font-weight: 800;
         }
+        .testimonial-name { font-weight: 700; font-size: 0.9rem; color: var(--black); }
+        .testimonial-role { font-size: 0.8rem; color: var(--gray-400); }
 
-        .testimonial-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .testimonial-name {
-            font-weight: 600;
-        }
-
-        .testimonial-position {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        /* FAQ Section */
-        .faq {
-            padding: var(--spacing-xl) 0;
-            background-color: var(--bg-primary);
-        }
-
-        .faq-list {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            padding: var(--spacing-md) 0;
-        }
-
+        /* ── FAQ ── */
+        .faq-list { max-width: 720px; margin: 0 auto; }
+        .faq-item { border-bottom: 2px solid var(--border); }
         .faq-question {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; padding: 1.5rem 0; font-weight: 700; font-size: 1rem; color: var(--black);
         }
-
-        .faq-question i {
-            transition: transform var(--transition-fast);
-        }
-
-        .faq-question.active i {
-            transform: rotate(180deg);
-        }
-
+        .faq-question:hover { color: var(--red); }
+        .faq-question i { transition: transform 0.3s; color: var(--gray-400); font-size: 0.8rem; }
+        .faq-question.active i { transform: rotate(180deg); color: var(--red); }
         .faq-answer {
-            margin-top: var(--spacing-sm);
-            padding-left: var(--spacing-sm);
-            border-left: 3px solid var(--primary);
-            display: none;
-            color: var(--text-secondary);
+            display: none; padding: 0 0 1.5rem;
+            color: var(--gray-600); font-size: 0.95rem; line-height: 1.7;
         }
+        .faq-answer.show { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
 
-        .faq-answer.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
+        /* ── SEO Content ── */
+        .seo-content { padding: 6rem 0; background: var(--white-warm); }
+        .seo-content-inner {
+            max-width: 780px; margin: 0 auto; font-size: 1rem;
+            color: var(--gray-600); line-height: 1.85;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .seo-content-inner h2 {
+            font-size: 2rem; font-weight: 900; color: var(--black);
+            text-align: center; margin-bottom: 2rem;
         }
+        .seo-content-inner strong { color: var(--black); }
+        .seo-content-inner ul { margin: 1rem 0 1rem 1.5rem; }
+        .seo-content-inner li { margin-bottom: 0.5rem; }
 
-        /* CTA Section */
+        /* ── CTA Banner ── */
         .cta-section {
-            padding: var(--spacing-xl) 0;
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%);
-            color: white;
-            text-align: center;
+            padding: 6rem 0; text-align: center;
+            background: var(--red); position: relative; overflow: hidden;
         }
-
-        .cta-title {
-            font-size: 2.5rem;
-            margin-bottom: var(--spacing-sm);
+        .cta-section::before {
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08) 0%, transparent 50%);
         }
+        .cta-section h2 { font-size: 2.5rem; font-weight: 900; color: var(--white); margin-bottom: 1rem; letter-spacing: -0.75px; position: relative; }
+        .cta-section p { font-size: 1.1rem; color: rgba(255,255,255,0.9); max-width: 560px; margin: 0 auto 2rem; position: relative; }
+        .cta-buttons { display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; position: relative; }
 
-        .cta-description {
-            max-width: 600px;
-            margin: 0 auto var(--spacing-md);
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: var(--spacing-sm);
-        }
-
-        .btn-white {
-            background-color: white;
-            color: var(--primary);
-        }
-
-        .btn-white:hover {
-            background-color: #f0f0f0;
-            color: var(--primary-dark);
-        }
-
-        .btn-transparent {
-            background-color: transparent;
-            border: 2px solid white;
-            color: white;
-            box-shadow: none;
-        }
-
-        .btn-transparent:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        /* Footer */
-        .footer {
-            padding: var(--spacing-lg) 0;
-            background-color: var(--bg-secondary);
-            color: var(--text-secondary);
-        }
-
-        .footer-container {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: var(--spacing-md);
-        }
-
-        .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: var(--spacing-sm);
-            color: var(--text-primary);
-        }
-
-        .footer-description {
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .footer-social {
-            display: flex;
-            gap: var(--spacing-xs);
-        }
-
-        .footer-social a {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(0, 0, 0, 0.05);
-            color: var(--text-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all var(--transition-fast);
-        }
-
-        .footer-social a:hover {
-            background-color: var(--primary);
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        .footer-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: var(--spacing-sm);
-            color: var(--text-primary);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            transition: color var(--transition-fast);
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
+        /* ── Footer ── */
+        .footer { padding: 4rem 0 2rem; background: var(--white-warm); border-top: 2px solid var(--border); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 3rem; }
+        .footer-brand p { font-size: 0.9rem; color: var(--gray-600); margin-top: 0.75rem; line-height: 1.6; }
+        .footer h4 { font-size: 0.8rem; font-weight: 800; color: var(--black); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px; }
+        .footer ul { list-style: none; }
+        .footer ul li { margin-bottom: 0.5rem; }
+        .footer ul a { color: var(--gray-600); font-size: 0.9rem; font-weight: 500; }
+        .footer ul a:hover { color: var(--red); }
         .footer-bottom {
-            margin-top: var(--spacing-lg);
-            padding-top: var(--spacing-md);
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
+            padding-top: 2rem; border-top: 2px solid var(--border);
+            font-size: 0.8rem; color: var(--gray-600); font-weight: 500;
         }
+        .footer-bottom-links { display: flex; gap: 1.5rem; }
+        .footer-bottom-links a { color: var(--gray-600); }
+        .footer-bottom-links a:hover { color: var(--red); }
 
-        .footer-copyright {
-            font-size: 0.9rem;
-        }
-
-        .footer-terms {
-            display: flex;
-            gap: var(--spacing-md);
-        }
-
-        .footer-terms a {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        /* Modal */
+        /* ── Modal ── */
         .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all var(--transition-normal);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+            display: none; align-items: center; justify-content: center;
+            z-index: 2000; opacity: 0; visibility: hidden; transition: all 0.3s;
         }
-
-        .modal.show {
-            opacity: 1;
-            visibility: visible;
-            display: flex;
-        }
-
+        .modal.show { opacity: 1; visibility: visible; display: flex; }
         .modal-content {
-            background-color: var(--bg-primary);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-strong);
-            width: 100%;
-            max-width: 500px;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: var(--spacing-md);
-            position: relative;
-            transform: translateY(20px);
-            transition: transform var(--transition-normal);
+            background: var(--white); border: 2px solid var(--border);
+            border-radius: var(--radius-xl); box-shadow: 0 32px 80px rgba(211,47,47,0.15);
+            width: 100%; max-width: 540px; max-height: 85vh; overflow-y: auto;
+            padding: 2.5rem; position: relative;
+            transform: translateY(20px); transition: transform 0.3s;
         }
-
-        .modal.show .modal-content {
-            transform: translateY(0);
-        }
-
+        .modal.show .modal-content { transform: translateY(0); }
         .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: color var(--transition-fast);
+            position: absolute; top: 1.25rem; right: 1.25rem;
+            font-size: 1.25rem; cursor: pointer; color: var(--gray-400);
+            width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; transition: all 0.2s;
         }
-
-        .modal-close:hover {
-            color: var(--primary);
+        .modal-close:hover { background: var(--red-pale); color: var(--red); }
+        .modal-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 1.5rem; color: var(--black); }
+        .feature-modal-content, .info-modal-content, .privacy-modal-content {
+            max-height: 60vh; overflow-y: auto;             color: var(--gray-600); line-height: 1.7;
         }
-
-        .modal-title {
-            font-size: 1.8rem;
-            margin-bottom: var(--spacing-md);
-            text-align: center;
+        .feature-modal-content h4, .info-modal-content h4, .privacy-modal-content h4 {
+            margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1.1rem; color: var(--red);
         }
+        .feature-modal-content ul, .info-modal-content ul, .info-modal-content ol,
+        .privacy-modal-content ul, .privacy-modal-content ol { margin-left: 1.5rem; margin-bottom: 1rem; }
+        .feature-modal-content li, .info-modal-content li, .privacy-modal-content li { margin-bottom: 0.4rem; }
+        .rating-summary { background: var(--red-pale); padding: 1rem; border-radius: var(--radius); margin-bottom: 1rem; text-align: center; border: 2px solid var(--border); }
+        .overall-rating { display: flex; justify-content: center; align-items: center; gap: 0.75rem; margin-bottom: 0.25rem; }
+        .rating-stars { color: var(--red); font-size: 1rem; }
+        .rating-score { font-size: 1.1rem; font-weight: 800; color: var(--black); }
+        .review { background: var(--white-warm); padding: 1rem; border-radius: var(--radius); margin-bottom: 0.75rem; border: 1px solid var(--border); }
+        .review-text { font-style: italic; margin-bottom: 0.4rem; }
+        .review-author { text-align: right; font-weight: 700; color: var(--black); }
 
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-xs);
-        }
-
-        .form-label {
-            font-weight: 500;
-        }
-
-        .form-input {
-            padding: 1rem;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: var(--border-radius);
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            transition: border-color var(--transition-fast);
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-
-            margin-top: var(--spacing-sm);
-        }
-
-        /* Modal Content Styling */
-        .feature-modal-content,
-        .info-modal-content,
-        .privacy-modal-content {
-            max-height: 60vh;
-            overflow-y: auto;
-            padding-right: var(--spacing-sm);
-        }
-
-        .feature-modal-content h4,
-        .info-modal-content h4,
-        .privacy-modal-content h4 {
-            margin-top: var(--spacing-md);
-            margin-bottom: var(--spacing-xs);
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
-
-        .feature-modal-content ul,
-        .info-modal-content ul,
-        .info-modal-content ol,
-        .privacy-modal-content ul,
-        .privacy-modal-content ol {
-            margin-left: var(--spacing-md);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .feature-modal-content li,
-        .info-modal-content li,
-        .privacy-modal-content li {
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .social-links {
-            display: flex;
-            gap: var(--spacing-md);
-            margin-top: var(--spacing-xs);
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .rating-summary {
-            background-color: var(--bg-secondary);
-            padding: var(--spacing-sm);
-            border-radius: var(--border-radius);
-            margin-bottom: var(--spacing-sm);
-            text-align: center;
-        }
-
-        .overall-rating {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .rating-stars {
-            color: #FFD700;
-            font-size: 1.2rem;
-        }
-
-        .rating-score {
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-
-        .review {
-            background-color: var(--bg-secondary);
-            padding: var(--spacing-sm);
-            border-radius: var(--border-radius);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .review-text {
-            font-style: italic;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .review-author {
-            text-align: right;
-            font-weight: 600;
-        }
-
-        /* Extension Warning Styles */
-        .extension-warning-box {
-            background-color: #FFF4E5;
-            border: 1px solid #FFB74D;
-            border-radius: var(--border-radius);
-            padding: var(--spacing-md);
-            margin-bottom: var(--spacing-md);
-            text-align: center;
-        }
-
-        .warning-icon {
-            font-size: 2.5rem;
-            color: #FF9800;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .extension-warning-box h4 {
-            color: #E65100;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .install-steps {
-            text-align: left;
-            margin: var(--spacing-md) 0;
-        }
-
-        .install-steps ol {
-            margin-left: var(--spacing-md);
-        }
-
-        .install-steps li {
-            margin-bottom: var(--spacing-xs);
-        }
-
-        /* Media Queries */
+        /* ── Responsive ── */
         @media (max-width: 1024px) {
-            h1 {
-                font-size: 3rem;
-            }
-
-            h2 {
-                font-size: 2.2rem;
-            }
-
-            .hero-title {
-                font-size: 3rem;
-            }
-
-            .footer-container {
-                grid-template-columns: 1fr 1fr;
-                gap: var(--spacing-lg);
-            }
+            .hero-title { font-size: 3rem; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .steps-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
         }
-
         @media (max-width: 768px) {
-            .container {
-                padding: 0 var(--spacing-sm);
-            }
-
-            .nav-links, .cta-button {
-                display: none;
-            }
-
-            .mobile-menu-toggle {
-                display: block;
-            }
-
-            .header-container {
-                padding: 1rem 0;
-            }
-
-            .logo span {
-                font-size: 1.4rem !important;
-            }
-
-            .logo img {
-                height: 36px !important;
-            }
-
-            .hero-container {
-                flex-direction: column;
-                text-align: center;
-                gap: var(--spacing-md);
-                padding: var(--spacing-md) 0;
-            }
-
-            .hero-content {
-                width: 100%;
-            }
-
-            .hero-title {
-                font-size: 2rem;
-                line-height: 1.2;
-                margin-bottom: var(--spacing-sm);
-            }
-
-            .hero-subtitle {
-                font-size: 1rem;
-                margin-left: auto;
-                margin-right: auto;
-                margin-bottom: var(--spacing-md);
-            }
-
-            .hero-cta {
-                justify-content: center;
-                flex-direction: column;
-                gap: var(--spacing-sm);
-                width: 100%;
-            }
-
-            .hero-cta .btn {
-                width: 100%;
-                max-width: 300px;
-            }
-
-            .hero-image {
-                width: 100%;
-                max-width: 100%;
-                min-height: 300px;
-                margin-top: var(--spacing-md);
-            }
-
-            .hero-image img {
-                max-width: 100%;
-                width: 100%;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            h2 {
-                font-size: 1.75rem;
-            }
-
-            h3 {
-                font-size: 1.5rem;
-            }
-
-            .section-title h2 {
-                font-size: 2rem;
-            }
-
-            .section-subtitle {
-                font-size: 1rem;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-                gap: var(--spacing-md);
-            }
-
-            .feature-card {
-                padding: var(--spacing-md);
-            }
-
-            .testimonial-cards {
-                flex-direction: column;
-                gap: var(--spacing-md);
-                overflow-x: visible;
-            }
-
-            .testimonial-card {
-                padding: var(--spacing-md);
-            }
-
-            .faq-item {
-                padding: var(--spacing-sm);
-            }
-
-            .modal-content {
-                width: 95%;
-                max-width: 95%;
-                max-height: 90vh;
-                overflow-y: auto;
-            }
-
-            .btn-lg {
-                padding: 0.9rem 1.8rem;
-                font-size: 1rem;
-            }
-
-            .footer-container {
-                grid-template-columns: 1fr;
-                gap: var(--spacing-md);
-            }
-
-            .steps {
-                flex-direction: column;
-                align-items: center;
-                gap: var(--spacing-lg);
-            }
-
-            .steps::before {
-                display: none;
-            }
-
-            .footer-container {
-                grid-template-columns: 1fr;
-                gap: var(--spacing-lg);
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: var(--spacing-sm);
-                text-align: center;
-            }
+            .nav-links, .header .btn-primary { display: none; }
+            .mobile-menu-toggle { display: block; }
+            .hero { padding: 8rem 0 3rem; }
+            .hero-container { flex-direction: column; text-align: center; gap: 2.5rem; }
+            .hero-subtitle { margin-left: auto; margin-right: auto; }
+            .hero-actions { justify-content: center; }
+            .hero-social-proof { justify-content: center; flex-wrap: wrap; }
+            .hero-image-wrap { max-width: 100%; min-height: 280px; }
+            .hero-title { font-size: 2.25rem; letter-spacing: -1px; }
+            .section-header h2 { font-size: 2rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .steps-grid { grid-template-columns: 1fr; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 0.75rem; text-align: center; }
+            .trust-logos { gap: 1.75rem; }
+            .cta-section h2 { font-size: 1.85rem; }
+            .section { padding: 4rem 0; }
         }
-
         @media (max-width: 480px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            h2 {
-                font-size: 2rem;
-            }
-
-            .hero-title {
-                font-size: 2.2rem;
-            }
-
-            .btn {
-                padding: 0.8rem 1.5rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .testimonial-cards {
-                padding-bottom: var(--spacing-sm);
-            }
+            .hero-title { font-size: 1.9rem; }
+            .hero-actions { flex-direction: column; width: 100%; }
+            .hero-actions .btn { width: 100%; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .cta-buttons .btn { width: 100%; max-width: 320px; }
+            .stat-number { font-size: 2rem; }
         }
     </style>
 </head>
@@ -1353,209 +503,253 @@
         <div class="container">
             <div class="header-container">
                 <a href="#" class="logo">
-                    <img src="images/AudioEnhancerProPic.png" alt="Audio Enhancer Pro Logo" style="height: 48px; margin-right: 15px;">
-                    <span style="font-size: 1.8rem; font-weight: 600; color: var(--text-primary);">Audio Enhancer Pro</span>
+                    <img src="images/AudioEnhancerProPic.png" alt="Audio Enhancer Pro Logo">
+                    <span>Audio Enhancer <span class="logo-pro">Pro</span></span>
                 </a>
                 <nav>
                     <ul class="nav-links">
                         <li><a href="#features">Features</a></li>
                         <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="/comparison">Compare Features</a></li>
+                        <li><a href="/comparison">Compare</a></li>
                         <li><a href="#faq">FAQ</a></li>
                     </ul>
                 </nav>
-                <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" class="btn cta-button" target="_blank">Download Free</a>
+                <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" class="btn btn-primary" target="_blank">
+                    <i class="fab fa-chrome"></i> Add to Chrome
+                </a>
                 <div class="mobile-menu-toggle" id="mobile-menu-toggle">
                     <i class="fas fa-bars"></i>
                 </div>
             </div>
-            <!-- Mobile Menu -->
             <div class="mobile-menu" id="mobile-menu">
                 <ul>
                     <li><a href="#features">Features</a></li>
-                    <li><a href="#download">Download</a></li>
-                    <li><a href="/comparison">Compare Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="/comparison">Compare</a></li>
                     <li><a href="#faq">FAQ</a></li>
-                    <li><a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" class="btn" target="_blank" style="margin-top: 1rem; text-align: center; display: block;">Download Free</a></li>
+                    <li><a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" class="btn btn-primary" target="_blank" style="margin-top: 0.5rem; display: flex;"><i class="fab fa-chrome"></i> Add to Chrome — Free</a></li>
                 </ul>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero">
+        <div class="red-stripe"></div>
         <div class="container hero-container">
             <div class="hero-content">
-                <h1 class="hero-title">Transform Your Browser Audio with <span>Studio-Grade</span> Enhancement</h1>
-                <p class="hero-subtitle">Experience premium sound quality with advanced AI enhancement and immersive 3D spatial audio.</p>
-                <div class="hero-cta">
-                    <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" class="btn btn-lg" id="hero-cta-button" target="_blank">Download Extension</a>
-                    <a href="/comparison" class="btn btn-outline btn-lg">Compare Features</a>
+                <div class="hero-badge"><i class="fas fa-circle"></i> 100% Free &mdash; All Features Unlocked</div>
+                <h1 class="hero-title">The #1 Free <span class="accent">Audio Enhancer</span> & Sound Booster for Chrome</h1>
+                <p class="hero-subtitle">Boost volume up to 500%, fine-tune with a 10-band equalizer, reduce noise with AI, and experience immersive 3D spatial audio — on every website.</p>
+                <div class="hero-actions">
+                    <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" class="btn btn-primary btn-lg" id="hero-cta-button" target="_blank">
+                        <i class="fab fa-chrome"></i> Add to Chrome — Free
+                    </a>
+                    <a href="/comparison" class="btn btn-ghost btn-lg">Compare Features</a>
+                </div>
+                <div class="hero-social-proof">
+                    <div class="hero-rating">
+                        <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                        <div class="label">4.8/5 on Chrome Web Store</div>
+                    </div>
+                    <div class="hero-users"><strong>2,400+</strong> ratings</div>
                 </div>
             </div>
-            <div class="hero-image">
-                <img src="images/audiowebsitepic.png" alt="Audio Enhancer Pro Interface" class="hero-img active" id="hero-img-1">
-                <img src="images/audiowebsitepic1.png" alt="Audio Enhancer Pro Interface" class="hero-img" id="hero-img-2">
-                <div class="decorative-circle circle-1"></div>
-                <div class="decorative-circle circle-2"></div>
+            <div class="hero-image-wrap">
+                <div class="hero-glow"></div>
+                <img src="images/audiowebsitepic.png" alt="Audio Enhancer Pro Chrome extension interface showing equalizer, volume booster, and spatial audio controls" class="hero-img active" id="hero-img-1">
+                <img src="images/audiowebsitepic1.png" alt="Audio Enhancer Pro sound enhancer extension with 10-band EQ and AI noise reduction" class="hero-img" id="hero-img-2">
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="features">
+    <!-- Trust Bar -->
+    <section class="trust-bar">
         <div class="container">
-            <div class="section-title">
-                <h2>Powerful Audio Features</h2>
+            <div class="trust-bar-label">Works on every website you use</div>
+            <div class="trust-logos">
+                <div class="trust-item"><i class="fab fa-youtube"></i> YouTube</div>
+                <div class="trust-item"><i class="fas fa-film"></i> Netflix</div>
+                <div class="trust-item"><i class="fab fa-spotify"></i> Spotify</div>
+                <div class="trust-item"><i class="fab fa-twitch"></i> Twitch</div>
+                <div class="trust-item"><i class="fas fa-video"></i> Zoom</div>
+                <div class="trust-item"><i class="fab fa-amazon"></i> Prime Video</div>
+                <div class="trust-item"><i class="fab fa-soundcloud"></i> SoundCloud</div>
             </div>
-            <p class="section-subtitle">Our revolutionary browser extension enhances your audio experience with professional-grade tools and AI-powered technology.</p>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">500%</div>
+                    <div class="stat-label">Maximum Volume Boost</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">Equalizer Bands</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4.8★</div>
+                    <div class="stat-label">Chrome Web Store Rating</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">Free</div>
+                    <div class="stat-label">Forever — No Limits</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <h2>Powerful Audio Enhancement Features</h2>
+                <p>Studio-grade sound control — a full equalizer, volume booster, noise reduction, and 3D spatial audio — right inside your browser, completely free.</p>
+            </div>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-volume-up"></i>
-                    </div>
-                    <h3 class="feature-title">Advanced Volume Boost</h3>
-                    <p class="feature-description">Amplify quiet audio up to 500% without distortion, perfect for videos, music, and podcasts with low volume levels.</p>
+                    <div class="feature-icon"><i class="fas fa-volume-up"></i></div>
+                    <h3>Advanced Volume Boost</h3>
+                    <p>Amplify quiet audio up to 500% without distortion. Perfect for videos, music, and podcasts with low volume levels.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-sliders-h"></i>
-                    </div>
-                    <h3 class="feature-title">10-Band Equalizer</h3>
-                    <p class="feature-description">Fine-tune your audio with a professional 10-band equalizer and access 10+ genre-specific presets for optimal sound.</p>
+                    <div class="feature-icon"><i class="fas fa-sliders-h"></i></div>
+                    <h3>10-Band Equalizer</h3>
+                    <p>Fine-tune your audio with a professional 10-band EQ and access 10+ genre-specific presets for optimal sound.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-magic"></i>
-                    </div>
-                    <h3 class="feature-title">AI Enhancement</h3>
-                    <p class="feature-description">Intelligent algorithms automatically reduce background noise, enhance clarity, and optimize dynamic range in real-time.</p>
+                    <div class="feature-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+                    <h3>AI Noise Reduction</h3>
+                    <p>Intelligent algorithms automatically reduce background noise, enhance clarity, and optimize dynamic range in real time.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <h3 class="feature-title">3D Spatial Audio</h3>
-                    <p class="feature-description">Experience immersive, room-filling sound that creates a realistic three-dimensional listening environment.</p>
+                    <div class="feature-icon"><i class="fas fa-cube"></i></div>
+                    <h3>3D Spatial Audio</h3>
+                    <p>Experience immersive, room-filling sound that creates a realistic three-dimensional listening environment.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3 class="feature-title">Instant Results</h3>
-                    <p class="feature-description">Enjoy enhanced audio instantly with zero latency and minimal CPU usage on any website you visit.</p>
+                    <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>Zero Latency</h3>
+                    <p>Enjoy enhanced audio instantly with minimal CPU usage on any website. Built on the efficient Web Audio API.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-save"></i></div>
+                    <h3>Custom Presets</h3>
+                    <p>Save your own EQ configurations or choose from built-in presets — Rock, Jazz, Podcast, Cinema, Gaming, and more.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- How It Works Section -->
-    <section id="how-it-works" class="how-it-works">
+    <!-- How It Works -->
+    <section id="how-it-works" class="section">
         <div class="container">
-            <div class="section-title">
-                <h2>How It Works</h2>
+            <div class="section-header">
+                <h2>How the Audio Enhancer Works</h2>
+                <p>Install the free sound enhancer extension and start hearing the difference in under 60 seconds.</p>
             </div>
-            <p class="section-subtitle">Getting started with Audio Enhancer Pro is simple and takes less than a minute.</p>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3 class="step-title">Install Extension</h3>
-                    <p class="step-description">Add Audio Enhancer Pro to your Chrome browser with just one click.</p>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <h3>Install Extension</h3>
+                    <p>Add Audio Enhancer Pro to Chrome with one click from the Web Store.</p>
                 </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3 class="step-title">Open Extension</h3>
-                    <p class="step-description">Click the extension icon in your browser toolbar to open the control panel.</p>
+                <div class="step-card">
+                    <h3>Open Controls</h3>
+                    <p>Click the extension icon in your toolbar to open the audio control panel.</p>
                 </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3 class="step-title">Customize Settings</h3>
-                    <p class="step-description">Adjust audio enhancement to your preference or use our presets.</p>
+                <div class="step-card">
+                    <h3>Customize Sound</h3>
+                    <p>Adjust EQ, volume, noise reduction, and spatial audio to your preference.</p>
                 </div>
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <h3 class="step-title">Enjoy Enhanced Audio</h3>
-                    <p class="step-description">Experience transformed audio quality on any website automatically.</p>
+                <div class="step-card">
+                    <h3>Enjoy Audio</h3>
+                    <p>Experience transformed audio quality on any website, automatically.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Download Section -->
-    <section id="download" class="pricing">
+    <!-- Download -->
+    <section id="download" class="download-section">
         <div class="container">
-            <div class="section-title">
-                <h2>Download Audio Enhancer Pro</h2>
+            <div class="section-header">
+                <h2>Download the Free Audio Enhancer Extension</h2>
+                <p>Every feature unlocked — volume booster, equalizer, noise reduction, and 3D spatial audio. No subscription, no trial, no credit card.</p>
             </div>
-            <p class="section-subtitle">Completely free with all features unlocked. No subscription, no trial, no credit card required.</p>
-            
-            <div class="pricing-cards" style="justify-content: center;">
-                <div class="price-card premium" style="max-width: 600px;">
-                    <div class="premium-badge">100% Free</div>
-                    <h3 class="price-title">Audio Enhancer Pro</h3>
-                    <p class="price-subtitle">All premium features available at no cost</p>
-                    <div class="price-amount">Free<span> Forever</span></div>
-                    <ul class="price-features">
-                        <li><i class="fas fa-check-circle"></i> Advanced Volume Boost (up to 500%)</li>
-                        <li><i class="fas fa-check-circle"></i> 10-Band Equalizer with Presets</li>
-                        <li><i class="fas fa-check-circle"></i> AI-Powered Noise Reduction</li>
-                        <li><i class="fas fa-check-circle"></i> Audio Clarity Enhancement</li>
-                        <li><i class="fas fa-check-circle"></i> Dynamic Range Optimization</li>
-                        <li><i class="fas fa-check-circle"></i> Immersive 3D Spatial Audio</li>
-                        <li><i class="fas fa-check-circle"></i> Custom Preset Management</li>
-                        <li><i class="fas fa-check-circle"></i> All Features Unlocked</li>
-                    </ul>
-                    <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" class="btn btn-lg" target="_blank" style="width: 100%;">Download from Chrome Web Store</a>
-                </div>
+            <div class="download-card">
+                <div class="free-badge">100% Free Forever</div>
+                <h3>Audio Enhancer Pro</h3>
+                <div class="price">$0<span> / forever</span></div>
+                <ul class="download-features">
+                    <li><i class="fas fa-check"></i> Advanced Volume Boost (up to 500%)</li>
+                    <li><i class="fas fa-check"></i> 10-Band Equalizer with Presets</li>
+                    <li><i class="fas fa-check"></i> AI-Powered Noise Reduction</li>
+                    <li><i class="fas fa-check"></i> Audio Clarity Enhancement</li>
+                    <li><i class="fas fa-check"></i> Dynamic Range Optimization</li>
+                    <li><i class="fas fa-check"></i> Immersive 3D Spatial Audio</li>
+                    <li><i class="fas fa-check"></i> Custom Preset Management</li>
+                    <li><i class="fas fa-check"></i> All Features Unlocked</li>
+                </ul>
+                <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" class="btn btn-primary btn-lg" target="_blank" style="width: 100%;">
+                    <i class="fab fa-chrome"></i> Add to Chrome — Free
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials Section -->
-    <section class="testimonials">
+    <!-- Testimonials -->
+    <section class="section section-dark">
         <div class="container">
-            <div class="section-title">
-                <h2>What Our Users Say</h2>
+            <div class="section-header">
+                <h2>What Audio Enhancer Pro Users Say</h2>
+                <p>Thousands of users have transformed their browser audio with our free sound enhancer extension.</p>
             </div>
-            <p class="section-subtitle">Join thousands of satisfied users who have transformed their audio experience.</p>
-            <div class="testimonial-cards">
+            <div class="testimonials-grid">
                 <div class="testimonial-card">
-                    <p class="testimonial-text">Audio Enhancer Pro has completely transformed my YouTube watching experience. The spatial audio feature makes me feel like I'm in a movie theater!</p>
+                    <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="testimonial-text">"Audio Enhancer Pro has completely transformed my YouTube watching experience. The spatial audio feature makes me feel like I'm in a movie theater!"</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">MJ</div>
-                        <div class="testimonial-info">
+                        <div>
                             <div class="testimonial-name">Michael Johnson</div>
-                            <div class="testimonial-position">Music Producer</div>
+                            <div class="testimonial-role">Music Producer</div>
                         </div>
                     </div>
                 </div>
                 <div class="testimonial-card">
-                    <p class="testimonial-text">The 3D spatial audio feature creates an immersive experience that makes everything sound clearer. I can finally hear subtle details in my favorite songs!</p>
+                    <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="testimonial-text">"The 3D spatial audio feature creates an immersive experience that makes everything sound clearer. I can finally hear subtle details in my favorite songs!"</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">SL</div>
-                        <div class="testimonial-info">
+                        <div>
                             <div class="testimonial-name">Sarah Lee</div>
-                            <div class="testimonial-position">Podcast Host</div>
+                            <div class="testimonial-role">Podcast Host</div>
                         </div>
                     </div>
                 </div>
                 <div class="testimonial-card">
-                    <p class="testimonial-text">I use this extension for online meetings and the AI noise reduction is incredible. It filters out all background noise, making my voice crystal clear.</p>
+                    <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="testimonial-text">"I use this extension for online meetings and the AI noise reduction is incredible. It filters out all background noise, making my voice crystal clear."</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">DR</div>
-                        <div class="testimonial-info">
+                        <div>
                             <div class="testimonial-name">David Rodriguez</div>
-                            <div class="testimonial-position">Remote Worker</div>
+                            <div class="testimonial-role">Remote Worker</div>
                         </div>
                     </div>
                 </div>
                 <div class="testimonial-card">
-                    <p class="testimonial-text">As someone with partial hearing loss, this extension has been life-changing. The volume boost and clarity enhancement let me enjoy content without straining.</p>
+                    <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="testimonial-text">"As someone with partial hearing loss, this extension has been life-changing. The volume boost and clarity enhancement let me enjoy content without straining."</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">AT</div>
-                        <div class="testimonial-info">
+                        <div>
                             <div class="testimonial-name">Alex Turner</div>
-                            <div class="testimonial-position">Teacher</div>
+                            <div class="testimonial-role">Teacher</div>
                         </div>
                     </div>
                 </div>
@@ -1563,70 +757,102 @@
         </div>
     </section>
 
-    <!-- FAQ Section -->
-    <section id="faq" class="faq">
+    <!-- FAQ -->
+    <section id="faq" class="section">
         <div class="container">
-            <div class="section-title">
-                <h2>Frequently Asked Questions</h2>
+            <div class="section-header">
+                <h2>Audio Enhancer FAQ</h2>
             </div>
             <div class="faq-list">
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>How does the 7-day free trial work?</span>
+                        <span>Is Audio Enhancer Pro really free?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
-                    <div class="faq-answer">
-                        Audio Enhancer Pro is completely free! All features are available at no cost with no subscription, no trial period, and no credit card required. Simply install the extension and enjoy all premium features immediately.
-                    </div>
+                    <div class="faq-answer">Yes — Audio Enhancer Pro is 100% free with every feature unlocked. There is no subscription, no trial period, and no credit card required. You get the full volume booster, 10-band equalizer, AI noise reduction, and 3D spatial audio at no cost.</div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Will Audio Enhancer Pro work on any website?</span>
+                        <span>What websites does the audio enhancer work on?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
-                    <div class="faq-answer">
-                        Yes! Audio Enhancer Pro works on virtually any website that plays audio, including YouTube, Netflix, Spotify Web Player, podcast sites, video conferencing platforms, and more. It automatically enhances audio streams across your browser.
-                    </div>
+                    <div class="faq-answer">Audio Enhancer Pro works on virtually every website that plays audio in Chrome, including YouTube, Netflix, Spotify Web Player, Amazon Prime Video, Twitch, podcast sites, video conferencing platforms like Zoom and Google Meet, and more. The sound enhancer automatically processes audio streams across all open tabs.</div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Is there a subscription or payment required?</span>
+                        <span>How do I boost the volume on my browser beyond 100%?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
-                    <div class="faq-answer">
-                        No! Audio Enhancer Pro is completely free with no subscription, no payment, and no credit card required. All features are available immediately upon installation at no cost.
-                    </div>
+                    <div class="faq-answer">After installing Audio Enhancer Pro, click the extension icon and use the Volume Boost slider to amplify audio up to 500% — far beyond your browser's default maximum. The intelligent boost algorithm increases volume without distortion or clipping, so quiet videos, podcasts, and music become clearly audible.</div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Does this extension affect my device's performance?</span>
+                        <span>Does the sound enhancer extension slow down my browser?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
-                    <div class="faq-answer">
-                        Audio Enhancer Pro is optimized for minimal CPU usage. Our advanced algorithms process audio efficiently in real-time without causing noticeable performance impact on most modern devices.
-                    </div>
+                    <div class="faq-answer">No. Audio Enhancer Pro uses the Web Audio API for efficient real-time processing with minimal CPU usage. It processes audio only on active tabs and is optimized for modern hardware. Most users report zero noticeable performance impact.</div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Can I use the extension on multiple devices?</span>
+                        <span>What is the 10-band equalizer and how do I use it?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
-                    <div class="faq-answer">
-                        Yes! You can install Audio Enhancer Pro on as many devices as you want. Since it's completely free, there are no restrictions on the number of devices you can use.
+                    <div class="faq-answer">The equalizer lets you adjust 10 frequency bands from 32 Hz to 16 kHz, giving you full control over bass, midrange, and treble. Choose from built-in presets (Rock, Jazz, Podcast, Cinema, Gaming, and more) or create your own custom presets. It's ideal for tailoring audio quality to your headphones, speakers, or content type.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How does AI noise reduction improve audio quality?</span>
+                        <i class="fas fa-chevron-down"></i>
                     </div>
+                    <div class="faq-answer">The AI enhancement engine analyzes audio in real time to separate speech, music, and background noise. It reduces unwanted noise while preserving voice clarity and musical detail. You can also adjust Audio Clarity and Dynamic Range sliders to balance quiet and loud parts automatically — great for podcasts, lectures, and video calls.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What is 3D spatial audio and how does it work?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">3D Spatial Audio uses acoustic modeling and head-related transfer functions (HRTF) to create the illusion of sound coming from all around you, even through regular headphones or laptop speakers. You can select room presets (Tiny Room through Cathedral), adjust spatial width, and optimize for music, podcasts, or movies.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I use Audio Enhancer Pro on multiple devices?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">Absolutely. Install it on as many Chrome browsers as you like — there are no device limits and no account required. Each installation works independently with its own saved presets and settings.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
+    <!-- SEO Content -->
+    <section class="seo-content">
+        <div class="container">
+            <div class="seo-content-inner">
+                <h2>What Is Audio Enhancer Pro?</h2>
+                <p>Audio Enhancer Pro is a <strong>free audio enhancer extension for Google Chrome</strong> that gives you complete control over the sound coming from your browser. Whether you are watching YouTube, streaming Netflix, listening to Spotify, or sitting in a Zoom meeting, Audio Enhancer Pro processes audio in real time to deliver louder, clearer, more immersive sound.</p>
+                <p>Unlike simple volume booster extensions, Audio Enhancer Pro combines four professional-grade tools into one lightweight package:</p>
+                <ul>
+                    <li><strong>Volume Boost</strong> — amplify any website's audio up to 500%, ideal for quiet videos, soft podcasts, and low-volume streams.</li>
+                    <li><strong>10-Band Equalizer</strong> — adjust bass, midrange, and treble frequencies with precision. Choose built-in presets for Rock, Jazz, Podcast, Cinema, Gaming, and more, or save your own.</li>
+                    <li><strong>AI Noise Reduction &amp; Clarity</strong> — intelligent algorithms remove background noise, sharpen dialogue, and balance dynamic range so you never have to strain to hear.</li>
+                    <li><strong>3D Spatial Audio</strong> — acoustic room simulation with HRTF processing turns stereo sound into a surround-sound experience through any headphones or speakers.</li>
+                </ul>
+                <p>Audio Enhancer Pro works on <strong>every website</strong> — YouTube, Netflix, Spotify, Twitch, Amazon Prime Video, Disney+, Google Meet, Zoom, SoundCloud, podcast sites, and thousands more. It is designed for anyone who wants better audio quality from their browser: music lovers, remote workers, students, podcast listeners, gamers, and people with hearing difficulties.</p>
+                <p>The extension is built on the Web Audio API for efficient, low-latency processing that won't slow down your computer. All audio processing happens locally on your device — nothing is sent to external servers, so your listening is completely private.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
     <section class="cta-section">
         <div class="container">
-            <h2 class="cta-title">Transform Your Audio Experience Today</h2>
-            <p class="cta-description">Join thousands of users and discover the difference that professional-grade audio enhancement can make.</p>
+            <h2>Enhance Your Browser Audio for Free Today</h2>
+            <p>Join thousands of users who use Audio Enhancer Pro to boost volume, equalize sound, and experience 3D spatial audio on every website.</p>
             <div class="cta-buttons">
-                <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" class="btn btn-lg btn-white" id="cta-subscribe-button" target="_blank">Get Extension</a>
-                <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" class="btn btn-lg btn-transparent" target="_blank">Install Extension</a>
+                <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" class="btn btn-white btn-lg" id="cta-subscribe-button" target="_blank">
+                    <i class="fab fa-chrome"></i> Add to Chrome — Free
+                </a>
+                <a href="#features" class="btn btn-outline-white btn-lg">Explore Features</a>
             </div>
         </div>
     </section>
@@ -1634,80 +860,74 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-container">
-                <div class="footer-column">
-                    <div class="footer-logo">Audio Enhancer Pro</div>
-                    <p class="footer-description">Transform your browser's audio with professional-grade enhancement technology.</p>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo" style="margin-bottom: 0.5rem;">
+                        <img src="images/AudioEnhancerProPic.png" alt="Audio Enhancer Pro Logo">
+                        <span>Audio Enhancer <span class="logo-pro">Pro</span></span>
+                    </div>
+                    <p>Professional-grade audio enhancement for your browser. Free forever.</p>
                 </div>
-                <div class="footer-column">
-                    <h3 class="footer-title">Features</h3>
-                    <ul class="footer-links">
+                <div>
+                    <h4>Features</h4>
+                    <ul>
                         <li><a href="#" class="feature-link" data-feature="volume-boost">Volume Boost</a></li>
                         <li><a href="#" class="feature-link" data-feature="equalizer">Equalizer</a></li>
                         <li><a href="#" class="feature-link" data-feature="ai-enhancement">AI Enhancement</a></li>
                         <li><a href="#" class="feature-link" data-feature="spatial-audio">3D Spatial Audio</a></li>
                     </ul>
                 </div>
-                <div class="footer-column">
-                    <h3 class="footer-title">Company</h3>
-                    <ul class="footer-links">
+                <div>
+                    <h4>Company</h4>
+                    <ul>
                         <li><a href="#" class="info-link" data-info="about-us">About Us</a></li>
+                        <li><a href="/comparison">Compare Features</a></li>
                     </ul>
                 </div>
-                <div class="footer-column">
-                    <h3 class="footer-title">Support</h3>
-                    <ul class="footer-links">
+                <div>
+                    <h4>Support</h4>
+                    <ul>
                         <li><a href="#" class="info-link" data-info="installation-guide">Installation Guide</a></li>
                         <li><a href="#" class="info-link" data-info="feedback">Feedback</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <div class="footer-copyright">
-                    © 2024 Audio Enhancer Pro. All rights reserved.
-                </div>
-                <div class="footer-terms">
-                    <a href="#" id="privacy-policy-link">Privacy Policy</a>
+                <div>&copy; 2025 Audio Enhancer Pro. All rights reserved.</div>
+                <div class="footer-bottom-links">
+                    <a href="privacy-policy.html" id="privacy-policy-link">Privacy Policy</a>
                     <a href="#" class="info-link" data-info="terms">Terms of Service</a>
                 </div>
             </div>
         </div>
     </footer>
 
-
-    <!-- Feature Info Modals -->
+    <!-- Feature Modal -->
     <div class="modal" id="feature-modal">
         <div class="modal-content">
-            <div class="modal-close feature-modal-close">
-                <i class="fas fa-times"></i>
-            </div>
+            <div class="modal-close feature-modal-close"><i class="fas fa-times"></i></div>
             <h3 class="modal-title" id="feature-modal-title"></h3>
             <div class="feature-modal-content" id="feature-modal-description"></div>
         </div>
     </div>
 
-    <!-- Info Modals -->
+    <!-- Info Modal -->
     <div class="modal" id="info-modal">
         <div class="modal-content">
-            <div class="modal-close info-modal-close">
-                <i class="fas fa-times"></i>
-            </div>
+            <div class="modal-close info-modal-close"><i class="fas fa-times"></i></div>
             <h3 class="modal-title" id="info-modal-title"></h3>
             <div class="info-modal-content" id="info-modal-description"></div>
         </div>
     </div>
 
-    <!-- Privacy Policy Modal -->
+    <!-- Privacy Modal -->
     <div class="modal" id="privacy-modal">
         <div class="modal-content">
-            <div class="modal-close privacy-modal-close">
-                <i class="fas fa-times"></i>
-            </div>
+            <div class="modal-close privacy-modal-close"><i class="fas fa-times"></i></div>
             <h3 class="modal-title">Privacy Policy</h3>
             <div class="privacy-modal-content">
                 <h4>Introduction</h4>
                 <p>At Audio Enhancer Pro, we respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you use our browser extension.</p>
-                
                 <h4>Information We Collect</h4>
                 <p>We collect minimal information:</p>
                 <ul>
@@ -1715,7 +935,6 @@
                     <li><strong>Technical Data:</strong> Browser type and version, installation timestamp, error reports</li>
                     <li><strong>Contact Information:</strong> Not collected - we do not currently accept direct contact</li>
                 </ul>
-                
                 <h4>How We Use Your Information</h4>
                 <p>We use the collected information to:</p>
                 <ul>
@@ -1724,20 +943,15 @@
                     <li>Address technical issues and improve user experience</li>
                     <li>Analyze usage patterns to enhance functionality</li>
                 </ul>
-                
                 <h4>Data Storage and Security</h4>
                 <p><strong>Your audio is processed entirely locally on your device.</strong> We do not collect, store, or process any of the actual audio content you listen to. All audio processing happens in your browser using the Web Audio API, and no audio data is transmitted to our servers or any third parties.</p>
-                <p>Your audio settings and preferences are stored locally in your browser's storage. We do not sync this data to any cloud service. This ensures complete privacy - your audio preferences remain on your device only.</p>
-                
+                <p>Your audio settings and preferences are stored locally in your browser's storage. We do not sync this data to any cloud service.</p>
                 <h4>Third-Party Services</h4>
-                <p>We use the following third-party services:</p>
                 <ul>
                     <li><strong>Google Analytics:</strong> For anonymous website analytics (with IP anonymization enabled)</li>
                     <li><strong>Chrome Web Store:</strong> For extension distribution (subject to Google's privacy policy)</li>
                 </ul>
-                
                 <h4>Your Privacy Rights</h4>
-                <p>You have the right to:</p>
                 <ul>
                     <li>Access any personal data we hold about you</li>
                     <li>Request correction of inaccurate data</li>
@@ -1746,21 +960,14 @@
                     <li>Request restriction of processing</li>
                     <li>Request data portability</li>
                 </ul>
-                
                 <h4>Contact Us</h4>
                 <p>For questions about this Privacy Policy, please refer to the Chrome Web Store listing.</p>
-                
-                <h4>Policy Updates</h4>
-                <p>We may update this Privacy Policy from time to time. We will notify you of significant changes by posting the updated policy on our website.</p>
-                
                 <p><em>Last updated: January 2025</em></p>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript -->
     <script>
-        // Mobile menu toggle
         const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileMenuIcon = mobileMenuToggle.querySelector('i');
@@ -1768,480 +975,133 @@
         if (mobileMenuToggle && mobileMenu) {
             mobileMenuToggle.addEventListener('click', () => {
                 mobileMenu.classList.toggle('active');
-                // Change icon between bars and X
                 if (mobileMenu.classList.contains('active')) {
-                    mobileMenuIcon.classList.remove('fa-bars');
-                    mobileMenuIcon.classList.add('fa-times');
+                    mobileMenuIcon.classList.replace('fa-bars', 'fa-times');
                 } else {
-                    mobileMenuIcon.classList.remove('fa-times');
-                    mobileMenuIcon.classList.add('fa-bars');
+                    mobileMenuIcon.classList.replace('fa-times', 'fa-bars');
                 }
             });
-
-            // Close mobile menu when clicking on a link
-            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-            mobileMenuLinks.forEach(link => {
+            mobileMenu.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
                     mobileMenu.classList.remove('active');
-                    mobileMenuIcon.classList.remove('fa-times');
-                    mobileMenuIcon.classList.add('fa-bars');
+                    mobileMenuIcon.classList.replace('fa-times', 'fa-bars');
                 });
             });
-
-            // Close mobile menu when clicking outside
             document.addEventListener('click', (e) => {
                 if (!mobileMenuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
                     mobileMenu.classList.remove('active');
-                    mobileMenuIcon.classList.remove('fa-times');
-                    mobileMenuIcon.classList.add('fa-bars');
+                    mobileMenuIcon.classList.replace('fa-times', 'fa-bars');
                 }
             });
         }
 
-        // Header scroll effect
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
+        window.addEventListener('scroll', () => {
+            document.querySelector('.header').classList.toggle('scrolled', window.scrollY > 50);
         });
 
-        // FAQ Accordion
-        const faqQuestions = document.querySelectorAll('.faq-question');
-        faqQuestions.forEach(question => {
-            question.addEventListener('click', () => {
-                const answer = question.nextElementSibling;
-                const isActive = question.classList.contains('active');
-
-                // Close all other answers
-                faqQuestions.forEach(q => {
-                    q.classList.remove('active');
-                    q.nextElementSibling.classList.remove('show');
-                });
-
-                // Toggle current answer
-                if (!isActive) {
-                    question.classList.add('active');
-                    answer.classList.add('show');
-                }
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const wasActive = q.classList.contains('active');
+                document.querySelectorAll('.faq-question').forEach(x => { x.classList.remove('active'); x.nextElementSibling.classList.remove('show'); });
+                if (!wasActive) { q.classList.add('active'); q.nextElementSibling.classList.add('show'); }
             });
         });
 
-        // Store buttons
-        const storeButtons = document.querySelectorAll('.cta-button, #hero-cta-button, #subscribe-button, #cta-subscribe-button');
-        const chromeWebStoreUrl = 'https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg';
-        
-        // Chrome Web Store Button Tracking
-        storeButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                // Optional: Add analytics tracking here
-                console.log('Chrome Web Store button clicked');
-            });
-        });
+        const featureInfo = {
+            'volume-boost': { title: 'Advanced Volume Boost', description: '<p>Our Advanced Volume Boost technology allows you to amplify quiet audio up to 500% without introducing distortion or clipping.</p><p>Unlike simple volume controls that just make everything louder, our intelligent algorithm analyzes the audio signal in real-time to identify and selectively boost quieter elements while preserving the dynamics of louder sounds.</p><h4>Key Benefits:</h4><ul><li>Watch videos with low volume at comfortable listening levels</li><li>Hear quiet dialog clearly without turning up explosion sounds too loud</li><li>Normalize volume levels across different content automatically</li><li>Perfect for laptops with weak speakers or when watching content in noisy environments</li></ul>' },
+            'equalizer': { title: '10-Band Equalizer', description: '<p>Our professional-grade 10-band equalizer gives you complete control over your audio frequency profile.</p><h4>Included Presets:</h4><ul><li>Music Genres: Rock, Pop, Jazz, Classical, Electronic, Hip-Hop</li><li>Content Type: Movie, Podcast, Gaming, Voice Call</li><li>Special: Bass Boost, Vocal Clarity</li></ul><p>You can also save your own custom EQ presets and switch between them with a single click.</p>' },
+            'ai-enhancement': { title: 'AI Enhancement Technology', description: '<p>Our revolutionary AI Enhancement technology uses advanced machine learning algorithms to analyze and improve your audio in real-time.</p><h4>Key Features:</h4><ul><li>Intelligent Noise Reduction: Automatically detects and filters out background noise</li><li>Speech Enhancement: Improves clarity of voices in podcasts, videos, and conference calls</li><li>Dynamic Range Optimization: Balances loud and quiet sounds for consistent listening</li><li>Harmonic Enhancement: Restores lost audio detail in compressed audio sources</li></ul>' },
+            'spatial-audio': { title: '3D Spatial Audio', description: '<p>Experience immersive, three-dimensional sound with our advanced Spatial Audio technology.</p><h4>Technology Features:</h4><ul><li>Virtual Surround: Creates the illusion of multiple speakers from just your headphones</li><li>Soundstage Expansion: Widens the perceived audio field for a more spacious experience</li><li>Depth Perception: Adds front-to-back dimensionality with realistic distance cues</li><li>Head-Related Transfer Function (HRTF): Models how sound interacts with the human ear</li></ul>' }
+        };
+        const infoContent = {
+            'about-us': { title: 'About Audio Enhancer Pro', description: '<p>Audio Enhancer Pro was born from my personal passion and love for music. As the sole founder and developer, I\'ve always been fascinated by how sound can transform experiences.</p><h4>Why I Created This:</h4><p>Frustrated by the limitations of standard browser audio, I set out to develop a solution that would let anyone experience rich, spatial sound regardless of where they\'re listening or what device they\'re using.</p><h4>My Mission:</h4><p>My goal is simple: to help people rediscover their favorite content through superior audio quality. I believe everyone deserves to experience audio the way it was meant to be heard.</p>' },
+            'installation-guide': { title: 'Installation Guide', description: '<h4>For Google Chrome:</h4><ol><li>Visit the <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" target="_blank">Chrome Web Store</a></li><li>Click the "Add to Chrome" button</li><li>Confirm the installation</li><li>Click the extension icon to access controls</li></ol><h4>System Requirements:</h4><ul><li>Google Chrome version 88 or higher</li><li>Windows 10/11, macOS 10.14+, or Linux</li><li>4GB RAM recommended</li></ul>' },
+            'terms': { title: 'Terms of Service', description: '<h4>1. Acceptance of Terms</h4><p>By installing and using Audio Enhancer Pro, you agree to be bound by these Terms of Service.</p><h4>2. Free Service</h4><p>Audio Enhancer Pro is provided free of charge with no subscription fees, no trial periods, and no payment required.</p><h4>3. Privacy</h4><p>All audio processing occurs locally on your device. We do not collect or store any audio content.</p><h4>4. Disclaimer</h4><p>THE EXTENSION IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND.</p><p><em>Last updated: January 2025</em></p>' },
+            'feedback': { title: 'User Feedback & Ratings', description: '<div class="rating-summary"><div class="overall-rating"><span class="rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span><span class="rating-score">4.8/5</span></div><p>Based on 2,475 reviews in the Chrome Web Store</p></div><div class="review"><p class="review-text">"This extension is a game-changer for my daily video calls."</p><div class="review-author">— James K. ★★★★★</div></div><div class="review"><p class="review-text">"The volume boost and clarity enhancement actually work!"</p><div class="review-author">— Maria L. ★★★★★</div></div><p>Please consider leaving a review on the <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" target="_blank">Chrome Web Store</a>.</p>' }
+        };
 
-        // Modal functionality (for feature and info modals)
-        const featureLinks = document.querySelectorAll('.feature-link');
-        const infoLinks = document.querySelectorAll('.info-link');
         const featureModal = document.getElementById('feature-modal');
         const infoModal = document.getElementById('info-modal');
-        const featureModalClose = document.querySelector('.feature-modal-close');
-        const infoModalClose = document.querySelector('.info-modal-close');
-        const featureModalTitle = document.getElementById('feature-modal-title');
-        const featureModalDescription = document.getElementById('feature-modal-description');
-        const infoModalTitle = document.getElementById('info-modal-title');
-        const infoModalDescription = document.getElementById('info-modal-description');
-
-        // Feature information objects
-        const featureInfo = {
-            'volume-boost': {
-                title: 'Advanced Volume Boost',
-                description: `
-                    <p>Our Advanced Volume Boost technology allows you to amplify quiet audio up to 500% without introducing distortion or clipping.</p>
-                    <p>Unlike simple volume controls that just make everything louder, our intelligent algorithm analyzes the audio signal in real-time to identify and selectively boost quieter elements while preserving the dynamics of louder sounds.</p>
-                    <h4>Key Benefits:</h4>
-                    <ul>
-                        <li>Watch videos with low volume at comfortable listening levels</li>
-                        <li>Hear quiet dialog clearly without turning up explosion sounds too loud</li>
-                        <li>Normalize volume levels across different content automatically</li>
-                        <li>Perfect for laptops with weak speakers or when watching content in noisy environments</li>
-                    </ul>
-                    <p>The Volume Boost feature includes a customizable boost level slider, allowing you to fine-tune exactly how much amplification you need for your specific audio environment.</p>
-                `
-            },
-            'equalizer': {
-                title: '10-Band Equalizer',
-                description: `
-                    <p>Our professional-grade 10-band equalizer gives you complete control over your audio frequency profile.</p>
-                    <p>With precision sliders covering the full audible spectrum (20Hz to 20kHz), you can fine-tune bass, mids, and treble to create your perfect sound signature or choose from our curated presets.</p>
-                    <h4>Included Presets:</h4>
-                    <ul>
-                        <li>Music Genres: Rock, Pop, Jazz, Classical, Electronic, Hip-Hop</li>
-                        <li>Content Type: Movie, Podcast, Gaming, Voice Call</li>
-                        <li>Special: Bass Boost, Vocal Clarity</li>
-                    </ul>
-                    <p>You can also save your own custom EQ presets and switch between them with a single click, perfect for different types of content or listening environments.</p>
-                    <p>Our equalizer uses high-quality digital signal processing to ensure minimal phase distortion and artifacts, preserving audio quality even with significant EQ adjustments.</p>
-                `
-            },
-            'ai-enhancement': {
-                title: 'AI Enhancement Technology',
-                description: `
-                    <p>Our revolutionary AI Enhancement technology uses advanced machine learning algorithms to analyze and improve your audio in real-time.</p>
-                    <p>Trained on thousands of hours of audio content, our AI system can identify and separate different audio elements like voices, music, and background noise, then selectively enhance what matters most.</p>
-                    <h4>Key Features:</h4>
-                    <ul>
-                        <li>Intelligent Noise Reduction: Automatically detects and filters out background noise without affecting important audio</li>
-                        <li>Speech Enhancement: Improves clarity of voices in podcasts, videos, and conference calls</li>
-                        <li>Dynamic Range Optimization: Balances loud and quiet sounds for consistent, comfortable listening</li>
-                        <li>Harmonic Enhancement: Restores lost audio detail in compressed audio sources</li>
-                    </ul>
-                    <p>The AI system continuously learns and adapts to your specific audio environment, providing increasingly personalized enhancement the more you use it.</p>
-                `
-            },
-            'spatial-audio': {
-                title: '3D Spatial Audio',
-                description: `
-                    <p>Experience immersive, three-dimensional sound with our advanced Spatial Audio technology.</p>
-                    <p>Using complex acoustic modeling and psychoacoustic processing, we transform standard stereo content into a rich, multi-dimensional soundscape that creates the impression of sound coming from all around you.</p>
-                    <h4>Technology Features:</h4>
-                    <ul>
-                        <li>Virtual Surround: Creates the illusion of multiple speakers from just your headphones or laptop speakers</li>
-                        <li>Soundstage Expansion: Widens the perceived audio field for a more spacious listening experience</li>
-                        <li>Depth Perception: Adds front-to-back dimensionality to create realistic distance cues</li>
-                        <li>Head-Related Transfer Function (HRTF): Models how sound interacts with the human ear for natural spatial positioning</li>
-                    </ul>
-                    <p>Spatial Audio is especially transformative for movies, gaming, and music, creating a cinema-like experience even with basic audio equipment. The effect can be customized from subtle enhancement to full immersion.</p>
-                `
-            },
-        };
-
-        // Info content objects
-        const infoContent = {
-            'about-us': {
-                title: 'About Audio Enhancer Pro',
-                description: `
-                    <p>Audio Enhancer Pro was born from my personal passion and love for music. As the sole founder and developer, I've always been fascinated by how sound can transform experiences.</p>
-                    <p>I often found myself wishing I could adjust audio on my favorite streaming services to recreate the immersive feeling of being at a live concert, sitting in a cinema, or inside a professional recording studio.</p>
-                    <h4>Why I Created This:</h4>
-                    <p>Frustrated by the limitations of standard browser audio, I set out to develop a solution that would let anyone experience rich, spatial sound regardless of where they're listening or what device they're using.</p>
-                    <p>Whether you're watching YouTube videos, enjoying music on Spotify, or joining a podcast, Audio Enhancer Pro transforms ordinary sound into an extraordinary listening experience that puts you right in the middle of the action.</p>
-                    <h4>My Mission:</h4>
-                    <p>My goal is simple: to help people rediscover their favorite content through superior audio quality. I believe everyone deserves to experience audio the way it was meant to be heard, with all its depth, clarity and emotional impact.</p>
-                    <p>This extension isn't just a product – it's my contribution to fellow audio enthusiasts who understand that how we hear something is just as important as what we hear.</p>
-                `
-            },
-            'contact': {
-                title: 'Contact Us',
-                description: `
-                    <p>We're currently not accepting direct contact requests. For support, please leave a review or rating on the Chrome Web Store.</p>
-                    <p>Thank you for your understanding!</p>
-                `
-            },
-            'installation-guide': {
-                title: 'Installation Guide',
-                description: `
-                    <p>Getting started with Audio Enhancer Pro is quick and easy. Follow these simple steps to install our extension:</p>
-                    <h4>For Google Chrome:</h4>
-                    <ol>
-                        <li>Visit the <a href="https://chrome.google.com/webstore" target="_blank">Chrome Web Store</a></li>
-                        <li>Search for "Audio Enhancer Pro" or use our direct link: <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" target="_blank">Audio Enhancer Pro</a></li>
-                        <li>Click the "Add to Chrome" button</li>
-                        <li>Confirm the installation by clicking "Add extension" in the popup</li>
-                        <li>After installation, you'll see our icon in your browser toolbar</li>
-                        <li>Click the icon to access controls and start enhancing your audio</li>
-                    </ol>
-                    <h4>For Firefox, Edge, and Other Browsers:</h4>
-                    <p>Audio Enhancer Pro is currently optimized for Google Chrome. Support for additional browsers is coming soon!</p>
-                    <h4>System Requirements:</h4>
-                    <ul>
-                        <li>Google Chrome version 88 or higher</li>
-                        <li>Windows 10/11, macOS 10.14+, or Linux</li>
-                        <li>4GB RAM recommended for optimal performance</li>
-                    </ul>
-                    <h4>After Installation:</h4>
-                    <p>Once installed, Audio Enhancer Pro will automatically enhance audio on websites you visit. Click the extension icon to access the control panel where you can:</p>
-                    <ul>
-                        <li>Adjust enhancement settings</li>
-                        <li>Create and save custom presets</li>
-                        <li>Access all features for free</li>
-                    </ul>
-                    <p>For help and support, please check the Chrome Web Store listing or leave a review.</p>
-                `
-            },
-            'terms': {
-                title: 'Terms of Service',
-                description: `
-                    <h4>1. Acceptance of Terms</h4>
-                    <p>By installing and using Audio Enhancer Pro ("the Extension"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the Extension.</p>
-                    
-                    <h4>2. Description of Service</h4>
-                    <p>Audio Enhancer Pro is a free browser extension that enhances audio quality on websites you visit. The Extension provides features including volume boost, equalizer controls, AI-powered audio enhancement, and 3D spatial audio processing.</p>
-                    
-                    <h4>3. Free Service</h4>
-                    <p>Audio Enhancer Pro is provided free of charge. All features are available at no cost, with no subscription fees, no trial periods, and no payment required.</p>
-                    
-                    <h4>4. Use of the Extension</h4>
-                    <p>You agree to use the Extension only for lawful purposes and in accordance with these Terms. You agree not to:</p>
-                    <ul>
-                        <li>Use the Extension in any way that violates any applicable law or regulation</li>
-                        <li>Attempt to reverse engineer, decompile, or disassemble the Extension</li>
-                        <li>Remove or alter any copyright, trademark, or other proprietary notices</li>
-                        <li>Use the Extension to infringe upon the rights of others</li>
-                    </ul>
-                    
-                    <h4>5. Privacy</h4>
-                    <p>Your use of the Extension is also governed by our Privacy Policy. Please review our Privacy Policy, which explains how we collect, use, and protect your information. All audio processing occurs locally on your device - we do not collect or store any audio content.</p>
-                    
-                    <h4>6. Disclaimer of Warranties</h4>
-                    <p>THE EXTENSION IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. WE DISCLAIM ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</p>
-                    
-                    <h4>7. Limitation of Liability</h4>
-                    <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, WE SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES RESULTING FROM YOUR USE OF THE EXTENSION.</p>
-                    
-                    <h4>8. Modifications to Service</h4>
-                    <p>We reserve the right to modify, suspend, or discontinue the Extension at any time, with or without notice. We may also update these Terms from time to time. Continued use of the Extension after changes constitutes acceptance of the new Terms.</p>
-                    
-                    <h4>9. Intellectual Property</h4>
-                    <p>The Extension, including its design, code, and all content, is the property of Audio Enhancer Pro and is protected by copyright and other intellectual property laws. You are granted a limited, non-exclusive, non-transferable license to use the Extension for personal, non-commercial purposes.</p>
-                    
-                    <h4>10. Termination</h4>
-                    <p>We may terminate or suspend your access to the Extension immediately, without prior notice, for any reason, including if you breach these Terms. Upon termination, your right to use the Extension will cease immediately.</p>
-                    
-                    <h4>11. Governing Law</h4>
-                    <p>These Terms shall be governed by and construed in accordance with the laws of the United States, without regard to its conflict of law provisions.</p>
-                    
-                    <h4>12. Contact Information</h4>
-                    <p>For questions about these Terms of Service, please refer to the Chrome Web Store listing.</p>
-                    
-                    <p><em>Last updated: January 2025</em></p>
-                `
-            },
-            'feedback': {
-                title: 'User Feedback & Ratings',
-                description: `
-                    <p>Audio Enhancer Pro has received outstanding feedback from our users. Here's what people are saying about us:</p>
-                    <div class="rating-summary">
-                        <div class="overall-rating">
-                            <span class="rating-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </span>
-                            <span class="rating-score">4.8/5</span>
-                        </div>
-                        <p class="rating-count">Based on 2,475 reviews in the Chrome Web Store</p>
-                    </div>
-                    <h4>Featured Reviews:</h4>
-                    <div class="review">
-                        <p class="review-text">"This extension is a game-changer for my daily video calls. The noise reduction is incredible - my colleagues can't hear my noisy neighbors anymore!"</p>
-                        <div class="review-author">- James K. ★★★★★</div>
-                    </div>
-                    <div class="review">
-                        <p class="review-text">"As someone with mild hearing loss, this has made a huge difference in my ability to enjoy YouTube and Netflix. The volume boost and clarity enhancement actually work!"</p>
-                        <div class="review-author">- Maria L. ★★★★★</div>
-                    </div>
-                    <div class="review">
-                        <p class="review-text">"The 3D spatial audio feature transformed my laptop's tinny speakers into something that actually sounds immersive. Best of all, it's completely free!"</p>
-                        <div class="review-author">- Alex T. ★★★★★</div>
-                    </div>
-                    <h4>Share Your Experience:</h4>
-                    <p>We value your feedback! Please consider leaving a review on the <a href="https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" target="_blank">Chrome Web Store</a>.</p>
-                    <p>Your input helps us improve and develop new features that matter to our users.</p>
-                `
-            }
-        };
-
-        // Handle feature link clicks
-        featureLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const featureType = link.getAttribute('data-feature');
-                const feature = featureInfo[featureType];
-                
-                if (feature) {
-                    featureModalTitle.textContent = feature.title;
-                    featureModalDescription.innerHTML = feature.description;
-                    featureModal.classList.add('show');
-                    document.body.style.overflow = 'hidden';
-                }
-            });
-        });
-
-        // Handle info link clicks
-        infoLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const infoType = link.getAttribute('data-info');
-                const info = infoContent[infoType];
-                
-                if (info) {
-                    infoModalTitle.textContent = info.title;
-                    infoModalDescription.innerHTML = info.description;
-                    infoModal.classList.add('show');
-                    document.body.style.overflow = 'hidden';
-                }
-            });
-        });
-
-        // Privacy Policy modal
-        const privacyPolicyLink = document.getElementById('privacy-policy-link');
         const privacyModal = document.getElementById('privacy-modal');
-        const privacyModalClose = document.querySelector('.privacy-modal-close');
 
-        privacyPolicyLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            privacyModal.classList.add('show');
-            document.body.style.overflow = 'hidden';
+        document.querySelectorAll('.feature-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const f = featureInfo[link.dataset.feature];
+                if (f) { document.getElementById('feature-modal-title').textContent = f.title; document.getElementById('feature-modal-description').innerHTML = f.description; featureModal.classList.add('show'); document.body.style.overflow = 'hidden'; }
+            });
+        });
+        document.querySelectorAll('.info-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const i = infoContent[link.dataset.info];
+                if (i) { document.getElementById('info-modal-title').textContent = i.title; document.getElementById('info-modal-description').innerHTML = i.description; infoModal.classList.add('show'); document.body.style.overflow = 'hidden'; }
+            });
         });
 
-        privacyModalClose.addEventListener('click', () => {
-            privacyModal.classList.remove('show');
-            document.body.style.overflow = 'auto';
-        });
+        function closeModal(modal) { modal.classList.remove('show'); document.body.style.overflow = ''; }
+        document.querySelector('.feature-modal-close').addEventListener('click', () => closeModal(featureModal));
+        document.querySelector('.info-modal-close').addEventListener('click', () => closeModal(infoModal));
+        document.querySelector('.privacy-modal-close').addEventListener('click', () => closeModal(privacyModal));
+        [featureModal, infoModal, privacyModal].forEach(m => m.addEventListener('click', (e) => { if (e.target === m) closeModal(m); }));
 
-        privacyModal.addEventListener('click', (e) => {
-            if (e.target === privacyModal) {
-                privacyModal.classList.remove('show');
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        // Close feature modal
-        featureModalClose.addEventListener('click', () => {
-            featureModal.classList.remove('show');
-            document.body.style.overflow = 'auto';
-        });
-
-        // Close info modal
-        infoModalClose.addEventListener('click', () => {
-            infoModal.classList.remove('show');
-            document.body.style.overflow = 'auto';
-        });
-
-        // Close modals on outside click
-        featureModal.addEventListener('click', (e) => {
-            if (e.target === featureModal) {
-                featureModal.classList.remove('show');
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        infoModal.addEventListener('click', (e) => {
-            if (e.target === infoModal) {
-                infoModal.classList.remove('show');
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        // Hero image carousel animation with smooth professional transitions
         const heroImages = document.querySelectorAll('.hero-img');
-        let currentImageIndex = 0;
-        let isTransitioning = false;
-
+        let currentImageIndex = 0, isTransitioning = false;
         function switchHeroImage() {
-            // Prevent overlapping transitions
             if (isTransitioning || heroImages.length <= 1) return;
-            
             isTransitioning = true;
-            
-            // Fade out current image
             heroImages[currentImageIndex].classList.remove('active');
-            
-            // Move to next image
             currentImageIndex = (currentImageIndex + 1) % heroImages.length;
-            
-            // Small delay to ensure fade-out starts before fade-in
-            setTimeout(() => {
-                // Fade in new image
-                heroImages[currentImageIndex].classList.add('active');
-                
-                // Reset transition flag after animation completes
-                setTimeout(() => {
-                    isTransitioning = false;
-                }, 1300); // Slightly longer than CSS transition (1200ms)
-            }, 100);
+            setTimeout(() => { heroImages[currentImageIndex].classList.add('active'); setTimeout(() => { isTransitioning = false; }, 1100); }, 100);
         }
-
-        // Start the image rotation after page load
         if (heroImages.length > 1) {
-            // Preload second image for smoother transition
-            const secondImage = new Image();
-            secondImage.src = heroImages[1].src;
-            
-            // Initial delay before first switch (5 seconds)
-            setTimeout(() => {
-                switchHeroImage();
-                // Then switch every 5 seconds
-                setInterval(switchHeroImage, 5000);
-            }, 5000);
+            new Image().src = heroImages[1].src;
+            setTimeout(() => { switchHeroImage(); setInterval(switchHeroImage, 5000); }, 5000);
         }
-
     </script>
-    
-    <!-- Schema.org structured data for better SEO -->
+
+    <!-- SoftwareApplication schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "Audio Enhancer Pro",
+      "alternateName": ["Audio Enhancer", "Sound Enhancer", "Chrome Audio Booster"],
       "applicationCategory": "BrowserApplication",
-      "operatingSystem": "Windows, macOS, Linux",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "reviewCount": "2475",
-        "bestRating": "5",
-        "worstRating": "1"
-      },
-      "description": "Audio Enhancer Pro is a browser extension that transforms your listening experience with advanced audio enhancement features including bass boost, spatial audio, and noise reduction.",
-      "softwareVersion": "2.5.1",
+      "applicationSubCategory": "Audio Enhancement",
+      "operatingSystem": "Windows, macOS, Linux, ChromeOS",
+      "browserRequirements": "Google Chrome 88+",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "availability": "https://schema.org/InStock" },
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "2475", "bestRating": "5", "worstRating": "1" },
+      "description": "Free Chrome extension that enhances browser audio with volume boost up to 500%, a 10-band equalizer, AI-powered noise reduction, and immersive 3D spatial audio. Works on YouTube, Netflix, Spotify, and every website.",
+      "softwareVersion": "1.0.2",
       "fileSize": "4MB",
-      "author": {
-        "@type": "Organization",
-        "name": "Audio Enhancer Pro",
-        "url": "https://www.audioenhancerpro.com"
-      },
-      "potentialAction": {
-        "@type": "DownloadAction",
-        "target": "https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg"
-      }
+      "screenshot": "https://www.audioenhancerpro.com/images/audiowebsitepic.png",
+      "featureList": "Volume Boost up to 500%, 10-Band Equalizer, AI Noise Reduction, Audio Clarity Enhancement, Dynamic Range Optimization, 3D Spatial Audio, Custom Presets, A/B Comparison",
+      "author": { "@type": "Organization", "name": "Audio Enhancer Pro", "url": "https://www.audioenhancerpro.com" },
+      "potentialAction": { "@type": "DownloadAction", "target": "https://chromewebstore.google.com/detail/audio-enhancer-pro/naechonogncekonmliekcodpohfnkcjg" }
     }
     </script>
-    
-    <!-- Organization schema markup -->
+    <script type="application/ld+json">
+    { "@context": "https://schema.org", "@type": "Organization", "name": "Audio Enhancer Pro", "url": "https://www.audioenhancerpro.com", "logo": "https://www.audioenhancerpro.com/images/AudioEnhancerProPic.png" }
+    </script>
+    <script type="application/ld+json">
+    { "@context": "https://schema.org", "@type": "WebSite", "name": "Audio Enhancer Pro", "url": "https://www.audioenhancerpro.com" }
+    </script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Audio Enhancer Pro",
-      "url": "https://www.audioenhancerpro.com",
-      "logo": "https://www.audioenhancerpro.com/images/AudioEnhancerProPic.png",
-      "sameAs": []
-    }
-    </script>
-    
-    <!-- WebSite schema markup -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Audio Enhancer Pro",
-      "url": "https://www.audioenhancerpro.com",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://www.audioenhancerpro.com/search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Is Audio Enhancer Pro really free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — Audio Enhancer Pro is 100% free with every feature unlocked. There is no subscription, no trial period, and no credit card required." } },
+        { "@type": "Question", "name": "What websites does the audio enhancer work on?", "acceptedAnswer": { "@type": "Answer", "text": "Audio Enhancer Pro works on virtually every website that plays audio in Chrome, including YouTube, Netflix, Spotify Web Player, Amazon Prime Video, Twitch, and more." } },
+        { "@type": "Question", "name": "How do I boost the volume on my browser beyond 100%?", "acceptedAnswer": { "@type": "Answer", "text": "After installing Audio Enhancer Pro, click the extension icon and use the Volume Boost slider to amplify audio up to 500%." } },
+        { "@type": "Question", "name": "Does the sound enhancer extension slow down my browser?", "acceptedAnswer": { "@type": "Answer", "text": "No. Audio Enhancer Pro uses the Web Audio API for efficient real-time processing with minimal CPU usage." } },
+        { "@type": "Question", "name": "What is the 10-band equalizer and how do I use it?", "acceptedAnswer": { "@type": "Answer", "text": "The equalizer lets you adjust 10 frequency bands from 32 Hz to 16 kHz, giving you full control over bass, midrange, and treble." } },
+        { "@type": "Question", "name": "How does AI noise reduction improve audio quality?", "acceptedAnswer": { "@type": "Answer", "text": "The AI enhancement engine analyzes audio in real time to separate speech, music, and background noise." } },
+        { "@type": "Question", "name": "What is 3D spatial audio and how does it work?", "acceptedAnswer": { "@type": "Answer", "text": "3D Spatial Audio uses acoustic modeling and HRTF to create the illusion of sound coming from all around you." } },
+        { "@type": "Question", "name": "Can I use Audio Enhancer Pro on multiple devices?", "acceptedAnswer": { "@type": "Answer", "text": "Absolutely. Install it on as many Chrome browsers as you like — there are no device limits and no account required." } }
+      ]
     }
     </script>
 </body>
