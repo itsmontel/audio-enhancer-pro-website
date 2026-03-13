@@ -1955,14 +1955,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Master reset button click event
     masterResetBtn.addEventListener('click', showResetConfirmDialog);
 
-    // WriteScholar ad card - open in new tab
-    const writeScholarBtn = document.getElementById('writeScholarBtn');
-    if (writeScholarBtn) {
-        writeScholarBtn.addEventListener('click', () => {
-            chrome.tabs.create({ url: 'https://writescholar.com' });
-        });
-    }
-
     // Call the initialization when DOM is ready
     initializeUI();
     
